@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<title>Machine Learning Note (1)</title>
 	
-	<meta name="description" content="Sample placeholder post.">
+	<meta name="description" content="Introduction of the machine learning and univariable linear regression.">
 	
 	<meta name="author" content="Shiyu">
 
@@ -158,36 +158,53 @@
 	   2015
 	 </span>
 	  <div class="article_body">
-	  <h1 id="introduction-of-machine-learning">Introduction of Machine Learning</h1>
-<p>## Supervised Learning
+	  <p>This is my personal note while watching the machine learning course on <a href="https://www.coursera.org" title="Coursera">Coursera</a>.</p>
+
+<h2 id="introduction-of-machine-learning">Introduction of Machine Learning</h2>
+<p>The machine learning could be divided into 2 parts
+### Supervised Learning
 - Regression
 - Classification (labeled)</p>
 
-<h2 id="unsupervised-learning">Unsupervised Learning</h2>
+<h3 id="unsupervised-learning">Unsupervised Learning</h3>
 <ul>
-  <li>clustering the data</li>
+  <li>Clustering the data</li>
 </ul>
 
-<h1 id="univariable-linear-regression">Univariable linear regression</h1>
+<h2 id="univariable-linear-regression">Univariable linear regression</h2>
 <ul>
-  <li>hypothesis function</li>
+  <li>Hypothesis function</li>
 </ul>
 
-<script type="math/tex; mode=display"> 
-h_{\theta}(x)=\theta_0 + \theta_1 x 
-</script>
+<script type="math/tex; mode=display"> h_{\theta}(x)=\theta_0 + \theta_1 x </script>
 
 <ul>
-  <li>cost function</li>
+  <li>Cost function<br />
+The cost function for univariable linear regression is a <a href="https://en.wikipedia.org/wiki/Convex_function">convex function</a> (or called bowl-shaped function). Therefore, it only has one global minimum point</li>
 </ul>
 
 <script type="math/tex; mode=display"> J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(h\_{\theta}(x^{(i)})-y^{(i)}))^2 </script>
 
 <ul>
-  <li>gradient descend</li>
+  <li>Gradient descend<br />
+<script type="math/tex"> \alpha </script> is the learning rate that can’t be too big or too small. A big rate could lead to a divergence instead of a convergence we expect. And a tiny rate would make the process too slow.</li>
 </ul>
 
-<script type="math/tex; mode=display"> \theta_j:=\theta_j-\alpha\frac{\partial J}{\partial \theta_j}</script>
+<script type="math/tex; mode=display"> \theta_j:=\theta_j-\alpha\frac{\partial J}{\partial \theta_j} </script>
+
+<p>Therefore we can conclude that</p>
+
+<script type="math/tex; mode=display"> J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(\theta_0 + \theta_1 x^{(i)} -y^{(i)}))^2 </script>
+
+<p>Deriving the function, we got</p>
+
+<script type="math/tex; mode=display"> \theta_0:=\theta_0-\alpha \frac{1}{m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})) \\
+ \theta_1:=\theta_1-\alpha \frac{1}{m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})x^{(i)}) </script>
+
+<p>m - the size of the training examples<br />
+x - input<br />
+y - output<br />
+This method is called <strong>Batch Gradient Descent</strong> when we use all the training examples</p>
 
 	  </div>
 

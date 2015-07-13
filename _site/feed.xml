@@ -8,36 +8,53 @@
 		
 			<item>
 				<title>Machine Learning Note (1)</title>
-				<description>&lt;h1 id=&quot;introduction-of-machine-learning&quot;&gt;Introduction of Machine Learning&lt;/h1&gt;
-&lt;p&gt;## Supervised Learning
+				<description>&lt;p&gt;This is my personal note while watching the machine learning course on &lt;a href=&quot;https://www.coursera.org&quot; title=&quot;Coursera&quot;&gt;Coursera&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;introduction-of-machine-learning&quot;&gt;Introduction of Machine Learning&lt;/h2&gt;
+&lt;p&gt;The machine learning could be divided into 2 parts
+### Supervised Learning
 - Regression
 - Classification (labeled)&lt;/p&gt;
 
-&lt;h2 id=&quot;unsupervised-learning&quot;&gt;Unsupervised Learning&lt;/h2&gt;
+&lt;h3 id=&quot;unsupervised-learning&quot;&gt;Unsupervised Learning&lt;/h3&gt;
 &lt;ul&gt;
-  &lt;li&gt;clustering the data&lt;/li&gt;
+  &lt;li&gt;Clustering the data&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;univariable-linear-regression&quot;&gt;Univariable linear regression&lt;/h1&gt;
+&lt;h2 id=&quot;univariable-linear-regression&quot;&gt;Univariable linear regression&lt;/h2&gt;
 &lt;ul&gt;
-  &lt;li&gt;hypothesis function&lt;/li&gt;
+  &lt;li&gt;Hypothesis function&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt; 
-h_{\theta}(x)=\theta_0 + \theta_1 x 
-&lt;/script&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt; h_{\theta}(x)=\theta_0 + \theta_1 x &lt;/script&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;cost function&lt;/li&gt;
+  &lt;li&gt;Cost function&lt;br /&gt;
+The cost function for univariable linear regression is a &lt;a href=&quot;https://en.wikipedia.org/wiki/Convex_function&quot;&gt;convex function&lt;/a&gt; (or called bowl-shaped function). Therefore, it only has one global minimum point&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt; J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(h\_{\theta}(x^{(i)})-y^{(i)}))^2 &lt;/script&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;gradient descend&lt;/li&gt;
+  &lt;li&gt;Gradient descend&lt;br /&gt;
+&lt;script type=&quot;math/tex&quot;&gt; \alpha &lt;/script&gt; is the learning rate that can’t be too big or too small. A big rate could lead to a divergence instead of a convergence we expect. And a tiny rate would make the process too slow.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt; \theta_j:=\theta_j-\alpha\frac{\partial J}{\partial \theta_j}&lt;/script&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt; \theta_j:=\theta_j-\alpha\frac{\partial J}{\partial \theta_j} &lt;/script&gt;
+
+&lt;p&gt;Therefore we can conclude that&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt; J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(\theta_0 + \theta_1 x^{(i)} -y^{(i)}))^2 &lt;/script&gt;
+
+&lt;p&gt;Deriving the function, we got&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt; \theta_0:=\theta_0-\alpha \frac{1}{m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})) \\
+ \theta_1:=\theta_1-\alpha \frac{1}{m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})x^{(i)}) &lt;/script&gt;
+
+&lt;p&gt;m - the size of the training examples&lt;br /&gt;
+x - input&lt;br /&gt;
+y - output&lt;br /&gt;
+This method is called &lt;strong&gt;Batch Gradient Descent&lt;/strong&gt; when we use all the training examples&lt;/p&gt;
 </description>
 				<pubDate>Sun, 12 Jul 2015 00:00:00 +0200</pubDate>
 				<link>/engineering/2015/07/12/ML-Note-1.html</link>

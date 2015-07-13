@@ -7,14 +7,79 @@
 		<atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>Machine Learning Note (2)</title>
+				<description>&lt;p&gt;Having studied the univariable linear regression, we are going to extend the dimension from 1 to n. n is the number of the features that result in an output.&lt;/p&gt;
+
+&lt;h2 id=&quot;multiple-variables&quot;&gt;Multiple variables&lt;/h2&gt;
+&lt;p&gt;For a multivatiate linear regression, we take&lt;/p&gt;
+
+&lt;p&gt;\[x =  \begin{vmatrix}
+x_0 \\
+x_1 \\
+x_2 \\
+. \\
+. \\
+. \\
+x_n
+\end{vmatrix} \quad \text{where } x_0=1 \]&lt;/p&gt;
+
+&lt;p&gt;\[\theta =  \begin{vmatrix}
+\theta_0 &amp;amp;  \theta_1 &amp;amp; \theta_2 &amp;amp; … &amp;amp; \theta_n
+\end{vmatrix} \]&lt;/p&gt;
+
+&lt;p&gt;The hypothesis function is &lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt; h_{\theta}(x)=\theta^Tx &lt;/script&gt;
+
+&lt;p&gt;Given the cost function &lt;/p&gt;
+
+&lt;p&gt;\[ J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)}))^2 \]&lt;/p&gt;
+
+&lt;p&gt;we could deduce the gradient descent &lt;/p&gt;
+
+&lt;p&gt;\[
+ \theta_j:=\theta_j-\alpha\frac{\partial J}{\partial \theta_j} = \theta_j-\alpha \frac{1}{m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})x_j^{(i)}) 
+\]&lt;/p&gt;
+
+&lt;h2 id=&quot;feature-scaling&quot;&gt;Feature scaling&lt;/h2&gt;
+&lt;p&gt;The goal of feature scaling is to make sure the features are on a similar scale. It could accelerate the convergence&lt;br /&gt;
+&lt;strong&gt;Mean normalization&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;\[
+  x_j:=\frac{x_j-\mu_j}{(max - min)}\quad \text{so} -0.5 \leq x_j \leq 0.5
+  \]&lt;/p&gt;
+
+&lt;h2 id=&quot;tricks-for-debugging&quot;&gt;Tricks for debugging&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;To make sure the gradient descent working correctly, with an increasing number of iteration, the J should decrease&lt;/li&gt;
+  &lt;li&gt;Choose the learning rate 0.001 -&amp;gt; 0.003 -&amp;gt; 0.01 -&amp;gt; 0.03 -&amp;gt; 0.1 -&amp;gt; 0.3 -&amp;gt; 1 &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Polynomial regression
+&lt;script type=&quot;math/tex&quot;&gt; h_{\theta}(x)=\theta_0+\theta_1x+\theta_2x^2=\theta_0+\theta_1x_1+\theta_2x_2 &lt;/script&gt;
+In this case, the feature scale becomes more important.
+However, the square function will finally decrease with a great x. To avoid that, we could choose another model&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt; h_{\theta}(x)=\theta_0+\theta_1x+\theta_2\sqrt{x} &lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</description>
+				<pubDate>Tue, 14 Jul 2015 00:00:00 +0200</pubDate>
+				<link>/engineering/2015/07/14/ML-Note-2.html</link>
+				<guid isPermaLink="true">/engineering/2015/07/14/ML-Note-2.html</guid>
+			</item>
+		
+			<item>
 				<title>Machine Learning Note (1)</title>
 				<description>&lt;p&gt;This is my personal note while watching the machine learning course on &lt;a href=&quot;https://www.coursera.org&quot; title=&quot;Coursera&quot;&gt;Coursera&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;introduction-of-machine-learning&quot;&gt;Introduction of Machine Learning&lt;/h2&gt;
-&lt;p&gt;The machine learning could be divided into 2 parts
-### Supervised Learning
-- Regression
-- Classification (labeled)&lt;/p&gt;
+&lt;p&gt;The machine learning could be divided into 2 parts&lt;/p&gt;
+
+&lt;h3 id=&quot;supervised-learning&quot;&gt;Supervised Learning&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Regression&lt;/li&gt;
+  &lt;li&gt;Classification (labeled)&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;h3 id=&quot;unsupervised-learning&quot;&gt;Unsupervised Learning&lt;/h3&gt;
 &lt;ul&gt;
@@ -23,38 +88,40 @@
 
 &lt;h2 id=&quot;univariable-linear-regression&quot;&gt;Univariable linear regression&lt;/h2&gt;
 &lt;ul&gt;
-  &lt;li&gt;Hypothesis function&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Hypothesis function&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt; h_{\theta}(x)=\theta_0 + \theta_1 x &lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Cost function&lt;br /&gt;
+The cost function for univariable linear regression is a &lt;a href=&quot;https://en.wikipedia.org/wiki/Convex_function&quot;&gt;convex function&lt;/a&gt; (or called bowl-shaped function). Therefore, it only has one global minimum point&lt;/p&gt;
+
+    &lt;p&gt;\[ J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)}))^2 \]&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Gradient descend&lt;br /&gt;
+&lt;script type=&quot;math/tex&quot;&gt; \alpha &lt;/script&gt; is the learning rate that can’t be too big or too small. A big rate could lead to a divergence instead of a convergence we expect. And a tiny rate would make the process too slow.&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt; \theta_j:=\theta_j-\alpha\frac{\partial J}{\partial \theta_j} &lt;/script&gt;
+
+    &lt;p&gt;Therefore we can conclude that&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt; J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(\theta_0 + \theta_1 x^{(i)} -y^{(i)}))^2 &lt;/script&gt;
+
+    &lt;p&gt;Deriving the function, we got&lt;/p&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt; h_{\theta}(x)=\theta_0 + \theta_1 x &lt;/script&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Cost function&lt;br /&gt;
-The cost function for univariable linear regression is a &lt;a href=&quot;https://en.wikipedia.org/wiki/Convex_function&quot;&gt;convex function&lt;/a&gt; (or called bowl-shaped function). Therefore, it only has one global minimum point&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt; J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(h\_{\theta}(x^{(i)})-y^{(i)}))^2 &lt;/script&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Gradient descend&lt;br /&gt;
-&lt;script type=&quot;math/tex&quot;&gt; \alpha &lt;/script&gt; is the learning rate that can’t be too big or too small. A big rate could lead to a divergence instead of a convergence we expect. And a tiny rate would make the process too slow.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt; \theta_j:=\theta_j-\alpha\frac{\partial J}{\partial \theta_j} &lt;/script&gt;
-
-&lt;p&gt;Therefore we can conclude that&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt; J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(\theta_0 + \theta_1 x^{(i)} -y^{(i)}))^2 &lt;/script&gt;
-
-&lt;p&gt;Deriving the function, we got&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt; \theta_0:=\theta_0-\alpha \frac{1}{m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})) \\
- \theta_1:=\theta_1-\alpha \frac{1}{m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})x^{(i)}) &lt;/script&gt;
+&lt;p&gt;\[\begin{aligned}
+   \theta_0:=\theta_0-\alpha \frac{1}{m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})) \\
+ \theta_1:=\theta_1-\alpha \frac{1}{m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})x^{(i)}) 
+ \end{aligned} \]&lt;/p&gt;
 
 &lt;p&gt;m - the size of the training examples&lt;br /&gt;
-x - input&lt;br /&gt;
-y - output&lt;br /&gt;
-This method is called &lt;strong&gt;Batch Gradient Descent&lt;/strong&gt; when we use all the training examples&lt;/p&gt;
+  x - input&lt;br /&gt;
+  y - output&lt;br /&gt;
+  This method is called &lt;strong&gt;Batch Gradient Descent&lt;/strong&gt; when we use all the training examples&lt;/p&gt;
 </description>
 				<pubDate>Sun, 12 Jul 2015 00:00:00 +0200</pubDate>
 				<link>/engineering/2015/07/12/ML-Note-1.html</link>

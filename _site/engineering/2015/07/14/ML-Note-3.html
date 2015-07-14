@@ -2,7 +2,9 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Hello World!</title>
+	<title>Machine Learning Note (3)</title>
+	
+	<meta name="description" content="Apart from the gradient descent, normal equation is another method to find the minimum J analytically.">
 	
 	<meta name="author" content="Shiyu">
 
@@ -142,7 +144,7 @@
 
 	<div class="col-sm-9 col-sm-offset-3">
 		<div class="page-header">
-  <h1>Hello World! </h1>
+  <h1>Machine Learning Note (3) </h1>
 </div>
 	
 <article>
@@ -150,19 +152,81 @@
 	<div class="col-sm-10">
 	 <span class="post-date">
 	   
-	    
-	   0th,
+	   July 
+	   14th,
 	   
-	   
+	   2015
 	 </span>
 	  <div class="article_body">
-	  <p><strong>dbyll</strong> is minimalist, stylish theme for jekyll. Supports gravatar, account links (github, twitter, e-mail, pinterest, résume file) and a bio.  </p>
+	  <h2 id="normal-equation">Normal equation</h2>
+<p>From the last part, we know the cost function and the input x for one example of n features </p>
 
-<p><strong>dbyll</strong> is brought to you by <strong><a href="http://ismaildemirbilek.com">dbtek</a></strong>. Open sourced under <a href="http://opensource.org/licenses/MIT">MIT</a> license.</p>
+<p>\[ J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)}))^2 \]</p>
 
-<h3 id="dbyll-is-on-github">dbyll is on GitHub</h3>
+<p>\[x^{(i)} =  \begin{vmatrix}
+x^{(i)}_0 \\
+x^{(i)}_1 \\
+x^{(i)}_2 \\
+. \\
+. \\
+. \\
+x^{(i)}_n
+\end{vmatrix} \quad \text{where } x_0=1 \]</p>
 
-<p><a class="btn btn-default" href="https://github.com/dbtek/dbyll">Grab your copy now!</a></p>
+<p>Then we got a <strong>design matrix</strong> that is an m by (n+1) dimensional matrix</p>
+
+<p>\[X =  \begin{vmatrix}
+… &amp; ^tx^{(1)} &amp; … \\
+… &amp; ^tx^{(2)} &amp; … \\
+… &amp; ^tx^{(3)} &amp; … \\
+&amp;. \\
+&amp;. \\
+&amp;. \\
+… &amp; ^tx^{(m)} &amp; … 
+\end{vmatrix} \]</p>
+
+<p>Whereas y is a vector of dimension m</p>
+
+<p>\[y =  \begin{vmatrix}
+y^{(1)} \\
+y^{(2)} \\
+y^{(3)} \\
+. \\
+. \\
+. \\
+y^{(m)}
+\end{vmatrix} \]</p>
+
+<p>To minimize the cost function, we calculate the <script type="math/tex">\theta</script> from</p>
+
+<p>\[
+\boxed{\theta=(X^TX)^{-1}X^Ty}
+\]</p>
+
+<h3 id="characteristics">Characteristics</h3>
+<ul>
+  <li>Advantages
+    <ul>
+      <li>no need to do the feature scaling</li>
+      <li>no need to choose the learning rate</li>
+      <li>no need to iterate</li>
+    </ul>
+  </li>
+  <li>Disadvantage
+    <ul>
+      <li>The calculation of the <script type="math/tex"> (X^TX)^{-1} </script> could be very slow if n is large (&gt;10000) since the complexity for a matrix n by n is <script type="math/tex"> O(n^3) </script></li>
+    </ul>
+  </li>
+</ul>
+
+<p>If <script type="math/tex"> (X^TX) </script> is non-invertible (singular / degenerate), it could be caused by 2 reasons:</p>
+
+<ul>
+  <li>Redundant feature, which leads to linear dependences</li>
+  <li>Too many features (<script type="math/tex">m \leq n</script>)</li>
+</ul>
+
+<p>In the second case, we can delete some features or use the <strong>regularization</strong> that we’ll talk about later.</p>
 
 	  </div>
 
@@ -172,18 +236,8 @@
 		  
 		  
 			 
-				<li><a href="/categories.html#general-ref">
-					general <span>()</span>
-					,
-				</a></li>
-			 
-				<li><a href="/categories.html#setup-ref">
-					setup <span>()</span>
-					,
-				</a></li>
-			 
-				<li><a href="/categories.html#demo-ref">
-					demo <span>()</span>
+				<li><a href="/categories.html#engineering-ref">
+					engineering <span>(3)</span>
 					
 				</a></li>
 			
@@ -198,29 +252,15 @@
 		  
 			 
 				<li>
-					<a href="/tags.html#demo-ref">
-					demo <span>()</span>
+					<a href="/tags.html#machine learning-ref">
+					machine learning <span>(3)</span>
 					,
 					</a>
 				</li>
 			 
 				<li>
-					<a href="/tags.html#dbyll-ref">
-					dbyll <span>()</span>
-					,
-					</a>
-				</li>
-			 
-				<li>
-					<a href="/tags.html#dbtek-ref">
-					dbtek <span>()</span>
-					,
-					</a>
-				</li>
-			 
-				<li>
-					<a href="/tags.html#setup-ref">
-					setup <span>()</span>
+					<a href="/tags.html#data science-ref">
+					data science <span>(3)</span>
 					
 					</a>
 				</li>
@@ -235,7 +275,7 @@
 		<div>
       <section class="share col-sm-6">
         <h4 class="section-title">Share Post</h4>
-        <a class="btn btn-default btn-sm twitter" href="http://twitter.com/share?text=Hello World!"
+        <a class="btn btn-default btn-sm twitter" href="http://twitter.com/share?text=Machine Learning Note (3)"
            onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
           <i class="fa fa-twitter fa-lg"></i>
           Twitter
@@ -262,7 +302,7 @@
     <div class="clearfix"></div>   
 		<ul class="pager">
 		  
-		  <li class="previous disabled"><a>&larr; Previous</a></li>
+		  <li class="previous"><a href="/engineering/2015/07/14/ML-Note-2.html" title="Machine Learning Note (2)">&larr; Previous</a></li>
 		  
 		  
 			<li class="next disabled"><a>Next &rarr;</a>

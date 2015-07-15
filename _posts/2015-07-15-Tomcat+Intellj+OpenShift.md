@@ -31,48 +31,44 @@ description: 本文简单介绍了不借助Eclipse或IntelliJ专业版的情况�
 - 设置Java class文件输出目录。右键Module，Open module Settings，paths，将output path设为WEB-INF下的classes文件夹 **注意，实在Module的Path选项卡里修改output path**
 - 将jsp-api-2.1.jar, servlet-api-2.5.jar拷贝到webRoot下。打包时需要的jar包放到lib目录。
 - 右键Module，Open module Settings，Dependencies，+号引入刚刚拷贝进来的jar文件（和lib目录）
-- src目录建test Package，下建Test.java，并在web.xml中注册该servlet
+- src目录建test Package，下建Test.java
 
-{% highlight java %}
-public class Test extends HttpServlet {
-    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
-    	System.out.println("hellow world!");
-    	res.getWriter().println("Hellow world!");
-    }
-}
-{% endhighlight %}
+		public class Test extends HttpServlet {
+			protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
+				System.out.println("hellow world!");
+				res.getWriter().println("Hellow world!");
+			}
+		}
 
+- 在web.xml中注册该servlet
 
-{% highlight xml %}
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+		<?xml version="1.0" encoding="ISO-8859-1"?>
+		<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
                       http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
-   <servlet>
-       <servlet-name>test</servlet-name>
-       <servlet-class>test.Test</servlet-class>
-   </servlet>
-   <servlet-mapping>
-       <servlet-name>test</servlet-name>
-       <url-pattern>/test</url-pattern>
-   </servlet-mapping>
-   <session-config>
-       <session-timeout>30</session-timeout>
-   </session-config>
-</web-app>
-{% endhighlight %}
+         <servlet>
+         		<servlet-name>test</servlet-name>
+         		<servlet-class>test.Test</servlet-class>
+         	</servlet>
+         	<servlet-mapping>
+         		<servlet-name>test</servlet-name>
+         		<url-pattern>/test</url-pattern>
+         	</servlet-mapping>
+         	<session-config>
+         		<session-timeout>30</session-timeout>
+         	</session-config>
+		</web-app>
+
 
 - 右键module，compile module
 - 在tomcat下 conf\catalina\localhost 创建xml文件（需要sudo）  
 **注意，如果path="/hello"，则文件并也要为hello.xml**
 
-{% highlight xml %}
-<?xml version="1.0"?>
-<Context path="/hello" docBase="/Users/Thierry/Desktop/Spage/Spage/webRoot" debug="0" privileged="true">
-</Context> 
-{% endhighlight %}
+		<?xml version="1.0"?>
+		<Context path="/hello" docBase="/Users/Thierry/Desktop/Spage/Spage/webRoot" debug="0" privileged="true">
+		</Context>
 
 - webRoot下建index.html
 - 浏览器localhost:8080/hello中可以看到index.html的内容  

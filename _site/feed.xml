@@ -21,10 +21,10 @@
 ├─lib
 ├─doc
 └─webRoot 
-  ├WEB-INF
-  │		├─classes
-  │		├─lib
-  │		└─web.xml
+  ├─WEB-INF
+  │ ├─classes
+  │ ├─lib
+  │ └─web.xml
   ├─dist （jar、war的存放路径）
   ├─css
   ├─js
@@ -37,48 +37,50 @@
   &lt;li&gt;设置Java class文件输出目录。右键Module，Open module Settings，paths，将output path设为WEB-INF下的classes文件夹 &lt;strong&gt;注意，实在Module的Path选项卡里修改output path&lt;/strong&gt;&lt;/li&gt;
   &lt;li&gt;将jsp-api-2.1.jar, servlet-api-2.5.jar拷贝到webRoot下。打包时需要的jar包放到lib目录。&lt;/li&gt;
   &lt;li&gt;右键Module，Open module Settings，Dependencies，+号引入刚刚拷贝进来的jar文件（和lib目录）&lt;/li&gt;
-  &lt;li&gt;src目录建test Package，下建Test.java，并在web.xml中注册该servlet&lt;/li&gt;
-&lt;/ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;src目录建test Package，下建Test.java&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Test&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HttpServlet&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;protected&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;doGet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HttpServletRequest&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HttpServletResponse&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ServletException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IOException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    	&lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;hellow world!&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-    	&lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getWriter&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Hellow world!&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+    &lt;pre&gt;&lt;code&gt;  public class Test extends HttpServlet {
+      protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
+          System.out.println(&quot;hellow world!&quot;);
+          res.getWriter().println(&quot;Hellow world!&quot;);
+      }
+  }
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;在web.xml中注册该servlet&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-xml&quot; data-lang=&quot;xml&quot;&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;ISO-8859-1&amp;quot;?&amp;gt;&lt;/span&gt;
-
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;web-app&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;xmlns=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;http://xmlns.jcp.org/xml/ns/javaee&amp;quot;&lt;/span&gt;
-         &lt;span class=&quot;na&quot;&gt;xmlns:xsi=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;http://www.w3.org/2001/XMLSchema-instance&amp;quot;&lt;/span&gt;
-         &lt;span class=&quot;na&quot;&gt;xsi:schemaLocation=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;http://xmlns.jcp.org/xml/ns/javaee&lt;/span&gt;
-&lt;span class=&quot;s&quot;&gt;                      http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd&amp;quot;&lt;/span&gt;
-         &lt;span class=&quot;na&quot;&gt;version=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;3.1&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-
-   &lt;span class=&quot;nt&quot;&gt;&amp;lt;servlet&amp;gt;&lt;/span&gt;
-       &lt;span class=&quot;nt&quot;&gt;&amp;lt;servlet-name&amp;gt;&lt;/span&gt;test&lt;span class=&quot;nt&quot;&gt;&amp;lt;/servlet-name&amp;gt;&lt;/span&gt;
-       &lt;span class=&quot;nt&quot;&gt;&amp;lt;servlet-class&amp;gt;&lt;/span&gt;test.Test&lt;span class=&quot;nt&quot;&gt;&amp;lt;/servlet-class&amp;gt;&lt;/span&gt;
-   &lt;span class=&quot;nt&quot;&gt;&amp;lt;/servlet&amp;gt;&lt;/span&gt;
-   &lt;span class=&quot;nt&quot;&gt;&amp;lt;servlet-mapping&amp;gt;&lt;/span&gt;
-       &lt;span class=&quot;nt&quot;&gt;&amp;lt;servlet-name&amp;gt;&lt;/span&gt;test&lt;span class=&quot;nt&quot;&gt;&amp;lt;/servlet-name&amp;gt;&lt;/span&gt;
-       &lt;span class=&quot;nt&quot;&gt;&amp;lt;url-pattern&amp;gt;&lt;/span&gt;/test&lt;span class=&quot;nt&quot;&gt;&amp;lt;/url-pattern&amp;gt;&lt;/span&gt;
-   &lt;span class=&quot;nt&quot;&gt;&amp;lt;/servlet-mapping&amp;gt;&lt;/span&gt;
-   &lt;span class=&quot;nt&quot;&gt;&amp;lt;session-config&amp;gt;&lt;/span&gt;
-       &lt;span class=&quot;nt&quot;&gt;&amp;lt;session-timeout&amp;gt;&lt;/span&gt;30&lt;span class=&quot;nt&quot;&gt;&amp;lt;/session-timeout&amp;gt;&lt;/span&gt;
-   &lt;span class=&quot;nt&quot;&gt;&amp;lt;/session-config&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/web-app&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;ul&gt;
+    &lt;pre&gt;&lt;code&gt;  &amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&amp;gt;
+  &amp;lt;web-app xmlns=&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;
+   xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+   xsi:schemaLocation=&quot;http://xmlns.jcp.org/xml/ns/javaee
+                http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd&quot;
+   version=&quot;3.1&quot;&amp;gt;
+   &amp;lt;servlet&amp;gt;
+   		&amp;lt;servlet-name&amp;gt;test&amp;lt;/servlet-name&amp;gt;
+   		&amp;lt;servlet-class&amp;gt;test.Test&amp;lt;/servlet-class&amp;gt;
+   	&amp;lt;/servlet&amp;gt;
+   	&amp;lt;servlet-mapping&amp;gt;
+   		&amp;lt;servlet-name&amp;gt;test&amp;lt;/servlet-name&amp;gt;
+   		&amp;lt;url-pattern&amp;gt;/test&amp;lt;/url-pattern&amp;gt;
+   	&amp;lt;/servlet-mapping&amp;gt;
+   	&amp;lt;session-config&amp;gt;
+   		&amp;lt;session-timeout&amp;gt;30&amp;lt;/session-timeout&amp;gt;
+   	&amp;lt;/session-config&amp;gt;
+  &amp;lt;/web-app&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
   &lt;li&gt;右键module，compile module&lt;/li&gt;
-  &lt;li&gt;在tomcat下 conf\catalina\localhost 创建xml文件（需要sudo）&lt;br /&gt;
-&lt;strong&gt;注意，如果path=”/hello”，则文件并也要为hello.xml&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;在tomcat下 conf\catalina\localhost 创建xml文件（需要sudo）&lt;br /&gt;
+&lt;strong&gt;注意，如果path=”/hello”，则文件并也要为hello.xml&lt;/strong&gt;&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-xml&quot; data-lang=&quot;xml&quot;&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot;?&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;Context&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;path=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;/hello&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;docBase=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;/Users/Thierry/Desktop/Spage/Spage/webRoot&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;debug=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;0&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;privileged=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;true&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/Context&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;ul&gt;
+    &lt;pre&gt;&lt;code&gt;  &amp;lt;?xml version=&quot;1.0&quot;?&amp;gt;
+  &amp;lt;Context path=&quot;/hello&quot; docBase=&quot;/Users/Thierry/Desktop/Spage/Spage/webRoot&quot; debug=&quot;0&quot; privileged=&quot;true&quot;&amp;gt;
+  &amp;lt;/Context&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
   &lt;li&gt;webRoot下建index.html&lt;/li&gt;
   &lt;li&gt;浏览器localhost:8080/hello中可以看到index.html的内容&lt;br /&gt;
 浏览器localhost:8080/hello/test中可以触发test.java的内容  &lt;/li&gt;

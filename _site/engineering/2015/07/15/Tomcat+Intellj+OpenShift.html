@@ -18,13 +18,21 @@
     <script type="text/javascript"
         src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
     </script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="/assets/js/prettify/prettify.js"></script>
+    <script type="text/javascript">
+ 	    $(function(){
+   	        $("pre").addClass("prettyprint linenums");
+	        prettyPrint();
+    	});
+    </script>
 
 	<!-- Le styles -->
 	<link href="/assets/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<link href="/assets/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 	<link href="/assets/resources/syntax/syntax.css" rel="stylesheet">
 	<link href="/assets/css/style.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="/assets/css/prettify.css">
 	<!-- Le fav and touch icons -->
 	<!-- Update these with your own images
 	<link rel="shortcut icon" href="images/favicon.ico">
@@ -171,10 +179,10 @@
 ├─lib
 ├─doc
 └─webRoot 
-  ├WEB-INF
-  │		├─classes
-  │		├─lib
-  │		└─web.xml
+  ├─WEB-INF
+  │ ├─classes
+  │ ├─lib
+  │ └─web.xml
   ├─dist （jar、war的存放路径）
   ├─css
   ├─js
@@ -187,48 +195,50 @@
   <li>设置Java class文件输出目录。右键Module，Open module Settings，paths，将output path设为WEB-INF下的classes文件夹 <strong>注意，实在Module的Path选项卡里修改output path</strong></li>
   <li>将jsp-api-2.1.jar, servlet-api-2.5.jar拷贝到webRoot下。打包时需要的jar包放到lib目录。</li>
   <li>右键Module，Open module Settings，Dependencies，+号引入刚刚拷贝进来的jar文件（和lib目录）</li>
-  <li>src目录建test Package，下建Test.java，并在web.xml中注册该servlet</li>
-</ul>
+  <li>
+    <p>src目录建test Package，下建Test.java</p>
 
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test</span> <span class="kd">extends</span> <span class="n">HttpServlet</span> <span class="o">{</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">doGet</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">req</span><span class="o">,</span> <span class="n">HttpServletResponse</span> <span class="n">res</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">ServletException</span><span class="o">,</span> <span class="n">IOException</span><span class="o">{</span>
-    	<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;hellow world!&quot;</span><span class="o">);</span>
-    	<span class="n">res</span><span class="o">.</span><span class="na">getWriter</span><span class="o">().</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Hellow world!&quot;</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span></code></pre></div>
+    <pre><code>  public class Test extends HttpServlet {
+      protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
+          System.out.println("hellow world!");
+          res.getWriter().println("Hellow world!");
+      }
+  }
+</code></pre>
+  </li>
+  <li>
+    <p>在web.xml中注册该servlet</p>
 
-<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;</span>
-
-<span class="nt">&lt;web-app</span> <span class="na">xmlns=</span><span class="s">&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;</span>
-         <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
-         <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://xmlns.jcp.org/xml/ns/javaee</span>
-<span class="s">                      http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd&quot;</span>
-         <span class="na">version=</span><span class="s">&quot;3.1&quot;</span><span class="nt">&gt;</span>
-
-   <span class="nt">&lt;servlet&gt;</span>
-       <span class="nt">&lt;servlet-name&gt;</span>test<span class="nt">&lt;/servlet-name&gt;</span>
-       <span class="nt">&lt;servlet-class&gt;</span>test.Test<span class="nt">&lt;/servlet-class&gt;</span>
-   <span class="nt">&lt;/servlet&gt;</span>
-   <span class="nt">&lt;servlet-mapping&gt;</span>
-       <span class="nt">&lt;servlet-name&gt;</span>test<span class="nt">&lt;/servlet-name&gt;</span>
-       <span class="nt">&lt;url-pattern&gt;</span>/test<span class="nt">&lt;/url-pattern&gt;</span>
-   <span class="nt">&lt;/servlet-mapping&gt;</span>
-   <span class="nt">&lt;session-config&gt;</span>
-       <span class="nt">&lt;session-timeout&gt;</span>30<span class="nt">&lt;/session-timeout&gt;</span>
-   <span class="nt">&lt;/session-config&gt;</span>
-<span class="nt">&lt;/web-app&gt;</span></code></pre></div>
-
-<ul>
+    <pre><code>  &lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+  &lt;web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+   version="3.1"&gt;
+   &lt;servlet&gt;
+   		&lt;servlet-name&gt;test&lt;/servlet-name&gt;
+   		&lt;servlet-class&gt;test.Test&lt;/servlet-class&gt;
+   	&lt;/servlet&gt;
+   	&lt;servlet-mapping&gt;
+   		&lt;servlet-name&gt;test&lt;/servlet-name&gt;
+   		&lt;url-pattern&gt;/test&lt;/url-pattern&gt;
+   	&lt;/servlet-mapping&gt;
+   	&lt;session-config&gt;
+   		&lt;session-timeout&gt;30&lt;/session-timeout&gt;
+   	&lt;/session-config&gt;
+  &lt;/web-app&gt;
+</code></pre>
+  </li>
   <li>右键module，compile module</li>
-  <li>在tomcat下 conf\catalina\localhost 创建xml文件（需要sudo）<br />
-<strong>注意，如果path=”/hello”，则文件并也要为hello.xml</strong></li>
-</ul>
+  <li>
+    <p>在tomcat下 conf\catalina\localhost 创建xml文件（需要sudo）<br />
+<strong>注意，如果path=”/hello”，则文件并也要为hello.xml</strong></p>
 
-<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
-<span class="nt">&lt;Context</span> <span class="na">path=</span><span class="s">&quot;/hello&quot;</span> <span class="na">docBase=</span><span class="s">&quot;/Users/Thierry/Desktop/Spage/Spage/webRoot&quot;</span> <span class="na">debug=</span><span class="s">&quot;0&quot;</span> <span class="na">privileged=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
-<span class="nt">&lt;/Context&gt;</span></code></pre></div>
-
-<ul>
+    <pre><code>  &lt;?xml version="1.0"?&gt;
+  &lt;Context path="/hello" docBase="/Users/Thierry/Desktop/Spage/Spage/webRoot" debug="0" privileged="true"&gt;
+  &lt;/Context&gt;
+</code></pre>
+  </li>
   <li>webRoot下建index.html</li>
   <li>浏览器localhost:8080/hello中可以看到index.html的内容<br />
 浏览器localhost:8080/hello/test中可以触发test.java的内容  </li>

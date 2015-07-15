@@ -18,9 +18,9 @@ description: 本文简单介绍了不借助Eclipse或IntelliJ专业版的情况�
 	├─doc
 	└─webRoot 
 	  ├WEB-INF
-	  │		├─classes
-	  │		├─lib
-	  │		└─web.xml
+	  │	├─classes
+	  │	├─lib
+	  │	└─web.xml
 	  ├─dist （jar、war的存放路径）
 	  ├─css
 	  ├─js
@@ -45,13 +45,11 @@ public class Test extends HttpServlet {
 
 {% highlight xml %}
 <?xml version="1.0" encoding="ISO-8859-1"?>
-
 <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
                       http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
-
    <servlet>
        <servlet-name>test</servlet-name>
        <servlet-class>test.Test</servlet-class>

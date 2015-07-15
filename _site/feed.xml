@@ -7,7 +7,124 @@
 		<atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
-				<title>Machine Learning Note (3)</title>
+				<title>IntelliJ IDEA CE + Tomcat + Openshift 开发记录</title>
+				<description>&lt;h3 id=&quot;section&quot;&gt;开发环境：&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;IntelliJ IDEA CE 14&lt;/li&gt;
+  &lt;li&gt;Apache Tomcat 8.0.18&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;项目目录&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;Spage(Projet)
+├─src
+│ └─java
+├─lib
+├─doc
+└─webRoot 
+  ├WEB-INF
+  │		├─classes
+  │		├─lib
+  │		└─web.xml
+  ├─dist （jar、war的存放路径）
+  ├─css
+  ├─js
+  ├─view
+  └─image
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;开发流程&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;设置Java class文件输出目录。右键Module，Open module Settings，paths，将output path设为WEB-INF下的classes文件夹 &lt;strong&gt;注意，实在Module的Path选项卡里修改output path&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;将jsp-api-2.1.jar, servlet-api-2.5.jar拷贝到webRoot下。打包时需要的jar包放到lib目录。&lt;/li&gt;
+  &lt;li&gt;右键Module，Open module Settings，Dependencies，+号引入刚刚拷贝进来的jar文件（和lib目录）&lt;/li&gt;
+  &lt;li&gt;src目录建test Package，下建Test.java，并在web.xml中注册该servlet&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Test&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HttpServlet&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;protected&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;doGet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HttpServletRequest&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HttpServletResponse&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ServletException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IOException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    	&lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;hellow world!&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    	&lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getWriter&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Hellow world!&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-xml&quot; data-lang=&quot;xml&quot;&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;ISO-8859-1&amp;quot;?&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;web-app&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;xmlns=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;http://xmlns.jcp.org/xml/ns/javaee&amp;quot;&lt;/span&gt;
+         &lt;span class=&quot;na&quot;&gt;xmlns:xsi=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;http://www.w3.org/2001/XMLSchema-instance&amp;quot;&lt;/span&gt;
+         &lt;span class=&quot;na&quot;&gt;xsi:schemaLocation=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;http://xmlns.jcp.org/xml/ns/javaee&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;                      http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd&amp;quot;&lt;/span&gt;
+         &lt;span class=&quot;na&quot;&gt;version=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;3.1&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+
+   &lt;span class=&quot;nt&quot;&gt;&amp;lt;servlet&amp;gt;&lt;/span&gt;
+       &lt;span class=&quot;nt&quot;&gt;&amp;lt;servlet-name&amp;gt;&lt;/span&gt;test&lt;span class=&quot;nt&quot;&gt;&amp;lt;/servlet-name&amp;gt;&lt;/span&gt;
+       &lt;span class=&quot;nt&quot;&gt;&amp;lt;servlet-class&amp;gt;&lt;/span&gt;test.Test&lt;span class=&quot;nt&quot;&gt;&amp;lt;/servlet-class&amp;gt;&lt;/span&gt;
+   &lt;span class=&quot;nt&quot;&gt;&amp;lt;/servlet&amp;gt;&lt;/span&gt;
+   &lt;span class=&quot;nt&quot;&gt;&amp;lt;servlet-mapping&amp;gt;&lt;/span&gt;
+       &lt;span class=&quot;nt&quot;&gt;&amp;lt;servlet-name&amp;gt;&lt;/span&gt;test&lt;span class=&quot;nt&quot;&gt;&amp;lt;/servlet-name&amp;gt;&lt;/span&gt;
+       &lt;span class=&quot;nt&quot;&gt;&amp;lt;url-pattern&amp;gt;&lt;/span&gt;/test&lt;span class=&quot;nt&quot;&gt;&amp;lt;/url-pattern&amp;gt;&lt;/span&gt;
+   &lt;span class=&quot;nt&quot;&gt;&amp;lt;/servlet-mapping&amp;gt;&lt;/span&gt;
+   &lt;span class=&quot;nt&quot;&gt;&amp;lt;session-config&amp;gt;&lt;/span&gt;
+       &lt;span class=&quot;nt&quot;&gt;&amp;lt;session-timeout&amp;gt;&lt;/span&gt;30&lt;span class=&quot;nt&quot;&gt;&amp;lt;/session-timeout&amp;gt;&lt;/span&gt;
+   &lt;span class=&quot;nt&quot;&gt;&amp;lt;/session-config&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/web-app&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;右键module，compile module&lt;/li&gt;
+  &lt;li&gt;在tomcat下 conf\catalina\localhost 创建xml文件（需要sudo）&lt;br /&gt;
+&lt;strong&gt;注意，如果path=”/hello”，则文件并也要为hello.xml&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-xml&quot; data-lang=&quot;xml&quot;&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot;?&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;Context&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;path=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;/hello&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;docBase=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;/Users/Thierry/Desktop/Spage/Spage/webRoot&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;debug=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;0&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;privileged=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;true&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/Context&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;webRoot下建index.html&lt;/li&gt;
+  &lt;li&gt;浏览器localhost:8080/hello中可以看到index.html的内容&lt;br /&gt;
+浏览器localhost:8080/hello/test中可以触发test.java的内容  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;openshift&quot;&gt;Openshift部署&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;添加应用&lt;/li&gt;
+  &lt;li&gt;checkout到本地&lt;/li&gt;
+  &lt;li&gt;配置pom.xml文件&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;同步代码
+以下以Spage项目为例&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt; projet-logiciel/
+ ├─src/
+ │  └─main/
+ │     ├─java/
+ │     │  ├─db/
+ │     │  ├─spider/
+ │     │  └─web/
+ │     │     ├─SysContextListener.java
+ │     │     └─Result.java
+ │     ├─resources/
+ │     └─webapp/
+ │         ├─css/
+ │         ├─img/
+ │         ├─js/
+ │         ├─WEB-INF/
+ │         │  ├─lib/
+ │         │  ├─tld/
+ │         │  └─web.xml
+ │         ├─index.html
+ │         └─result.jsp
+ └─pom.xml
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+</description>
+				<pubDate>Wed, 15 Jul 2015 00:00:00 +0200</pubDate>
+				<link>/engineering/2015/07/15/Tomcat+Intellj+OpenShift.html</link>
+				<guid isPermaLink="true">/engineering/2015/07/15/Tomcat+Intellj+OpenShift.html</guid>
+			</item>
+		
+			<item>
+				<title>Machine Learning Notes (3)</title>
 				<description>&lt;h2 id=&quot;normal-equation&quot;&gt;Normal equation&lt;/h2&gt;
 &lt;p&gt;From the last part, we know the cost function and the input x for one example of n features &lt;/p&gt;
 
@@ -79,12 +196,12 @@ y^{(m)}
 &lt;p&gt;In the second case, we can delete some features or use the &lt;strong&gt;regularization&lt;/strong&gt; that we’ll talk about later.&lt;/p&gt;
 </description>
 				<pubDate>Tue, 14 Jul 2015 00:00:00 +0200</pubDate>
-				<link>/engineering/2015/07/14/ML-Note-3.html</link>
-				<guid isPermaLink="true">/engineering/2015/07/14/ML-Note-3.html</guid>
+				<link>/engineering/2015/07/14/ML-Notes-3.html</link>
+				<guid isPermaLink="true">/engineering/2015/07/14/ML-Notes-3.html</guid>
 			</item>
 		
 			<item>
-				<title>Machine Learning Note (2)</title>
+				<title>Machine Learning Notes (2)</title>
 				<description>&lt;p&gt;Having studied the univariable linear regression, we are going to extend the dimension from 1 to n. n is the number of the features that result in an output.&lt;/p&gt;
 
 &lt;h2 id=&quot;multiple-variables&quot;&gt;Multiple variables&lt;/h2&gt;
@@ -141,12 +258,12 @@ However, the square function will finally decrease with a great x. To avoid that
 &lt;/ul&gt;
 </description>
 				<pubDate>Tue, 14 Jul 2015 00:00:00 +0200</pubDate>
-				<link>/engineering/2015/07/14/ML-Note-2.html</link>
-				<guid isPermaLink="true">/engineering/2015/07/14/ML-Note-2.html</guid>
+				<link>/engineering/2015/07/14/ML-Notes-2.html</link>
+				<guid isPermaLink="true">/engineering/2015/07/14/ML-Notes-2.html</guid>
 			</item>
 		
 			<item>
-				<title>Machine Learning Note (1)</title>
+				<title>Machine Learning Notes (1)</title>
 				<description>&lt;p&gt;This is my personal note while watching the machine learning course on &lt;a href=&quot;https://www.coursera.org&quot; title=&quot;Coursera&quot;&gt;Coursera&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;introduction-of-machine-learning&quot;&gt;Introduction of Machine Learning&lt;/h2&gt;
@@ -201,8 +318,8 @@ The cost function for univariable linear regression is a &lt;a href=&quot;https:
   This method is called &lt;strong&gt;Batch Gradient Descent&lt;/strong&gt; when we use all the training examples&lt;/p&gt;
 </description>
 				<pubDate>Sun, 12 Jul 2015 00:00:00 +0200</pubDate>
-				<link>/engineering/2015/07/12/ML-Note-1.html</link>
-				<guid isPermaLink="true">/engineering/2015/07/12/ML-Note-1.html</guid>
+				<link>/engineering/2015/07/12/ML-Notes-1.html</link>
+				<guid isPermaLink="true">/engineering/2015/07/12/ML-Notes-1.html</guid>
 			</item>
 		
 	</channel>

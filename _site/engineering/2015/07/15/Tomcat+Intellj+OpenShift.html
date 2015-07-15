@@ -2,9 +2,9 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Machine Learning Note (2)</title>
+	<title>IntelliJ IDEA CE + Tomcat + Openshift 开发记录</title>
 	
-	<meta name="description" content="This part is about the linear regression for multiple variables using the gradient descent.">
+	<meta name="description" content="本文简单介绍了不借助Eclipse或IntelliJ专业版的情况下,以Tomcat为框架进行网络开发的配置方法，以及在Openshift平台的一种部署方法。">
 	
 	<meta name="author" content="Shiyu">
 
@@ -144,7 +144,7 @@
 
 	<div class="col-sm-9 col-sm-offset-3">
 		<div class="page-header">
-  <h1>Machine Learning Note (2) </h1>
+  <h1>IntelliJ IDEA CE + Tomcat + Openshift 开发记录 </h1>
 </div>
 	
 <article>
@@ -153,65 +153,120 @@
 	 <span class="post-date">
 	   
 	   July 
-	   14th,
+	   15th,
 	   
 	   2015
 	 </span>
 	  <div class="article_body">
-	  <p>Having studied the univariable linear regression, we are going to extend the dimension from 1 to n. n is the number of the features that result in an output.</p>
-
-<h2 id="multiple-variables">Multiple variables</h2>
-<p>For a multivatiate linear regression, we take</p>
-
-<p>\[x =  \begin{vmatrix}
-x_0 \\
-x_1 \\
-x_2 \\
-. \\
-. \\
-. \\
-x_n
-\end{vmatrix} \quad \text{where } x_0=1 \]</p>
-
-<p>\[\theta =  \begin{vmatrix}
-\theta_0 &amp;  \theta_1 &amp; \theta_2 &amp; … &amp; \theta_n
-\end{vmatrix} \]</p>
-
-<p>The hypothesis function is </p>
-
-<script type="math/tex; mode=display"> h_{\theta}(x)=\theta^Tx </script>
-
-<p>Given the cost function </p>
-
-<p>\[ J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)}))^2 \]</p>
-
-<p>we could deduce the gradient descent </p>
-
-<p>\[
- \theta_j:=\theta_j-\alpha\frac{\partial J}{\partial \theta_j} = \theta_j-\alpha \frac{1}{m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})x_j^{(i)}) 
-\]</p>
-
-<h2 id="feature-scaling">Feature scaling</h2>
-<p>The goal of feature scaling is to make sure the features are on a similar scale. It could accelerate the convergence<br />
-<strong>Mean normalization</strong></p>
-
-<p>\[
-  x_j:=\frac{x_j-\mu_j}{(max - min)}\quad \text{so} -0.5 \leq x_j \leq 0.5
-  \]</p>
-
-<h2 id="tricks-for-debugging">Tricks for debugging</h2>
+	  <h3 id="section">开发环境：</h3>
 <ul>
-  <li>To make sure the gradient descent working correctly, with an increasing number of iteration, the J should decrease</li>
-  <li>Choose the learning rate 0.001 -&gt; 0.003 -&gt; 0.01 -&gt; 0.03 -&gt; 0.1 -&gt; 0.3 -&gt; 1 </li>
-  <li>
-    <p>Polynomial regression
-<script type="math/tex"> h_{\theta}(x)=\theta_0+\theta_1x+\theta_2x^2=\theta_0+\theta_1x_1+\theta_2x_2 </script>
-In this case, the feature scale becomes more important.
-However, the square function will finally decrease with a great x. To avoid that, we could choose another model</p>
-
-    <script type="math/tex; mode=display"> h_{\theta}(x)=\theta_0+\theta_1x+\theta_2\sqrt{x} </script>
-  </li>
+  <li>IntelliJ IDEA CE 14</li>
+  <li>Apache Tomcat 8.0.18</li>
 </ul>
+
+<h3 id="section-1">项目目录</h3>
+<pre><code>Spage(Projet)
+├─src
+│ └─java
+├─lib
+├─doc
+└─webRoot 
+  ├WEB-INF
+  │		├─classes
+  │		├─lib
+  │		└─web.xml
+  ├─dist （jar、war的存放路径）
+  ├─css
+  ├─js
+  ├─view
+  └─image
+</code></pre>
+
+<h3 id="section-2">开发流程</h3>
+<ul>
+  <li>设置Java class文件输出目录。右键Module，Open module Settings，paths，将output path设为WEB-INF下的classes文件夹 <strong>注意，实在Module的Path选项卡里修改output path</strong></li>
+  <li>将jsp-api-2.1.jar, servlet-api-2.5.jar拷贝到webRoot下。打包时需要的jar包放到lib目录。</li>
+  <li>右键Module，Open module Settings，Dependencies，+号引入刚刚拷贝进来的jar文件（和lib目录）</li>
+  <li>src目录建test Package，下建Test.java，并在web.xml中注册该servlet</li>
+</ul>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test</span> <span class="kd">extends</span> <span class="n">HttpServlet</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">doGet</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">req</span><span class="o">,</span> <span class="n">HttpServletResponse</span> <span class="n">res</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">ServletException</span><span class="o">,</span> <span class="n">IOException</span><span class="o">{</span>
+    	<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;hellow world!&quot;</span><span class="o">);</span>
+    	<span class="n">res</span><span class="o">.</span><span class="na">getWriter</span><span class="o">().</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Hellow world!&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;</span>
+
+<span class="nt">&lt;web-app</span> <span class="na">xmlns=</span><span class="s">&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;</span>
+         <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+         <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://xmlns.jcp.org/xml/ns/javaee</span>
+<span class="s">                      http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd&quot;</span>
+         <span class="na">version=</span><span class="s">&quot;3.1&quot;</span><span class="nt">&gt;</span>
+
+   <span class="nt">&lt;servlet&gt;</span>
+       <span class="nt">&lt;servlet-name&gt;</span>test<span class="nt">&lt;/servlet-name&gt;</span>
+       <span class="nt">&lt;servlet-class&gt;</span>test.Test<span class="nt">&lt;/servlet-class&gt;</span>
+   <span class="nt">&lt;/servlet&gt;</span>
+   <span class="nt">&lt;servlet-mapping&gt;</span>
+       <span class="nt">&lt;servlet-name&gt;</span>test<span class="nt">&lt;/servlet-name&gt;</span>
+       <span class="nt">&lt;url-pattern&gt;</span>/test<span class="nt">&lt;/url-pattern&gt;</span>
+   <span class="nt">&lt;/servlet-mapping&gt;</span>
+   <span class="nt">&lt;session-config&gt;</span>
+       <span class="nt">&lt;session-timeout&gt;</span>30<span class="nt">&lt;/session-timeout&gt;</span>
+   <span class="nt">&lt;/session-config&gt;</span>
+<span class="nt">&lt;/web-app&gt;</span></code></pre></div>
+
+<ul>
+  <li>右键module，compile module</li>
+  <li>在tomcat下 conf\catalina\localhost 创建xml文件（需要sudo）<br />
+<strong>注意，如果path=”/hello”，则文件并也要为hello.xml</strong></li>
+</ul>
+
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="nt">&lt;Context</span> <span class="na">path=</span><span class="s">&quot;/hello&quot;</span> <span class="na">docBase=</span><span class="s">&quot;/Users/Thierry/Desktop/Spage/Spage/webRoot&quot;</span> <span class="na">debug=</span><span class="s">&quot;0&quot;</span> <span class="na">privileged=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/Context&gt;</span></code></pre></div>
+
+<ul>
+  <li>webRoot下建index.html</li>
+  <li>浏览器localhost:8080/hello中可以看到index.html的内容<br />
+浏览器localhost:8080/hello/test中可以触发test.java的内容  </li>
+</ul>
+
+<h3 id="openshift">Openshift部署</h3>
+<ol>
+  <li>添加应用</li>
+  <li>checkout到本地</li>
+  <li>配置pom.xml文件</li>
+  <li>
+    <p>同步代码
+以下以Spage项目为例</p>
+
+    <pre><code> projet-logiciel/
+ ├─src/
+ │  └─main/
+ │     ├─java/
+ │     │  ├─db/
+ │     │  ├─spider/
+ │     │  └─web/
+ │     │     ├─SysContextListener.java
+ │     │     └─Result.java
+ │     ├─resources/
+ │     └─webapp/
+ │         ├─css/
+ │         ├─img/
+ │         ├─js/
+ │         ├─WEB-INF/
+ │         │  ├─lib/
+ │         │  ├─tld/
+ │         │  └─web.xml
+ │         ├─index.html
+ │         └─result.jsp
+ └─pom.xml
+</code></pre>
+  </li>
+</ol>
 
 	  </div>
 
@@ -222,7 +277,7 @@ However, the square function will finally decrease with a great x. To avoid that
 		  
 			 
 				<li><a href="/categories.html#engineering-ref">
-					engineering <span>(3)</span>
+					engineering <span>(4)</span>
 					
 				</a></li>
 			
@@ -237,15 +292,22 @@ However, the square function will finally decrease with a great x. To avoid that
 		  
 			 
 				<li>
-					<a href="/tags.html#machine learning-ref">
-					machine learning <span>(3)</span>
+					<a href="/tags.html#web-ref">
+					web <span>(1)</span>
 					,
 					</a>
 				</li>
 			 
 				<li>
-					<a href="/tags.html#data science-ref">
-					data science <span>(3)</span>
+					<a href="/tags.html#Java-ref">
+					Java <span>(1)</span>
+					,
+					</a>
+				</li>
+			 
+				<li>
+					<a href="/tags.html#cloud-ref">
+					cloud <span>(1)</span>
 					
 					</a>
 				</li>
@@ -260,7 +322,7 @@ However, the square function will finally decrease with a great x. To avoid that
 		<div>
       <section class="share col-sm-6">
         <h4 class="section-title">Share Post</h4>
-        <a class="btn btn-default btn-sm twitter" href="http://twitter.com/share?text=Machine Learning Note (2)"
+        <a class="btn btn-default btn-sm twitter" href="http://twitter.com/share?text=IntelliJ IDEA CE + Tomcat + Openshift 开发记录"
            onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
           <i class="fa fa-twitter fa-lg"></i>
           Twitter
@@ -287,10 +349,10 @@ However, the square function will finally decrease with a great x. To avoid that
     <div class="clearfix"></div>   
 		<ul class="pager">
 		  
-		  <li class="previous"><a href="/engineering/2015/07/12/ML-Note-1.html" title="Machine Learning Note (1)">&larr; Previous</a></li>
+		  <li class="previous"><a href="/engineering/2015/07/14/ML-Notes-3.html" title="Machine Learning Notes (3)">&larr; Previous</a></li>
 		  
 		  
-		  <li class="next"><a href="/engineering/2015/07/14/ML-Note-3.html" title="Machine Learning Note (3)">Next &rarr;</a></li>
+			<li class="next disabled"><a>Next &rarr;</a>
 		  
 		</ul>
 

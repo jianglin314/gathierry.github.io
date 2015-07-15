@@ -2,9 +2,9 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Machine Learning Note (3)</title>
+	<title>Machine Learning Notes (1)</title>
 	
-	<meta name="description" content="Apart from the gradient descent, normal equation is another method to find the minimum J analytically.">
+	<meta name="description" content="Introduction of the machine learning and univariable linear regression using the gradient descent.">
 	
 	<meta name="author" content="Shiyu">
 
@@ -144,7 +144,7 @@
 
 	<div class="col-sm-9 col-sm-offset-3">
 		<div class="page-header">
-  <h1>Machine Learning Note (3) </h1>
+  <h1>Machine Learning Notes (1) </h1>
 </div>
 	
 <article>
@@ -153,80 +153,63 @@
 	 <span class="post-date">
 	   
 	   July 
-	   14th,
+	   12th,
 	   
 	   2015
 	 </span>
 	  <div class="article_body">
-	  <h2 id="normal-equation">Normal equation</h2>
-<p>From the last part, we know the cost function and the input x for one example of n features </p>
+	  <p>This is my personal note while watching the machine learning course on <a href="https://www.coursera.org" title="Coursera">Coursera</a>.</p>
 
-<p>\[ J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)}))^2 \]</p>
+<h2 id="introduction-of-machine-learning">Introduction of Machine Learning</h2>
+<p>The machine learning could be divided into 2 parts</p>
 
-<p>\[x^{(i)} =  \begin{vmatrix}
-x^{(i)}_0 \\
-x^{(i)}_1 \\
-x^{(i)}_2 \\
-. \\
-. \\
-. \\
-x^{(i)}_n
-\end{vmatrix} \quad \text{where } x_0=1 \]</p>
-
-<p>Then we got a <strong>design matrix</strong> that is an m by (n+1) dimensional matrix</p>
-
-<p>\[X =  \begin{vmatrix}
-… &amp; ^tx^{(1)} &amp; … \\
-… &amp; ^tx^{(2)} &amp; … \\
-… &amp; ^tx^{(3)} &amp; … \\
-&amp;. \\
-&amp;. \\
-&amp;. \\
-… &amp; ^tx^{(m)} &amp; … 
-\end{vmatrix} \]</p>
-
-<p>Whereas y is a vector of dimension m</p>
-
-<p>\[y =  \begin{vmatrix}
-y^{(1)} \\
-y^{(2)} \\
-y^{(3)} \\
-. \\
-. \\
-. \\
-y^{(m)}
-\end{vmatrix} \]</p>
-
-<p>To minimize the cost function, we calculate the <script type="math/tex">\theta</script> from</p>
-
-<p>\[
-\boxed{\theta=(X^TX)^{-1}X^Ty}
-\]</p>
-
-<h3 id="characteristics">Characteristics</h3>
+<h3 id="supervised-learning">Supervised Learning</h3>
 <ul>
-  <li>Advantages
-    <ul>
-      <li>no need to do the feature scaling</li>
-      <li>no need to choose the learning rate</li>
-      <li>no need to iterate</li>
-    </ul>
+  <li>Regression</li>
+  <li>Classification (labeled)</li>
+</ul>
+
+<h3 id="unsupervised-learning">Unsupervised Learning</h3>
+<ul>
+  <li>Clustering the data</li>
+</ul>
+
+<h2 id="univariable-linear-regression">Univariable linear regression</h2>
+<ul>
+  <li>
+    <p>Hypothesis function</p>
+
+    <script type="math/tex; mode=display"> h_{\theta}(x)=\theta_0 + \theta_1 x </script>
   </li>
-  <li>Disadvantage
-    <ul>
-      <li>The calculation of the <script type="math/tex"> (X^TX)^{-1} </script> could be very slow if n is large (&gt;10000) since the complexity for a matrix n by n is <script type="math/tex"> O(n^3) </script></li>
-    </ul>
+  <li>
+    <p>Cost function<br />
+The cost function for univariable linear regression is a <a href="https://en.wikipedia.org/wiki/Convex_function">convex function</a> (or called bowl-shaped function). Therefore, it only has one global minimum point</p>
+
+    <p>\[ J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)}))^2 \]</p>
+  </li>
+  <li>
+    <p>Gradient descend<br />
+<script type="math/tex"> \alpha </script> is the learning rate that can’t be too big or too small. A big rate could lead to a divergence instead of a convergence we expect. And a tiny rate would make the process too slow.</p>
+
+    <script type="math/tex; mode=display"> \theta_j:=\theta_j-\alpha\frac{\partial J}{\partial \theta_j} </script>
+
+    <p>Therefore we can conclude that</p>
+
+    <script type="math/tex; mode=display"> J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(\theta_0 + \theta_1 x^{(i)} -y^{(i)}))^2 </script>
+
+    <p>Deriving the function, we got</p>
   </li>
 </ul>
 
-<p>If <script type="math/tex"> (X^TX) </script> is non-invertible (singular / degenerate), it could be caused by 2 reasons:</p>
+<p>\[\begin{aligned}
+   \theta_0:=\theta_0-\alpha \frac{1}{m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})) \\
+ \theta_1:=\theta_1-\alpha \frac{1}{m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})x^{(i)}) 
+ \end{aligned} \]</p>
 
-<ul>
-  <li>Redundant feature, which leads to linear dependences</li>
-  <li>Too many features (<script type="math/tex">m \leq n</script>)</li>
-</ul>
-
-<p>In the second case, we can delete some features or use the <strong>regularization</strong> that we’ll talk about later.</p>
+<p>m - the size of the training examples<br />
+  x - input<br />
+  y - output<br />
+  This method is called <strong>Batch Gradient Descent</strong> when we use all the training examples</p>
 
 	  </div>
 
@@ -237,7 +220,7 @@ y^{(m)}
 		  
 			 
 				<li><a href="/categories.html#engineering-ref">
-					engineering <span>(3)</span>
+					engineering <span>(4)</span>
 					
 				</a></li>
 			
@@ -275,7 +258,7 @@ y^{(m)}
 		<div>
       <section class="share col-sm-6">
         <h4 class="section-title">Share Post</h4>
-        <a class="btn btn-default btn-sm twitter" href="http://twitter.com/share?text=Machine Learning Note (3)"
+        <a class="btn btn-default btn-sm twitter" href="http://twitter.com/share?text=Machine Learning Notes (1)"
            onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
           <i class="fa fa-twitter fa-lg"></i>
           Twitter
@@ -302,10 +285,10 @@ y^{(m)}
     <div class="clearfix"></div>   
 		<ul class="pager">
 		  
-		  <li class="previous"><a href="/engineering/2015/07/14/ML-Note-2.html" title="Machine Learning Note (2)">&larr; Previous</a></li>
+		  <li class="previous disabled"><a>&larr; Previous</a></li>
 		  
 		  
-			<li class="next disabled"><a>Next &rarr;</a>
+		  <li class="next"><a href="/engineering/2015/07/14/ML-Notes-2.html" title="Machine Learning Notes (2)">Next &rarr;</a></li>
 		  
 		</ul>
 

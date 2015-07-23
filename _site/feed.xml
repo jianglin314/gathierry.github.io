@@ -7,6 +7,24 @@
 		<atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>NumPy基础知识</title>
+				<description>
+</description>
+				<pubDate>Thu, 23 Jul 2015 00:00:00 +0200</pubDate>
+				<link>/engineering/2015/07/23/NumPy-Basic.html</link>
+				<guid isPermaLink="true">/engineering/2015/07/23/NumPy-Basic.html</guid>
+			</item>
+		
+			<item>
+				<title>Machine Learning Notes (4)</title>
+				<description>
+</description>
+				<pubDate>Mon, 20 Jul 2015 00:00:00 +0200</pubDate>
+				<link>/engineering/2015/07/20/ML-Notes-4.html</link>
+				<guid isPermaLink="true">/engineering/2015/07/20/ML-Notes-4.html</guid>
+			</item>
+		
+			<item>
 				<title>IntelliJ IDEA CE + Tomcat + Openshift 开发记录</title>
 				<description>&lt;h3 id=&quot;section&quot;&gt;开发环境：&lt;/h3&gt;
 &lt;ul&gt;
@@ -83,7 +101,7 @@
   &lt;/li&gt;
   &lt;li&gt;webRoot下建index.html&lt;/li&gt;
   &lt;li&gt;浏览器localhost:8080/hello中可以看到index.html的内容&lt;br /&gt;
-浏览器localhost:8080/hello/test中可以触发test.java的内容  &lt;/li&gt;
+浏览器localhost:8080/hello/test中可以触发test.java的内容&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h3 id=&quot;openshift&quot;&gt;Openshift部署&lt;/h3&gt;
@@ -128,7 +146,7 @@
 			<item>
 				<title>Machine Learning Notes (3)</title>
 				<description>&lt;h2 id=&quot;normal-equation&quot;&gt;Normal equation&lt;/h2&gt;
-&lt;p&gt;From the last part, we know the cost function and the input x for one example of n features &lt;/p&gt;
+&lt;p&gt;From the last part, we know the cost function and the input x for one example of n features&lt;/p&gt;
 
 &lt;p&gt;\[ J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)}))^2 \]&lt;/p&gt;
 
@@ -183,12 +201,12 @@ y^{(m)}
   &lt;/li&gt;
   &lt;li&gt;Disadvantage
     &lt;ul&gt;
-      &lt;li&gt;The calculation of the &lt;script type=&quot;math/tex&quot;&gt; (X^TX)^{-1} &lt;/script&gt; could be very slow if n is large (&amp;gt;10000) since the complexity for a matrix n by n is &lt;script type=&quot;math/tex&quot;&gt; O(n^3) &lt;/script&gt;&lt;/li&gt;
+      &lt;li&gt;The calculation of the &lt;script type=&quot;math/tex&quot;&gt;(X^TX)^{-1}&lt;/script&gt; could be very slow if n is large (&amp;gt;10000) since the complexity for a matrix n by n is &lt;script type=&quot;math/tex&quot;&gt;O(n^3)&lt;/script&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;If &lt;script type=&quot;math/tex&quot;&gt; (X^TX) &lt;/script&gt; is non-invertible (singular / degenerate), it could be caused by 2 reasons:&lt;/p&gt;
+&lt;p&gt;If &lt;script type=&quot;math/tex&quot;&gt;(X^TX)&lt;/script&gt; is non-invertible (singular / degenerate), it could be caused by 2 reasons:&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Redundant feature, which leads to linear dependences&lt;/li&gt;
@@ -223,15 +241,15 @@ x_n
 \theta_0 &amp;amp;  \theta_1 &amp;amp; \theta_2 &amp;amp; … &amp;amp; \theta_n
 \end{vmatrix} \]&lt;/p&gt;
 
-&lt;p&gt;The hypothesis function is &lt;/p&gt;
+&lt;p&gt;The hypothesis function is&lt;/p&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt; h_{\theta}(x)=\theta^Tx &lt;/script&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;h_{\theta}(x)=\theta^Tx&lt;/script&gt;
 
-&lt;p&gt;Given the cost function &lt;/p&gt;
+&lt;p&gt;Given the cost function&lt;/p&gt;
 
 &lt;p&gt;\[ J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)}))^2 \]&lt;/p&gt;
 
-&lt;p&gt;we could deduce the gradient descent &lt;/p&gt;
+&lt;p&gt;we could deduce the gradient descent&lt;/p&gt;
 
 &lt;p&gt;\[
  \theta_j:=\theta_j-\alpha\frac{\partial J}{\partial \theta_j} = \theta_j-\alpha \frac{1}{m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})x_j^{(i)}) 
@@ -248,14 +266,14 @@ x_n
 &lt;h2 id=&quot;tricks-for-debugging&quot;&gt;Tricks for debugging&lt;/h2&gt;
 &lt;ul&gt;
   &lt;li&gt;To make sure the gradient descent working correctly, with an increasing number of iteration, the J should decrease&lt;/li&gt;
-  &lt;li&gt;Choose the learning rate 0.001 -&amp;gt; 0.003 -&amp;gt; 0.01 -&amp;gt; 0.03 -&amp;gt; 0.1 -&amp;gt; 0.3 -&amp;gt; 1 &lt;/li&gt;
+  &lt;li&gt;Choose the learning rate 0.001 -&amp;gt; 0.003 -&amp;gt; 0.01 -&amp;gt; 0.03 -&amp;gt; 0.1 -&amp;gt; 0.3 -&amp;gt; 1&lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Polynomial regression
-&lt;script type=&quot;math/tex&quot;&gt; h_{\theta}(x)=\theta_0+\theta_1x+\theta_2x^2=\theta_0+\theta_1x_1+\theta_2x_2 &lt;/script&gt;
+&lt;script type=&quot;math/tex&quot;&gt;h_{\theta}(x)=\theta_0+\theta_1x+\theta_2x^2=\theta_0+\theta_1x_1+\theta_2x_2&lt;/script&gt;
 In this case, the feature scale becomes more important.
 However, the square function will finally decrease with a great x. To avoid that, we could choose another model&lt;/p&gt;
 
-    &lt;script type=&quot;math/tex; mode=display&quot;&gt; h_{\theta}(x)=\theta_0+\theta_1x+\theta_2\sqrt{x} &lt;/script&gt;
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_{\theta}(x)=\theta_0+\theta_1x+\theta_2\sqrt{x}&lt;/script&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 </description>
@@ -287,7 +305,7 @@ However, the square function will finally decrease with a great x. To avoid that
   &lt;li&gt;
     &lt;p&gt;Hypothesis function&lt;/p&gt;
 
-    &lt;script type=&quot;math/tex; mode=display&quot;&gt; h_{\theta}(x)=\theta_0 + \theta_1 x &lt;/script&gt;
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_{\theta}(x)=\theta_0 + \theta_1 x&lt;/script&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Cost function&lt;br /&gt;
@@ -297,13 +315,13 @@ The cost function for univariable linear regression is a &lt;a href=&quot;https:
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Gradient descend&lt;br /&gt;
-&lt;script type=&quot;math/tex&quot;&gt; \alpha &lt;/script&gt; is the learning rate that can’t be too big or too small. A big rate could lead to a divergence instead of a convergence we expect. And a tiny rate would make the process too slow.&lt;/p&gt;
+&lt;script type=&quot;math/tex&quot;&gt;\alpha&lt;/script&gt; is the learning rate that can’t be too big or too small. A big rate could lead to a divergence instead of a convergence we expect. And a tiny rate would make the process too slow.&lt;/p&gt;
 
-    &lt;script type=&quot;math/tex; mode=display&quot;&gt; \theta_j:=\theta_j-\alpha\frac{\partial J}{\partial \theta_j} &lt;/script&gt;
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\theta_j:=\theta_j-\alpha\frac{\partial J}{\partial \theta_j}&lt;/script&gt;
 
     &lt;p&gt;Therefore we can conclude that&lt;/p&gt;
 
-    &lt;script type=&quot;math/tex; mode=display&quot;&gt; J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(\theta_0 + \theta_1 x^{(i)} -y^{(i)}))^2 &lt;/script&gt;
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(\theta_0 + \theta_1 x^{(i)} -y^{(i)}))^2&lt;/script&gt;
 
     &lt;p&gt;Deriving the function, we got&lt;/p&gt;
   &lt;/li&gt;

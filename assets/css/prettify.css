@@ -7,7 +7,6 @@
   line-height: 1.5;
   border: 1px solid #ccc;
   padding: 10px;
-  overflow: auto;
 }
 
 .pln {
@@ -117,6 +116,12 @@ ol.linenums {
   margin-top: 0;
   margin-bottom: 0;
 }
+
+ol.linenums li {  
+ padding-left: 12px;  
+ color: #bebec5;  
+ line-height: 18px;    
+} 
 
 /* IE indents via margin-left */
 li.L0,

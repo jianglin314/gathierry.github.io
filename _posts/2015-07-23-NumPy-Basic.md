@@ -37,3 +37,15 @@ description: NumPy is the fundamental package for scientific computing with Pyth
 		Out[15]: 
 		array([[ 1.,  0.],
 		       [ 0.,  1.]])
+
+### Scalar operations (+ - * / **)
+Instead of the multiplication between matrix, * is the multiplication between 2 elements of the same index
+
+	In [16]: arr_mat
+	Out[16]: 
+	array([[1, 2, 3],
+	       [4, 5, 6]])
+	In [17]: arr_mat * arr_mat
+	Out[17]: 
+	array([[ 1,  4,  9],
+	       [16, 25, 36]])

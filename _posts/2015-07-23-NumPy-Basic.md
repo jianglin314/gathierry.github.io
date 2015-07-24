@@ -77,3 +77,12 @@ Instead of the multiplication between matrix, * is the multiplication between 2 
 		In [37]: slice = 99
 		In [38]: arr
 		Out[38]: array([10, 10, 10,  3,  4,  5,  0,  7,  8,  9])
+
+- matrix
+
+		In [44]: matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+		In [45]: arr2d = np.array(matrix)
+		In [46]: arr2d[2]
+		Out[46]: array([7, 8, 9])
+		In [47]: arr2d[0][2]
+		Out[47]: 3

@@ -5,7 +5,7 @@ categories: [engineering]
 tags: [python, data science]
 description: NumPy is the fundamental package for scientific computing with Python. Besides its obvious scientific uses, NumPy can also be used as an efficient multi-dimensional container of generic data. Arbitrary data-types can be defined. This allows NumPy to seamlessly and speedily integrate with a wide variety of databases.
 ---
-## A multidimensional object - ndarray
+## Multidimensional data structure - ndarray
 	In [3]: import numpy as np
 
 ### Initiation
@@ -49,3 +49,31 @@ Instead of the multiplication between matrix, * is the multiplication between 2 
 	Out[17]: 
 	array([[ 1,  4,  9],
 	       [16, 25, 36]])
+
+### Index and slice
+- vector
+
+		In [19]: arr = np.arange(10)
+		In [20]: arr
+		Out[20]: array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+		In [21]: arr[3]
+		Out[21]: 3
+		In [22]: arr[0:3]
+		Out[22]: array([0, 1, 2])
+		In [23]: arr[0:3] = 10
+		In [24]: arr
+		Out[24]: array([10, 10, 10,  3,  4,  5,  6,  7,  8,  9])
+  
+  A slice is part of the array. If the value of a slice is changed, so will be the value in the original array
+
+		In [28]: slice = arr[5:7]
+		In [29]: slice[1] = 0
+		In [30]: arr
+		Out[30]: array([10, 10, 10,  3,  4,  5,  0,  7,  8,  9])
+  
+  But if the slice is only a single element, or followed by ```arr[5:7].copy()```, then it's a copy
+  
+		In [36]: slice = arr[0]
+		In [37]: slice = 99
+		In [38]: arr
+		Out[38]: array([10, 10, 10,  3,  4,  5,  0,  7,  8,  9])

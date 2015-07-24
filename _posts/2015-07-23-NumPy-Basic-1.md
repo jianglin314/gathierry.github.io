@@ -1,8 +1,8 @@
 ---
 layout: post
-title: NumPy Tutorial
+title: NumPy Tutorial (1)
 categories: [engineering]
-tags: [python, data science]
+tags: [python, data science, numpy, Python for Data Analysis]
 description: NumPy is the fundamental package for scientific computing with Python. Besides its obvious scientific uses, NumPy can also be used as an efficient multi-dimensional container of generic data. Arbitrary data-types can be defined. This allows NumPy to seamlessly and speedily integrate with a wide variety of databases.
 ---
 ## Multidimensional data structure - ndarray
@@ -71,8 +71,7 @@ Instead of the multiplication between matrix, * is the multiplication between 2 
 		In [30]: arr
 		Out[30]: array([10, 10, 10,  3,  4,  5,  0,  7,  8,  9])
   
-  But it could be copied if followed by ```arr[5:7].copy()```
-  The code below could not work since given a value of 99, the slice is no more a ndarray
+  But it could be copied if followed by ```arr[5:7].copy()```. Howerver, the code below won't change the array either since given a value of 99, the slice is no more a ndarray
   
 		In [36]: slice = arr[0]
 		In [37]: slice = 99

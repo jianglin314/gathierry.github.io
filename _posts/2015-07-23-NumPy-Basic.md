@@ -71,7 +71,8 @@ Instead of the multiplication between matrix, * is the multiplication between 2 
 		In [30]: arr
 		Out[30]: array([10, 10, 10,  3,  4,  5,  0,  7,  8,  9])
   
-  But if the slice is only a single element, or followed by ```arr[5:7].copy()```, then it's a copy
+  But it could be copied if followed by ```arr[5:7].copy()```
+  The code below could not work since given a value of 99, the slice is no more a ndarray
   
 		In [36]: slice = arr[0]
 		In [37]: slice = 99

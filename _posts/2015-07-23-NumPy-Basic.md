@@ -1,8 +1,14 @@
 ---
 layout: post
-title: NumPy基础知识
+title: NumPy Tutorial
 categories: [engineering]
 tags: [python, data science]
-description: NumPy是用于科学计算和数据分析的Python工具包，通过包装数组对象，实现矢量计算等复杂计算的能力。
+description: NumPy is the fundamental package for scientific computing with Python. It contains among other things:
 
+    a powerful N-dimensional array object
+    sophisticated (broadcasting) functions
+    tools for integrating C/C++ and Fortran code
+    useful linear algebra, Fourier transform, and random number capabilities
+
+Besides its obvious scientific uses, NumPy can also be used as an efficient multi-dimensional container of generic data. Arbitrary data-types can be defined. This allows NumPy to seamlessly and speedily integrate with a wide variety of databases.
 ---

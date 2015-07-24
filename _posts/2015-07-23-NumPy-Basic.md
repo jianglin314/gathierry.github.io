@@ -23,4 +23,17 @@ description: NumPy is the fundamental package for scientific computing with Pyth
 		In [12]: arr_mat
 		Out[12]: 
 		array([[1, 2, 3],
-       		       [4, 5, 6]])
+		       [4, 5, 6]])
+
+- others
+
+		In [13]: np.zeros(3)
+		Out[13]: array([ 0.,  0.,  0.])
+		In [14]: np.ones((2, 3))
+		Out[14]: 
+		array([[ 1.,  1.,  1.],
+		       [ 1.,  1.,  1.]])
+		In [15]: np.eye(2)
+		Out[15]: 
+		array([[ 1.,  0.],
+		       [ 0.,  1.]])

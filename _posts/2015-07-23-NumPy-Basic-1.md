@@ -50,7 +50,7 @@ Instead of the multiplication between matrix, * is the multiplication between 2 
 	array([[ 1,  4,  9],
 	       [16, 25, 36]])
 
-### Index and slice
+### Indexing and slicing
 - vector
 
 		In [19]: arr = np.arange(10)
@@ -93,3 +93,11 @@ Instead of the multiplication between matrix, * is the multiplication between 2 
 		array([[2, 3],
 		       [5, 6]])
 
+### Fancy indexing
+	In [61]: new_arr = arr2d[[0, 2]]
+	In [62]: new_arr
+	Out[62]: 
+	array([[1, 2, 3],
+	       [7, 8, 9]])
+	       
+Fancy indexing is different from the slicing. The fancy indexing is a copy of the value while the slicing is a copy of the reference.

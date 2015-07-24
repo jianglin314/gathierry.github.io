@@ -3,7 +3,7 @@ layout: post
 title: NumPy Tutorial (1)
 categories: [data science]
 tags: [python, numpy, Python for Data Analysis]
-description: NumPy is the fundamental package for scientific computing with Python. In this part, we'll introduce the basic data struction of the package.
+description: NumPy is the fundamental package for scientific computing with Python. In this part, we'll introduce the basic data structure of numpy.
 ---
 ## Multidimensional data structure - ndarray
 	In [3]: import numpy as np

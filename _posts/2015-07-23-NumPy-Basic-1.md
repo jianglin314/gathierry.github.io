@@ -59,6 +59,7 @@ Instead of the multiplication between matrix, * is the multiplication between 2 
 		In [21]: arr[3]
 		Out[21]: 3
 		In [22]: arr[0:3]
+		# 0:3 means 0, 1, 2
 		Out[22]: array([0, 1, 2])
 		In [23]: arr[0:3] = 10
 		In [24]: arr
@@ -71,7 +72,7 @@ Instead of the multiplication between matrix, * is the multiplication between 2 
 		In [30]: arr
 		Out[30]: array([10, 10, 10,  3,  4,  5,  0,  7,  8,  9])
   
-  But it could be copied if followed by ```arr[5:7].copy()```. Howerver, the code below won't change the array either since given a value of 99, the slice is no more a ndarray
+  But it could be copied if followed by ```arr[5:7].copy()```. Howerver, the code below won't change the array either. We'll talk about this later in the *Fancy indexing* section.
   
 		In [36]: slice = arr[0]
 		In [37]: slice = 99
@@ -86,3 +87,9 @@ Instead of the multiplication between matrix, * is the multiplication between 2 
 		Out[46]: array([7, 8, 9])
 		In [47]: arr2d[0][2]
 		Out[47]: 3
+		In [56]: arr2d[:2, 1:]
+		# [0:2] and [1:max+1]
+		Out[56]: 
+		array([[2, 3],
+		       [5, 6]])
+

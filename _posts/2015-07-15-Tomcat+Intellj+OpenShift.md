@@ -1,7 +1,7 @@
 ---
 layout: post
 title: IntelliJ IDEA CE + Tomcat + Openshift 开发记录
-categories: [engineering]
+categories: [web development]
 tags: [web, Java, cloud]
 description: 本文简单介绍了不借助Eclipse或IntelliJ专业版的情况下,以Tomcat为框架进行网络开发的配置方法，以及在Openshift平台的一种部署方法。
 ---

@@ -1,9 +1,9 @@
 ---
 layout: post
 title: NumPy Tutorial (1)
-categories: [engineering]
-tags: [python, data science, numpy, Python for Data Analysis]
-description: NumPy is the fundamental package for scientific computing with Python. Besides its obvious scientific uses, NumPy can also be used as an efficient multi-dimensional container of generic data. Arbitrary data-types can be defined. This allows NumPy to seamlessly and speedily integrate with a wide variety of databases.
+categories: [data science]
+tags: [python, numpy, Python for Data Analysis]
+description: NumPy is the fundamental package for scientific computing with Python. In this part, we'll introduce the basic data struction of the package.
 ---
 ## Multidimensional data structure - ndarray
 	In [3]: import numpy as np
@@ -101,3 +101,12 @@ Instead of the multiplication between matrix, * is the multiplication between 2 
 	       [7, 8, 9]])
 	       
 Fancy indexing is different from the slicing. The fancy indexing is a copy of the value while the slicing is a copy of the reference.
+
+### Transpose
+
+	In [63]: new_arr.T
+	Out[63]: 
+	array([[1, 7],
+	       [2, 8],
+	       [3, 9]])
+

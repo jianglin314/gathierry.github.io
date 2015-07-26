@@ -14,8 +14,9 @@
 &lt;h3 id=&quot;hypothesis-function&quot;&gt;Hypothesis function&lt;/h3&gt;
 &lt;p&gt;\[
 h_\theta (x)=g(\theta ^T x)=\frac{1}{1+e^{-\theta ^T x}} \quad 0\leq h_\theta (x) \leq 1
-\]
-This is a &lt;strong&gt;sigmoid (or logistic) function&lt;/strong&gt; of &lt;script type=&quot;math/tex&quot;&gt;\theta ^T x&lt;/script&gt; &lt;br /&gt;
+\]&lt;/p&gt;
+
+&lt;p&gt;This is a &lt;strong&gt;sigmoid (or logistic) function&lt;/strong&gt; of &lt;script type=&quot;math/tex&quot;&gt;\theta ^T x&lt;/script&gt; &lt;br /&gt;
 &lt;img src=&quot;/images/logisticfunction.jpg&quot; width=&quot;400px&quot; /&gt;&lt;/p&gt;
 
 &lt;h4 id=&quot;hypothesis-representation&quot;&gt;Hypothesis representation&lt;/h4&gt;
@@ -26,8 +27,9 @@ This is a &lt;strong&gt;sigmoid (or logistic) function&lt;/strong&gt; of &lt;scr
 \[
 y = 1 \quad if\ h_\theta (x) \geq 0.5 \Leftrightarrow \theta ^Tx \geq 0 \\
 y = 0 \quad if\ h_\theta (x) &amp;lt; 0.5 \Leftrightarrow \theta ^Tx &amp;lt; 0
-\]
-For example, &lt;script type=&quot;math/tex&quot;&gt;h_\theta = g(-3 + x_1 + x_2)&lt;/script&gt;, y=1 if &lt;script type=&quot;math/tex&quot;&gt;-3 + x_1 + x_2 \geq 0&lt;/script&gt;
+\]&lt;/p&gt;
+
+&lt;p&gt;For example, &lt;script type=&quot;math/tex&quot;&gt;h_\theta = g(-3 + x_1 + x_2)&lt;/script&gt;, y=1 if &lt;script type=&quot;math/tex&quot;&gt;-3 + x_1 + x_2 \geq 0&lt;/script&gt;
 &lt;img src=&quot;/images/decisionboundary.jpg&quot; width=&quot;400px&quot; /&gt;&lt;br /&gt;
 The straight line is the &lt;strong&gt;decision boundary&lt;/strong&gt; which is a property of the hypothesis and the parameters&lt;/p&gt;
 
@@ -35,7 +37,9 @@ The straight line is the &lt;strong&gt;decision boundary&lt;/strong&gt; which is
 &lt;img src=&quot;/images/circledecisionboundary.jpg&quot; width=&quot;400px&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;cost-function&quot;&gt;Cost function&lt;/h3&gt;
-&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;J(\theta)=\frac{1}{m}\sum_{i=1}^m \underbrace{(-y^{(i)}log(h_\theta(x^{(i)})+(1-y^{(i)})log(1-h_\theta(x^{(i)})))}_{cost(h_\theta(x),\ y)}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;\[
+J(\theta)=\frac{1}{m}\sum_{i=1}^m \underbrace{(-y^{(i)}log(h_\theta(x^{(i)})+(1-y^{(i)})log(1-h_\theta(x^{(i)})))}_{cost(h_\theta(x),\ y)}
+\]&lt;/p&gt;
 
 &lt;h3 id=&quot;gradient-descent&quot;&gt;Gradient descent&lt;/h3&gt;
 &lt;p&gt;\[

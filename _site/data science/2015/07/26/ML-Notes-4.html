@@ -172,8 +172,9 @@
 <h3 id="hypothesis-function">Hypothesis function</h3>
 <p>\[
 h_\theta (x)=g(\theta ^T x)=\frac{1}{1+e^{-\theta ^T x}} \quad 0\leq h_\theta (x) \leq 1
-\]
-This is a <strong>sigmoid (or logistic) function</strong> of <script type="math/tex">\theta ^T x</script> <br />
+\]</p>
+
+<p>This is a <strong>sigmoid (or logistic) function</strong> of <script type="math/tex">\theta ^T x</script> <br />
 <img src="/images/logisticfunction.jpg" width="400px" /></p>
 
 <h4 id="hypothesis-representation">Hypothesis representation</h4>
@@ -184,8 +185,9 @@ This is a <strong>sigmoid (or logistic) function</strong> of <script type="math/
 \[
 y = 1 \quad if\ h_\theta (x) \geq 0.5 \Leftrightarrow \theta ^Tx \geq 0 \\
 y = 0 \quad if\ h_\theta (x) &lt; 0.5 \Leftrightarrow \theta ^Tx &lt; 0
-\]
-For example, <script type="math/tex">h_\theta = g(-3 + x_1 + x_2)</script>, y=1 if <script type="math/tex">-3 + x_1 + x_2 \geq 0</script>
+\]</p>
+
+<p>For example, <script type="math/tex">h_\theta = g(-3 + x_1 + x_2)</script>, y=1 if <script type="math/tex">-3 + x_1 + x_2 \geq 0</script>
 <img src="/images/decisionboundary.jpg" width="400px" /><br />
 The straight line is the <strong>decision boundary</strong> which is a property of the hypothesis and the parameters</p>
 
@@ -193,7 +195,9 @@ The straight line is the <strong>decision boundary</strong> which is a property 
 <img src="/images/circledecisionboundary.jpg" width="400px" /></p>
 
 <h3 id="cost-function">Cost function</h3>
-<p><script type="math/tex">J(\theta)=\frac{1}{m}\sum_{i=1}^m \underbrace{(-y^{(i)}log(h_\theta(x^{(i)})+(1-y^{(i)})log(1-h_\theta(x^{(i)})))}_{cost(h_\theta(x),\ y)}</script></p>
+<p>\[
+J(\theta)=\frac{1}{m}\sum_{i=1}^m \underbrace{(-y^{(i)}log(h_\theta(x^{(i)})+(1-y^{(i)})log(1-h_\theta(x^{(i)})))}_{cost(h_\theta(x),\ y)}
+\]</p>
 
 <h3 id="gradient-descent">Gradient descent</h3>
 <p>\[

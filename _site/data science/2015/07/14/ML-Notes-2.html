@@ -2,9 +2,9 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Machine Learning Notes (1)</title>
+	<title>Machine Learning Notes (2)</title>
 	
-	<meta name="description" content="Introduction of the machine learning and univariable linear regression using the gradient descent.">
+	<meta name="description" content="Multiple variables linear regression using the gradient descent / feature scaling / several trick for the debugging">
 	
 	<meta name="author" content="Shiyu">
 
@@ -152,7 +152,7 @@
 
 	<div class="col-sm-9 col-sm-offset-3">
 		<div class="page-header">
-  <h1>Machine Learning Notes (1) </h1>
+  <h1>Machine Learning Notes (2) </h1>
 </div>
 	
 <article>
@@ -161,63 +161,65 @@
 	 <span class="post-date">
 	   
 	   July 
-	   12th,
+	   14th,
 	   
 	   2015
 	 </span>
 	  <div class="article_body">
-	  <p>This is my personal note while watching the machine learning course on <a href="https://www.coursera.org" title="Coursera">Coursera</a>.</p>
+	  <p>Having studied the univariable linear regression, we are going to extend the dimension from 1 to n. n is the number of the features that result in an output.</p>
 
-<h2 id="introduction-of-machine-learning">Introduction of Machine Learning</h2>
-<p>The machine learning could be divided into 2 parts</p>
+<h2 id="multiple-variables">Multiple variables</h2>
+<p>For a multivatiate linear regression, we take</p>
 
-<h3 id="supervised-learning">Supervised Learning</h3>
+<p>\[x =  \begin{vmatrix}
+x_0 \\
+x_1 \\
+x_2 \\
+. \\
+. \\
+. \\
+x_n
+\end{vmatrix} \quad \text{where } x_0=1 \]</p>
+
+<p>\[\theta^T =  \begin{vmatrix}
+\theta_0 &amp;  \theta_1 &amp; \theta_2 &amp; … &amp; \theta_n
+\end{vmatrix} \]</p>
+
+<p>The hypothesis function is</p>
+
+<script type="math/tex; mode=display">h_{\theta}(x)=\theta^Tx</script>
+
+<p>Given the cost function</p>
+
+<p>\[ J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)}))^2 \]</p>
+
+<p>we could deduce the gradient descent</p>
+
+<p>\[
+ \theta_j:=\theta_j-\alpha\frac{\partial J}{\partial \theta_j} = \theta_j-\alpha \frac{1}{m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})x_j^{(i)}) 
+\]</p>
+
+<h2 id="feature-scaling">Feature scaling</h2>
+<p>The goal of feature scaling is to make sure the features are on a similar scale. It could accelerate the convergence<br />
+<strong>Mean normalization</strong></p>
+
+<p>\[
+  x_j:=\frac{x_j-\mu_j}{(max - min)}\quad \text{so} -0.5 \leq x_j \leq 0.5
+  \]</p>
+
+<h2 id="tricks-for-the-debugging">Tricks for the debugging</h2>
 <ul>
-  <li>Regression</li>
-  <li>Classification (labeled)</li>
-</ul>
-
-<h3 id="unsupervised-learning">Unsupervised Learning</h3>
-<ul>
-  <li>Clustering the data</li>
-</ul>
-
-<h2 id="univariable-linear-regression">Univariable linear regression</h2>
-<ul>
+  <li>To make sure the gradient descent working correctly, with an increasing number of iteration, the J should decrease</li>
+  <li>Choose the learning rate 0.001 -&gt; 0.003 -&gt; 0.01 -&gt; 0.03 -&gt; 0.1 -&gt; 0.3 -&gt; 1</li>
   <li>
-    <p>Hypothesis function</p>
+    <p>Polynomial regression
+<script type="math/tex">h_{\theta}(x)=\theta_0+\theta_1x+\theta_2x^2=\theta_0+\theta_1x_1+\theta_2x_2</script>
+In this case, the feature scale becomes more important.
+However, the square function will finally decrease with a great x. To avoid that, we could choose another model</p>
 
-    <script type="math/tex; mode=display">h_{\theta}(x)=\theta_0 + \theta_1 x</script>
-  </li>
-  <li>
-    <p>Cost function<br />
-The cost function for univariable linear regression is a <a href="https://en.wikipedia.org/wiki/Convex_function">convex function</a> (or called bowl-shaped function). Therefore, it only has one global minimum point</p>
-
-    <p>\[ J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)}))^2 \]</p>
-  </li>
-  <li>
-    <p>Gradient descend<br />
-<script type="math/tex">\alpha</script> is the learning rate that can’t be too big or too small. A big rate could lead to a divergence instead of a convergence we expect. And a tiny rate would make the process too slow.</p>
-
-    <script type="math/tex; mode=display">\theta_j:=\theta_j-\alpha\frac{\partial J}{\partial \theta_j}</script>
-
-    <p>Therefore we can conclude that</p>
-
-    <script type="math/tex; mode=display">J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(\theta_0 + \theta_1 x^{(i)} -y^{(i)}))^2</script>
-
-    <p>Deriving the function, we got</p>
+    <script type="math/tex; mode=display">h_{\theta}(x)=\theta_0+\theta_1x+\theta_2\sqrt{x}</script>
   </li>
 </ul>
-
-<p>\[\begin{aligned}
-   \theta_0:=\theta_0-\alpha \frac{1}{m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})) \\
- \theta_1:=\theta_1-\alpha \frac{1}{m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})x^{(i)}) 
- \end{aligned} \]</p>
-
-<p>m - the size of the training examples<br />
-  x - input<br />
-  y - output<br />
-  This method is called <strong>Batch Gradient Descent</strong> when we use all the training examples</p>
 
 	  </div>
 
@@ -227,8 +229,8 @@ The cost function for univariable linear regression is a <a href="https://en.wik
 		  
 		  
 			 
-				<li><a href="/categories.html#engineering-ref">
-					engineering <span>(6)</span>
+				<li><a href="/categories.html#data science-ref">
+					data science <span>(5)</span>
 					
 				</a></li>
 			
@@ -250,8 +252,8 @@ The cost function for univariable linear regression is a <a href="https://en.wik
 				</li>
 			 
 				<li>
-					<a href="/tags.html#data science-ref">
-					data science <span>(5)</span>
+					<a href="/tags.html#Coursera-ref">
+					Coursera <span>(4)</span>
 					
 					</a>
 				</li>
@@ -266,7 +268,7 @@ The cost function for univariable linear regression is a <a href="https://en.wik
 		<div>
       <section class="share col-sm-6">
         <h4 class="section-title">Share Post</h4>
-        <a class="btn btn-default btn-sm twitter" href="http://twitter.com/share?text=Machine Learning Notes (1)"
+        <a class="btn btn-default btn-sm twitter" href="http://twitter.com/share?text=Machine Learning Notes (2)"
            onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
           <i class="fa fa-twitter fa-lg"></i>
           Twitter
@@ -293,10 +295,10 @@ The cost function for univariable linear regression is a <a href="https://en.wik
     <div class="clearfix"></div>   
 		<ul class="pager">
 		  
-		  <li class="previous disabled"><a>&larr; Previous</a></li>
+		  <li class="previous"><a href="/data%20science/2015/07/12/ML-Notes-1.html" title="Machine Learning Notes (1)">&larr; Previous</a></li>
 		  
 		  
-		  <li class="next"><a href="/engineering/2015/07/14/ML-Notes-2.html" title="Machine Learning Notes (2)">Next &rarr;</a></li>
+		  <li class="next"><a href="/data%20science/2015/07/14/ML-Notes-3.html" title="Machine Learning Notes (3)">Next &rarr;</a></li>
 		  
 		</ul>
 

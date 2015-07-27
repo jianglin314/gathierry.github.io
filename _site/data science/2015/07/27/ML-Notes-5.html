@@ -2,9 +2,9 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Machine Learning Notes (1)</title>
+	<title>Machine Learning Notes (5)</title>
 	
-	<meta name="description" content="Introduction of the machine learning / univariable linear regression / cost function / gradient descent.">
+	<meta name="description" content="Regularization for linear regression and logistic regression">
 	
 	<meta name="author" content="Shiyu">
 
@@ -152,7 +152,7 @@
 
 	<div class="col-sm-9 col-sm-offset-3">
 		<div class="page-header">
-  <h1>Machine Learning Notes (1) </h1>
+  <h1>Machine Learning Notes (5) </h1>
 </div>
 	
 <article>
@@ -161,63 +161,63 @@
 	 <span class="post-date">
 	   
 	   July 
-	   12th,
+	   27th,
 	   
 	   2015
 	 </span>
 	  <div class="article_body">
-	  <p>This is my personal note while watching the machine learning course on <a href="https://www.coursera.org" title="Coursera">Coursera</a>.</p>
-
-<h2 id="introduction-of-machine-learning">Introduction of Machine Learning</h2>
-<p>The machine learning could be divided into 2 parts</p>
-
-<h3 id="supervised-learning">Supervised Learning</h3>
-<ul>
-  <li>Regression</li>
-  <li>Classification (labeled)</li>
+	  <ul>
+  <li>underfitting = high bias</li>
+  <li>overfitting = high variance</li>
 </ul>
 
-<h3 id="unsupervised-learning">Unsupervised Learning</h3>
-<ul>
-  <li>Clustering the data</li>
-</ul>
+<p>To avoid the overfitting, we could use the <strong>regularization</strong> method.</p>
 
-<h2 id="univariable-linear-regression">Univariable linear regression</h2>
-<ul>
-  <li>
-    <p>Hypothesis function</p>
+<h2 id="linear-regression">Linear regression</h2>
 
-    <script type="math/tex; mode=display">h_{\theta}(x)=\theta_0 + \theta_1 x</script>
-  </li>
-  <li>
-    <p>Cost function<br />
-The cost function for univariable linear regression is a <a href="https://en.wikipedia.org/wiki/Convex_function">convex function</a> (or called bowl-shaped function). Therefore, it only has one global minimum point</p>
+<h3 id="gradient-descent">Gradient descent</h3>
+<p>Cost function</p>
 
-    <p>\[ J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)}))^2 \]</p>
-  </li>
-  <li>
-    <p>Gradient descend<br />
-<script type="math/tex">\alpha</script> is the learning rate that can’t be too big or too small. A big rate could lead to a divergence instead of a convergence we expect. And a tiny rate would make the process too slow.</p>
+<p>\[
+J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)}))^2+\lambda \sum^n_{j=1}\theta_j^2
+\]</p>
 
-    <script type="math/tex; mode=display">\theta_j:=\theta_j-\alpha\frac{\partial J}{\partial \theta_j}</script>
+<p>In the term added, notice that <strong>j is from 1</strong> instead of 0. <script type="math/tex">\lambda</script> is the <strong>regularization parameter</strong>. A too large <script type="math/tex">\lambda</script> will cause the underfitting since all <script type="math/tex">\theta_j \simeq 0</script>.</p>
 
-    <p>Therefore we can conclude that</p>
+<p>Gradient descent</p>
 
-    <script type="math/tex; mode=display">J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(\theta_0 + \theta_1 x^{(i)} -y^{(i)}))^2</script>
+<p>\[
+ \theta_0:=\theta_0-\alpha\frac{\partial J}{\partial \theta_j} = \theta_0-\alpha \frac{1}{m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})x_0^{(i)}) \\
+ \theta_j:=\theta_j-\alpha\frac{\partial J}{\partial \theta_j} = \theta_j-\alpha [\frac{1}{m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})x_j^{(i)}+\frac{\lambda}{m}\theta_j]
+\]</p>
 
-    <p>Deriving the function, we got</p>
-  </li>
-</ul>
+<h3 id="normal-equation">Normal equation</h3>
 
-<p>\[\begin{aligned}
-   \theta_0:=\theta_0-\alpha \frac{1}{m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})) \\
- \theta_1:=\theta_1-\alpha \frac{1}{m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})x^{(i)}) 
- \end{aligned} \]</p>
+<p>\[
+\theta=(X^TX+\begin{vmatrix}
+0 &amp; 0 &amp; 0 &amp; … &amp; 0 \\
+0 &amp; \lambda &amp; 0 &amp; … &amp; 0 \\
+0 &amp; 0 &amp; \lambda &amp; … &amp; 0  \\
+ &amp; &amp; &amp; … \\
+0 &amp; 0 &amp; 0 &amp; … &amp; \lambda
+\end{vmatrix})^{-1}X^Ty
+\]</p>
 
-<p>m - the size of the training examples<br />
-  x - input<br />
-  y - output<br />
-  This method is called <strong>Batch Gradient Descent</strong> when we use all the training examples</p>
+<p>The matrix added is an square matrix of dimension (n+1)</p>
+
+<h2 id="logistic-regression">Logistic regression</h2>
+<p>Cost function</p>
+
+<p>\[
+J(\theta)=\frac{1}{m}\sum_{i=1}^m (-y^{(i)}log(h_\theta(x^{(i)}))+(1-y^{(i)})log(1-h_\theta(x^{(i)}))) + \frac{\lambda}{2m}\sum_{j=1}^n \theta_j^2
+\]</p>
+
+<p>Gradient descent</p>
+
+<p>\[
+\theta_0 = \theta_0 - \alpha \frac{1}{m} \sum_{i=1}^m (h_\theta(x^{(i)})-y^{(i)})x_0^{(i)}\\
+\theta_j = \theta_j - \alpha [\frac{1}{m} \sum_{i=1}^m (h_\theta(x^{(i)})-y^{(i)})x_j^{(i)} + \frac{\lambda}{m}\theta_j]
+\]</p>
 
 	  </div>
 
@@ -266,7 +266,7 @@ The cost function for univariable linear regression is a <a href="https://en.wik
 		<div>
       <section class="share col-sm-6">
         <h4 class="section-title">Share Post</h4>
-        <a class="btn btn-default btn-sm twitter" href="http://twitter.com/share?text=Machine Learning Notes (1)"
+        <a class="btn btn-default btn-sm twitter" href="http://twitter.com/share?text=Machine Learning Notes (5)"
            onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
           <i class="fa fa-twitter fa-lg"></i>
           Twitter
@@ -293,10 +293,10 @@ The cost function for univariable linear regression is a <a href="https://en.wik
     <div class="clearfix"></div>   
 		<ul class="pager">
 		  
-		  <li class="previous disabled"><a>&larr; Previous</a></li>
+		  <li class="previous"><a href="/data%20science/2015/07/26/ML-Notes-4.html" title="Machine Learning Notes (4)">&larr; Previous</a></li>
 		  
 		  
-		  <li class="next"><a href="/data%20science/2015/07/14/ML-Notes-2.html" title="Machine Learning Notes (2)">Next &rarr;</a></li>
+		  <li class="next"><a href="/data%20science/2015/07/28/NumPy-Basic-2.html" title="NumPy Tutorial (2)">Next &rarr;</a></li>
 		  
 		</ul>
 

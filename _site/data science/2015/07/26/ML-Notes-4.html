@@ -196,12 +196,12 @@ The straight line is the <strong>decision boundary</strong> which is a property 
 
 <h3 id="cost-function">Cost function</h3>
 <p>\[
-J(\theta)=\frac{1}{m}\sum_{i=1}^m \underbrace{(-y^{(i)}log(h_\theta(x^{(i)})+(1-y^{(i)})log(1-h_\theta(x^{(i)})))}_{cost(h_\theta(x),\ y)}
+J(\theta)=\frac{1}{m}\sum_{i=1}^m \underbrace{(-y^{(i)}log(h_\theta(x^{(i)}))+(1-y^{(i)})log(1-h_\theta(x^{(i)})))}_{cost(h_\theta(x),\ y)}
 \]</p>
 
 <h3 id="gradient-descent">Gradient descent</h3>
 <p>\[
-\theta_j = \theta_j - \alpha \sum_{i=1}^m (h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}
+\theta_j = \theta_j - \alpha \frac{1}{m} \sum_{i=1}^m (h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}
 \]</p>
 
 <h3 id="optimization-algorithms">Optimization algorithms</h3>
@@ -219,10 +219,10 @@ Second, call the function <code>fminunc</code>. In this function <script type="m
 
 <pre><code>options = optimset('GradObj', 'on', 'MaxIter', '100');
 initialTheta = zeros(n, 1);
-[optTheta, functionVal, exitFlag] = fminunc(@costFunction, initialTheta, options);
+[optTheta, cost] = fminunc(@(t)(costFunction(t, X, y)), initialTheta, options);
 % optTheta is the optimized theta we need
-% functionVal should be near to 0
-% exitFlag should be 1 if converge
+% cost should be near to 0
+% t the argement that calls the cost function, no need to declare before
 </code></pre>
 
 <h2 id="multiclass-classification">Multiclass classification</h2>
@@ -239,7 +239,7 @@ For an input x, pick the class j that maxmizes <script type="math/tex">h_\theta^
 		  
 			 
 				<li><a href="/categories.html#data science-ref">
-					data science <span>(5)</span>
+					data science <span>(7)</span>
 					
 				</a></li>
 			
@@ -255,14 +255,14 @@ For an input x, pick the class j that maxmizes <script type="math/tex">h_\theta^
 			 
 				<li>
 					<a href="/tags.html#machine learning-ref">
-					machine learning <span>(4)</span>
+					machine learning <span>(5)</span>
 					,
 					</a>
 				</li>
 			 
 				<li>
 					<a href="/tags.html#Coursera-ref">
-					Coursera <span>(4)</span>
+					Coursera <span>(5)</span>
 					
 					</a>
 				</li>
@@ -307,7 +307,7 @@ For an input x, pick the class j that maxmizes <script type="math/tex">h_\theta^
 		  <li class="previous"><a href="/data%20science/2015/07/23/NumPy-Basic-1.html" title="NumPy Tutorial (1)">&larr; Previous</a></li>
 		  
 		  
-			<li class="next disabled"><a>Next &rarr;</a>
+		  <li class="next"><a href="/data%20science/2015/07/27/ML-Notes-5.html" title="Machine Learning Notes (5)">Next &rarr;</a></li>
 		  
 		</ul>
 

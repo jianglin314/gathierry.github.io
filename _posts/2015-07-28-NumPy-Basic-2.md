@@ -23,3 +23,10 @@ description: Analysis with numpy
     In [16]: arr = np.random.randn(100)
     In [17]: (arr > 0).sum()
     Out[17]: 50
+
+```random``` is the lib for the generation of randomn numbers
+
+### sort
+
+```arr.sort(0)``` sort each column
+```arr.sort(1)``` sort each row

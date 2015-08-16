@@ -7,8 +7,142 @@
 		<atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>Machine Learning Notes (6)</title>
+				<description>&lt;p&gt;To solve a classification problem with neural network, we usually do these following steps:&lt;/p&gt;
+
+&lt;h2 id=&quot;pick-a-network-architecture&quot;&gt;1. Pick a network architecture&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;Number of input units = dimension of features&lt;/li&gt;
+  &lt;li&gt;Number of output units = number of classes&lt;/li&gt;
+  &lt;li&gt;the number of hidden layer and hidden units depends&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;randomly-initialize-weights&quot;&gt;2. Randomly initialize weights&lt;/h2&gt;
+&lt;p&gt;Considering the bias unit, we add layer_in with 1. And we declare &lt;script type=&quot;math/tex&quot;&gt;\epsilon&lt;/script&gt; so that all elements in W are in &lt;script type=&quot;math/tex&quot;&gt;[-\epsilon, \epsilon]&lt;/script&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;W = rand(layer_out, 1 + layer_in) * 2 * epsilon - epsilon;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;forward-propagation-to-compute-al&quot;&gt;3. Forward propagation to compute &lt;script type=&quot;math/tex&quot;&gt;a^{(L)}&lt;/script&gt;&lt;/h2&gt;
+
+&lt;p&gt;In a neural network model, 
+\[
+a^{(L)} = g((\theta^{(L-1)})^Ta^{(L-1)})
+\]
+where g is the &lt;a href=&quot;https://en.wikipedia.org/wiki/Sigmoid_function&quot;&gt;sigmoid function&lt;/a&gt; and &lt;script type=&quot;math/tex&quot;&gt;a^{(L-1)}&lt;/script&gt; contains a bias unit.&lt;/p&gt;
+
+&lt;h2 id=&quot;compute-the-cost-function-jtheta&quot;&gt;4. Compute the cost function J(&lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt;)&lt;/h2&gt;
+&lt;p&gt;The cost function of the neural network is :&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;J(\theta)=-\frac{1}{m}\sum^m_{i=1}\sum^K_{k=1}[y_k^{(i)}log(h_{\theta}(x^{(i)}))_k+(1-y_k^{(i)})log(1-(h_{\theta}(x^{(i)}))_k)] + \frac{\lambda}{2m}\sum_{l=1}^{L-1}\sum_{i=1}^{s_l}\sum_{j=1}^{s_{l+1}}(\theta_{ji}^{(l)})^2&lt;/script&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;m is the number of training set&lt;/li&gt;
+  &lt;li&gt;K is the number of units in the output layer&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;s_l&lt;/script&gt; is the number of unit in layer &lt;script type=&quot;math/tex&quot;&gt;l&lt;/script&gt;&lt;/li&gt;
+  &lt;li&gt;L is the total number of layers&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;When &lt;script type=&quot;math/tex&quot;&gt;\lambda \neq 0&lt;/script&gt;, the function is regularized. We take no account of the bias units for the regularization.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;hidden = sigmoid([ones(m, 1) X] * Theta1&#39;);
+h_theta = sigmoid([ones(m, 1) hidden] * Theta2&#39;);
+term1 = (-y_code)&#39; * log(h_theta);
+term2 = (1-y_code)&#39; * log(1-h_theta);
+J = 1/m * (sum(term1(:)) - sum(term2(:)));
+
+reg_theta1 = Theta1(:, 2:end);
+reg_theta2 = Theta2(:, 2:end);
+reg_term = lambda / (2*m) * (reg_theta1(:)&#39; * reg_theta1(:)...
+                       + reg_theta2(:)&#39; * reg_theta2(:));
+J = J + reg_term;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;back-propagation-to-compute-fracpartial-jthetapartial-thetaijl-&quot;&gt;5. Back propagation to compute &lt;script type=&quot;math/tex&quot;&gt;\frac{\partial J(\theta)}{\partial \theta_{ij}^{(l)}}&lt;/script&gt;&lt;/h2&gt;
+
+&lt;h3 id=&quot;for-i--1-to-m&quot;&gt;for i = 1 to m&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;First, get the values for all units&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt;  % code for m training set
+  a1 = [ones(m, 1), X];
+  z2 = a1 * Theta1&#39;;
+  a2 = [ones(m, 1), sigmoid(z2)];
+  z3 = a2 * Theta2&#39;;
+  a3 = sigmoid(z3);
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Second, define &lt;script type=&quot;math/tex&quot;&gt;\delta_j^{(l)}&lt;/script&gt; error of node j in layer l.&lt;br /&gt;
+For the output unit, &lt;script type=&quot;math/tex&quot;&gt;\delta^{(L)}=a^{(L)}-y&lt;/script&gt;&lt;br /&gt;
+For l = (L-1), …, 2, &lt;script type=&quot;math/tex&quot;&gt;\delta^{(l)}=((\theta^{(l)})^T)\delta^{(l+1)}.*\underbrace{g&#39;(z^{(l)})}_{a^{(l)}.*(1-a^{(l)})}&lt;/script&gt;&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt;  % code for m training set
+  delta3 = a3 - y_code;
+  delta2 = delta3 * Theta2(:, 2:end) .* sigmoidGradient(z2);
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Third, suppose &lt;script type=&quot;math/tex&quot;&gt;\Delta^{(l)} = \Delta^{(l)}+\delta^{(l+1)}a^{(l)T}&lt;/script&gt;&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt;  % code for m training set
+  Delta1 = delta2&#39; * a1;
+  Delta2 = delta3&#39; * a2;
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Finally,&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\partial J(\theta)}{\partial \theta_{ij}^{(l)}}=D_{ij}^{(l)}=\frac{1}{m}\Delta^{(l)}_{ij}+\lambda \theta_{ij}^{(l)} \quad j\neq0&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\partial J(\theta)}{\partial \theta_{ij}^{(l)}}=D_{ij}^{(l)}=\frac{1}{m}\Delta^{(l)}_{ij} \quad j=0&lt;/script&gt;
+
+&lt;h2 id=&quot;gradient-checking&quot;&gt;6. Gradient checking&lt;/h2&gt;
+&lt;p&gt;To make sure that the back propagation didn’t go wrong, the method gradient checking is used.
+Suppose e=[0 0 … &lt;script type=&quot;math/tex&quot;&gt;\epsilon&lt;/script&gt; … 0 0] that &lt;script type=&quot;math/tex&quot;&gt;\epsilon&lt;/script&gt; is the &lt;script type=&quot;math/tex&quot;&gt;l^{th}&lt;/script&gt; element.&lt;br /&gt;
+If 
+&lt;script type=&quot;math/tex&quot;&gt;D^{(l)}\approx\frac{1}{2\epsilon}(J(\theta+e)-J(\theta-e))&lt;/script&gt;, the propagation will work.&lt;/p&gt;
+
+&lt;h2 id=&quot;minimize-j&quot;&gt;7. Minimize J&lt;/h2&gt;
+&lt;p&gt;Since we have both the cost function and its partial derivatives, we can minimize J with gradient descent or other advanced optimization.&lt;/p&gt;
+</description>
+				<pubDate>Sun, 16 Aug 2015 00:00:00 +0200</pubDate>
+				<link>/data%20science/2015/08/16/ML-Notes-6.html</link>
+				<guid isPermaLink="true">/data%20science/2015/08/16/ML-Notes-6.html</guid>
+			</item>
+		
+			<item>
 				<title>NumPy Tutorial (2)</title>
-				<description>
+				<description>&lt;h3 id=&quot;where&quot;&gt;where&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;In [5]: xarr = np.array([1.1, 1.2, 1.3, 1.4, 1.5])
+In [6]: yarr = xarr + 1
+In [8]: cond = np.array([True, False, True, True, False])
+In [9]: result = np.where(cond, xarr, yarr)
+In [10]: result
+Out[10]: array([ 1.1,  2.2,  1.3,  1.4,  2.5])
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;xarr&lt;/code&gt; and &lt;code&gt;yarr&lt;/code&gt; could also be 2 scalar variables. With &lt;code&gt;where&lt;/code&gt; the matrix in the condition will be tested. Replace the elements passed with xarr (or the value at the same position if xarr is a matrix). Replace the ones failed with elements in yarr.&lt;/p&gt;
+
+&lt;h3 id=&quot;tricks-for-the-boolean-array&quot;&gt;Tricks for the boolean array&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;% use sum to count the positive number
+In [16]: arr = np.random.randn(100)
+In [17]: (arr &amp;gt; 0).sum()
+Out[17]: 50
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;random&lt;/code&gt; is the lib for the generation of randomn numbers&lt;/p&gt;
+
+&lt;h3 id=&quot;sort&quot;&gt;sort&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;arr.sort(0)&lt;/code&gt; sort each column
+&lt;code&gt;arr.sort(1)&lt;/code&gt; sort each row&lt;/p&gt;
 </description>
 				<pubDate>Tue, 28 Jul 2015 00:00:00 +0200</pubDate>
 				<link>/data%20science/2015/07/28/NumPy-Basic-2.html</link>

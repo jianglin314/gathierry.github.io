@@ -2,9 +2,9 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>NumPy Tutorial (1)</title>
+	<title>Machine Learning Notes (6)</title>
 	
-	<meta name="description" content="NumPy's fundamental data structure ndarray">
+	<meta name="description" content="BP neural network">
 	
 	<meta name="author" content="Shiyu">
 
@@ -152,7 +152,7 @@
 
 	<div class="col-sm-9 col-sm-offset-3">
 		<div class="page-header">
-  <h1>NumPy Tutorial (1) </h1>
+  <h1>Machine Learning Notes (6) </h1>
 </div>
 	
 <article>
@@ -160,139 +160,113 @@
 	<div class="col-sm-10">
 	 <span class="post-date">
 	   
-	   July 
-	   23rd,
-	     
+	   August 
+	   16th,
+	   
 	   2015
 	 </span>
 	  <div class="article_body">
-	  <h2 id="multidimensional-data-structure---ndarray">Multidimensional data structure - ndarray</h2>
-<pre><code>In [3]: import numpy as np
+	  <p>To solve a classification problem with neural network, we usually do these following steps:</p>
+
+<h2 id="pick-a-network-architecture">1. Pick a network architecture</h2>
+<ul>
+  <li>Number of input units = dimension of features</li>
+  <li>Number of output units = number of classes</li>
+  <li>the number of hidden layer and hidden units depends</li>
+</ul>
+
+<h2 id="randomly-initialize-weights">2. Randomly initialize weights</h2>
+<p>Considering the bias unit, we add layer_in with 1. And we declare <script type="math/tex">\epsilon</script> so that all elements in W are in <script type="math/tex">[-\epsilon, \epsilon]</script></p>
+
+<pre><code>W = rand(layer_out, 1 + layer_in) * 2 * epsilon - epsilon;
 </code></pre>
 
-<h3 id="initiation">Initiation</h3>
+<h2 id="forward-propagation-to-compute-al">3. Forward propagation to compute <script type="math/tex">a^{(L)}</script></h2>
+
+<p>In a neural network model, 
+\[
+a^{(L)} = g((\theta^{(L-1)})^Ta^{(L-1)})
+\]
+where g is the <a href="https://en.wikipedia.org/wiki/Sigmoid_function">sigmoid function</a> and <script type="math/tex">a^{(L-1)}</script> contains a bias unit.</p>
+
+<h2 id="compute-the-cost-function-jtheta">4. Compute the cost function J(<script type="math/tex">\theta</script>)</h2>
+<p>The cost function of the neural network is :</p>
+
+<script type="math/tex; mode=display">J(\theta)=-\frac{1}{m}\sum^m_{i=1}\sum^K_{k=1}[y_k^{(i)}log(h_{\theta}(x^{(i)}))_k+(1-y_k^{(i)})log(1-(h_{\theta}(x^{(i)}))_k)] + \frac{\lambda}{2m}\sum_{l=1}^{L-1}\sum_{i=1}^{s_l}\sum_{j=1}^{s_{l+1}}(\theta_{ji}^{(l)})^2</script>
+
+<ul>
+  <li>m is the number of training set</li>
+  <li>K is the number of units in the output layer</li>
+  <li><script type="math/tex">s_l</script> is the number of unit in layer <script type="math/tex">l</script></li>
+  <li>L is the total number of layers</li>
+</ul>
+
+<p>When <script type="math/tex">\lambda \neq 0</script>, the function is regularized. We take no account of the bias units for the regularization.</p>
+
+<pre><code>hidden = sigmoid([ones(m, 1) X] * Theta1');
+h_theta = sigmoid([ones(m, 1) hidden] * Theta2');
+term1 = (-y_code)' * log(h_theta);
+term2 = (1-y_code)' * log(1-h_theta);
+J = 1/m * (sum(term1(:)) - sum(term2(:)));
+
+reg_theta1 = Theta1(:, 2:end);
+reg_theta2 = Theta2(:, 2:end);
+reg_term = lambda / (2*m) * (reg_theta1(:)' * reg_theta1(:)...
+                       + reg_theta2(:)' * reg_theta2(:));
+J = J + reg_term;
+</code></pre>
+
+<h2 id="back-propagation-to-compute-fracpartial-jthetapartial-thetaijl-">5. Back propagation to compute <script type="math/tex">\frac{\partial J(\theta)}{\partial \theta_{ij}^{(l)}}</script></h2>
+
+<h3 id="for-i--1-to-m">for i = 1 to m</h3>
+
 <ul>
   <li>
-    <p>vector column</p>
+    <p>First, get the values for all units</p>
 
-    <pre><code>  In [4]: vector = [1, 2, 3]
-  In [5]: arr_vec = np.array(vector)
-  In [6]: arr_vec
-  Out[6]: array([1, 2, 3])
+    <pre><code>  % code for m training set
+  a1 = [ones(m, 1), X];
+  z2 = a1 * Theta1';
+  a2 = [ones(m, 1), sigmoid(z2)];
+  z3 = a2 * Theta2';
+  a3 = sigmoid(z3);
 </code></pre>
   </li>
   <li>
-    <p>matrix</p>
+    <p>Second, define <script type="math/tex">\delta_j^{(l)}</script> error of node j in layer l.<br />
+For the output unit, <script type="math/tex">\delta^{(L)}=a^{(L)}-y</script><br />
+For l = (L-1), …, 2, <script type="math/tex">\delta^{(l)}=((\theta^{(l)})^T)\delta^{(l+1)}.*\underbrace{g'(z^{(l)})}_{a^{(l)}.*(1-a^{(l)})}</script></p>
 
-    <pre><code>  In [10]: matrix = [[1, 2, 3], [4, 5, 6]]
-  In [11]: arr_mat = np.array(matrix)
-  In [12]: arr_mat
-  Out[12]: 
-  array([[1, 2, 3],
-         [4, 5, 6]])
+    <pre><code>  % code for m training set
+  delta3 = a3 - y_code;
+  delta2 = delta3 * Theta2(:, 2:end) .* sigmoidGradient(z2);
 </code></pre>
   </li>
   <li>
-    <p>others</p>
+    <p>Third, suppose <script type="math/tex">\Delta^{(l)} = \Delta^{(l)}+\delta^{(l+1)}a^{(l)T}</script></p>
 
-    <pre><code>  In [13]: np.zeros(3)
-  Out[13]: array([ 0.,  0.,  0.])
-  In [14]: np.ones((2, 3))
-  Out[14]: 
-  array([[ 1.,  1.,  1.],
-         [ 1.,  1.,  1.]])
-  In [15]: np.eye(2)
-  Out[15]: 
-  array([[ 1.,  0.],
-         [ 0.,  1.]])
+    <pre><code>  % code for m training set
+  Delta1 = delta2' * a1;
+  Delta2 = delta3' * a2;
 </code></pre>
+  </li>
+  <li>
+    <p>Finally,</p>
   </li>
 </ul>
 
-<h3 id="scalar-operations------">Scalar operations (+ - * / **)</h3>
-<p>Instead of the multiplication between matrix, * is the multiplication between 2 elements of the same index</p>
+<script type="math/tex; mode=display">\frac{\partial J(\theta)}{\partial \theta_{ij}^{(l)}}=D_{ij}^{(l)}=\frac{1}{m}\Delta^{(l)}_{ij}+\lambda \theta_{ij}^{(l)} \quad j\neq0</script>
 
-<pre><code>In [16]: arr_mat
-Out[16]: 
-array([[1, 2, 3],
-       [4, 5, 6]])
-In [17]: arr_mat * arr_mat
-Out[17]: 
-array([[ 1,  4,  9],
-       [16, 25, 36]])
-</code></pre>
+<script type="math/tex; mode=display">\frac{\partial J(\theta)}{\partial \theta_{ij}^{(l)}}=D_{ij}^{(l)}=\frac{1}{m}\Delta^{(l)}_{ij} \quad j=0</script>
 
-<h3 id="indexing-and-slicing">Indexing and slicing</h3>
-<ul>
-  <li>
-    <p>vector</p>
+<h2 id="gradient-checking">6. Gradient checking</h2>
+<p>To make sure that the back propagation didn’t go wrong, the method gradient checking is used.
+Suppose e=[0 0 … <script type="math/tex">\epsilon</script> … 0 0] that <script type="math/tex">\epsilon</script> is the <script type="math/tex">l^{th}</script> element.<br />
+If 
+<script type="math/tex">D^{(l)}\approx\frac{1}{2\epsilon}(J(\theta+e)-J(\theta-e))</script>, the propagation will work.</p>
 
-    <pre><code>  In [19]: arr = np.arange(10)
-  In [20]: arr
-  Out[20]: array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
-  In [21]: arr[3]
-  Out[21]: 3
-  In [22]: arr[0:3]
-  # 0:3 means 0, 1, 2
-  Out[22]: array([0, 1, 2])
-  In [23]: arr[0:3] = 10
-  In [24]: arr
-  Out[24]: array([10, 10, 10,  3,  4,  5,  6,  7,  8,  9])
-</code></pre>
-
-    <p>A slice is part of the array. If the value of a slice is changed, so will be the value in the original array</p>
-
-    <pre><code>  In [28]: slice = arr[5:7]
-  In [29]: slice[1] = 0
-  In [30]: arr
-  Out[30]: array([10, 10, 10,  3,  4,  5,  0,  7,  8,  9])
-</code></pre>
-
-    <p>But it could be copied if followed by <code>arr[5:7].copy()</code>. Howerver, the code below won’t change the array either. We’ll talk about this later in the <em>Fancy indexing</em> section.</p>
-
-    <pre><code>  In [36]: slice = arr[0]
-  In [37]: slice = 99
-  In [38]: arr
-  Out[38]: array([10, 10, 10,  3,  4,  5,  0,  7,  8,  9])
-</code></pre>
-  </li>
-  <li>
-    <p>matrix</p>
-
-    <pre><code>  In [44]: matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-  In [45]: arr2d = np.array(matrix)
-  In [46]: arr2d[2]
-  Out[46]: array([7, 8, 9])
-  In [47]: arr2d[0][2]
-  Out[47]: 3
-  In [56]: arr2d[:2, 1:]
-  # [0:2] and [1:max+1]
-  Out[56]: 
-  array([[2, 3],
-         [5, 6]])
-</code></pre>
-  </li>
-</ul>
-
-<h3 id="fancy-indexing">Fancy indexing</h3>
-<pre><code>In [61]: new_arr = arr2d[[0, 2]]
-In [62]: new_arr
-Out[62]: 
-array([[1, 2, 3],
-       [7, 8, 9]])
-</code></pre>
-
-<p>Fancy indexing is different from the slicing. The fancy indexing is a copy of the value while the slicing is a copy of the reference.</p>
-
-<h3 id="transpose">Transpose</h3>
-
-<pre><code>In [63]: new_arr.T
-Out[63]: 
-array([[1, 7],
-       [2, 8],
-       [3, 9]])
-</code></pre>
-
+<h2 id="minimize-j">7. Minimize J</h2>
+<p>Since we have both the cost function and its partial derivatives, we can minimize J with gradient descent or other advanced optimization.</p>
 
 	  </div>
 
@@ -318,22 +292,15 @@ array([[1, 7],
 		  
 			 
 				<li>
-					<a href="/tags.html#python-ref">
-					python <span>(2)</span>
+					<a href="/tags.html#machine learning-ref">
+					machine learning <span>(6)</span>
 					,
 					</a>
 				</li>
 			 
 				<li>
-					<a href="/tags.html#numpy-ref">
-					numpy <span>(2)</span>
-					,
-					</a>
-				</li>
-			 
-				<li>
-					<a href="/tags.html#Python for Data Analysis-ref">
-					Python for Data Analysis <span>(2)</span>
+					<a href="/tags.html#Coursera-ref">
+					Coursera <span>(6)</span>
 					
 					</a>
 				</li>
@@ -348,7 +315,7 @@ array([[1, 7],
 		<div>
       <section class="share col-sm-6">
         <h4 class="section-title">Share Post</h4>
-        <a class="btn btn-default btn-sm twitter" href="http://twitter.com/share?text=NumPy Tutorial (1)"
+        <a class="btn btn-default btn-sm twitter" href="http://twitter.com/share?text=Machine Learning Notes (6)"
            onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
           <i class="fa fa-twitter fa-lg"></i>
           Twitter
@@ -375,10 +342,10 @@ array([[1, 7],
     <div class="clearfix"></div>   
 		<ul class="pager">
 		  
-		  <li class="previous"><a href="/web%20development/2015/07/15/Tomcat+Intellj+OpenShift.html" title="IntelliJ IDEA CE + Tomcat + Openshift 开发记录">&larr; Previous</a></li>
+		  <li class="previous"><a href="/data%20science/2015/07/28/NumPy-Basic-2.html" title="NumPy Tutorial (2)">&larr; Previous</a></li>
 		  
 		  
-		  <li class="next"><a href="/data%20science/2015/07/26/ML-Notes-4.html" title="Machine Learning Notes (4)">Next &rarr;</a></li>
+			<li class="next disabled"><a>Next &rarr;</a>
 		  
 		</ul>
 

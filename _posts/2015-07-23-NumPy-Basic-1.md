@@ -2,7 +2,7 @@
 layout: post
 title: NumPy Tutorial (1)
 categories: [data science]
-tags: [python, numpy, Python for Data Analysis]
+tags: [python, numpy]
 description: NumPy's fundamental data structure ndarray
 ---
 ## Multidimensional data structure - ndarray

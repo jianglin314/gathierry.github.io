@@ -7,6 +7,86 @@
 		<atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>Machine Learning Notes (7)</title>
+				<description>&lt;p&gt;Apart from the logistic regression, Support Vector Machine is another powerful algorithm for classification problems.&lt;/p&gt;
+
+&lt;h2 id=&quot;gaussian-kernel&quot;&gt;Gaussian kernel&lt;/h2&gt;
+
+&lt;p&gt;Knowing a training data set &lt;script type=&quot;math/tex&quot;&gt;x^{(1)},\ x^{(2)} ...,\ x^{(m)}&lt;/script&gt;, we put all these training examples to landmarks &lt;script type=&quot;math/tex&quot;&gt;l^{(i)}= x^{(i)}&lt;/script&gt;. The kernel function&lt;/p&gt;
+
+&lt;p&gt;\[f^{(i)} =  \begin{vmatrix}
+f^{(i)}_0 \\
+f^{(i)}_1 \\
+f^{(i)}_2 \\
+. \\
+. \\
+. \\
+f^{(i)}_m
+\end{vmatrix} \quad \text{where } f_0=1 \]&lt;/p&gt;
+
+&lt;p&gt;\[
+f^{(i)}_j=exp(-\frac{|x-l^{(i)}|^2}{2\sigma ^2})
+\]&lt;/p&gt;
+
+&lt;p&gt;Gaussian kernel is used when we have a large data set and a intermediate number of features.&lt;/p&gt;
+
+&lt;p&gt;Code Matlab to implement a gaussian kernel function&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;function sim = gaussianKernel(x1, x2, sigma)
+    % Ensure that x1 and x2 are column vectors
+    x1 = x1(:); x2 = x2(:);
+    sim = exp(- (x1 - x2)&#39; * (x1 - x2) / 2 / (sigma^2));   
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;linear-kernel&quot;&gt;Linear kernel&lt;/h2&gt;
+
+&lt;p&gt;\[f^{(i)} = x^{(i)}
+\]&lt;/p&gt;
+
+&lt;p&gt;Linear kernel is used when we have a large data set and a small number of features or a small data set and a large number of features. Logistic regression could work in such situations as well.&lt;/p&gt;
+
+&lt;h2 id=&quot;svm-training&quot;&gt;SVM Training&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;First, do perform feature scaling&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Second, train with the cost function :
+\[J = C\sum_{i=1}^{m}y^{(i)}cost_1(\theta^Tf^{(i)})+(1-y^{(i)})cost_0(\theta^Tf^{(i)})+\frac{1}{2}\sum_{j=1}^{m}\theta_j^2
+\]&lt;/p&gt;
+
+&lt;p&gt;cost1 is a function like this&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/svm-cost1.jpg&quot; width=&quot;400px&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;while cost0 is&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/svm-cost0.jpg&quot; width=&quot;400px&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Choice of C (= &lt;script type=&quot;math/tex&quot;&gt;\frac{1}{\lambda}&lt;/script&gt;)
+    &lt;ul&gt;
+      &lt;li&gt;a large C leads to a low bias and a high variance (overfitting)&lt;/li&gt;
+      &lt;li&gt;a small C leads to a high bias and a low variance (underfitting)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Choice of &lt;script type=&quot;math/tex&quot;&gt;\sigma^2&lt;/script&gt;
+    &lt;ul&gt;
+      &lt;li&gt;a large &lt;script type=&quot;math/tex&quot;&gt;\sigma^2&lt;/script&gt; leads to a high bias and a low variance (underfitting)&lt;/li&gt;
+      &lt;li&gt;a small &lt;script type=&quot;math/tex&quot;&gt;\sigma^2&lt;/script&gt; leads to a low bias and a high variance (overfitting)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Finally, to predict, we got
+\[
+y = 1 \quad if\ \theta^Tf\geq0
+\]&lt;/p&gt;
+</description>
+				<pubDate>Sun, 16 Aug 2015 00:00:00 +0200</pubDate>
+				<link>/data%20science/2015/08/16/ML-Notes-7.html</link>
+				<guid isPermaLink="true">/data%20science/2015/08/16/ML-Notes-7.html</guid>
+			</item>
+		
+			<item>
 				<title>Machine Learning Notes (6)</title>
 				<description>&lt;p&gt;To solve a classification problem with neural network, we usually do these following steps:&lt;/p&gt;
 

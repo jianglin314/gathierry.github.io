@@ -7,6 +7,112 @@
 		<atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>Machine Learning Notes (9)</title>
+				<description>&lt;p&gt;&lt;strong&gt;Dimensionality reduction&lt;/strong&gt; is used to economise the memory / disk space, speed up learning algorithms and visualize high-dimensional data. However, it is not used to avoid overfitting.&lt;/p&gt;
+
+&lt;h2 id=&quot;principal-component-analysis&quot;&gt;Principal component analysis&lt;/h2&gt;
+
+&lt;p&gt;PCA reduces the data from n-D to k-D : find k vectors &lt;script type=&quot;math/tex&quot;&gt;u^{(1)}, ... , u^{(k)}&lt;/script&gt; onto which to project the data so as to minimize the projection error.&lt;/p&gt;
+
+&lt;h3 id=&quot;algorithm&quot;&gt;Algorithm&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Knowing the training set &lt;script type=&quot;math/tex&quot;&gt;x^{(1)}, ... , x^{(m)} \in \mathbb{R}^n&lt;/script&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Preprocessing (feature scaling / mean normalization)&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;\[
+\mu_j = \frac{1}{m}\sum_{i=1}^{m}x_j^{(i)} &lt;br /&gt;
+\text{Replace } x_j \text{ with } x_j - \mu_j
+\]&lt;/p&gt;
+
+&lt;p&gt;if different feature on different scale&lt;/p&gt;
+
+&lt;p&gt;\[
+\text{Replace } x_j \text{ with } \frac{x_j - \mu_j}{s_j}
+\]&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Reduce data from n-D to k-D
+    &lt;ul&gt;
+      &lt;li&gt;Compute “covariance matrix” &lt;script type=&quot;math/tex&quot;&gt;\Sigma = \frac{1}{m}\sum_{i=1}^m x^{(i)} (x^{(i)})^T&lt;/script&gt;&lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;Compute “eigenvector” of &lt;script type=&quot;math/tex&quot;&gt;\Sigma&lt;/script&gt;&lt;/p&gt;
+
+        &lt;pre&gt;&lt;code&gt;      [U, S, V] = svd(Sigma);
+&lt;/code&gt;&lt;/pre&gt;
+
+        &lt;p&gt;\[
+U = \begin{vmatrix}
+| &amp;amp; | &amp;amp; … &amp;amp; |\\
+u^{(1)} &amp;amp; u^{(2)} &amp;amp; … &amp;amp; u^{(n)} \\
+| &amp;amp; | &amp;amp; … &amp;amp; |
+\end{vmatrix}
+ \]
+ Pick the first &lt;script type=&quot;math/tex&quot;&gt;k&lt;/script&gt; column to form a new matrix &lt;script type=&quot;math/tex&quot;&gt;U_{reduce}&lt;/script&gt;&lt;br /&gt;
+ New training set &lt;script type=&quot;math/tex&quot;&gt;z = U_{reduce}^T x&lt;/script&gt;&lt;br /&gt;
+ &lt;script type=&quot;math/tex&quot;&gt;S&lt;/script&gt; is a diagonal matrix with eigenvalues of &lt;script type=&quot;math/tex&quot;&gt;\Sigma&lt;/script&gt;&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;To choose a proper &lt;script type=&quot;math/tex&quot;&gt;k&lt;/script&gt;, we need	&lt;script type=&quot;math/tex&quot;&gt;\frac{\sum_{i=1}^kS_{ii}}{\sum_{i=1}^nS_{ii}} \geq 0.99&lt;/script&gt;, 
+  that means 99% of variance is retained&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Reconstruction from compressed representation : 
+&lt;script type=&quot;math/tex&quot;&gt;x_{approx}^{(i)} = U_{reduce} z^{(i)}&lt;/script&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+				<pubDate>Sun, 20 Sep 2015 00:00:00 +0200</pubDate>
+				<link>/data%20science/2015/09/20/ML-Notes-9.html</link>
+				<guid isPermaLink="true">/data%20science/2015/09/20/ML-Notes-9.html</guid>
+			</item>
+		
+			<item>
+				<title>Machine Learning Notes (8)</title>
+				<description>&lt;h2 id=&quot;k-means-algorithm&quot;&gt;K-Means algorithm&lt;/h2&gt;
+
+&lt;p&gt;Inputs :&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;K (number of clusters)&lt;/li&gt;
+  &lt;li&gt;Training set &lt;script type=&quot;math/tex&quot;&gt;{x^{(1)}, ... , x^{(m)}}&lt;/script&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Cost function :&lt;/p&gt;
+
+&lt;p&gt;\[J = \frac{1}{m}\sum_{i=1}^{m}|x^{(i)}-\mu_{c^{(i)}}|^2
+\]&lt;/p&gt;
+
+&lt;p&gt;We could repeat the following process for 50 - 1000 times and pick the clustering that gives the lowest cost.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Ramdomly initialize K cluster centroids &lt;script type=&quot;math/tex&quot;&gt;\mu_1, ... ,\mu_k&lt;/script&gt;&lt;br /&gt;
+Randomly pick K training examples&lt;br /&gt;
+Set &lt;script type=&quot;math/tex&quot;&gt;\mu_1, ... ,\mu_k&lt;/script&gt; equal to these examples&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Repeat&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Cluster assignment step&lt;br /&gt;
+ for i=1:m&lt;br /&gt;
+  &lt;script type=&quot;math/tex&quot;&gt;c_i&lt;/script&gt; = index of cluster centroid (1~K) closest to &lt;script type=&quot;math/tex&quot;&gt;x_i&lt;/script&gt;&lt;/li&gt;
+      &lt;li&gt;Move centroid&lt;br /&gt;
+ for k=1:K&lt;br /&gt;
+ &lt;script type=&quot;math/tex&quot;&gt;\mu_k&lt;/script&gt; = mean of points assigned to cluster k&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+</description>
+				<pubDate>Mon, 14 Sep 2015 00:00:00 +0200</pubDate>
+				<link>/data%20science/2015/09/14/ML-Notes-8.html</link>
+				<guid isPermaLink="true">/data%20science/2015/09/14/ML-Notes-8.html</guid>
+			</item>
+		
+			<item>
 				<title>Machine Learning Notes (7)</title>
 				<description>&lt;p&gt;Apart from the logistic regression, Support Vector Machine is another powerful algorithm for classification problems.&lt;/p&gt;
 
@@ -81,9 +187,9 @@ end
 y = 1 \quad if\ \theta^Tf\geq0
 \]&lt;/p&gt;
 </description>
-				<pubDate>Sun, 16 Aug 2015 00:00:00 +0200</pubDate>
-				<link>/data%20science/2015/08/16/ML-Notes-7.html</link>
-				<guid isPermaLink="true">/data%20science/2015/08/16/ML-Notes-7.html</guid>
+				<pubDate>Sat, 12 Sep 2015 00:00:00 +0200</pubDate>
+				<link>/data%20science/2015/09/12/ML-Notes-7.html</link>
+				<guid isPermaLink="true">/data%20science/2015/09/12/ML-Notes-7.html</guid>
 			</item>
 		
 			<item>
@@ -689,128 +795,6 @@ y^{(m)}
 				<pubDate>Tue, 14 Jul 2015 00:00:00 +0200</pubDate>
 				<link>/data%20science/2015/07/14/ML-Notes-3.html</link>
 				<guid isPermaLink="true">/data%20science/2015/07/14/ML-Notes-3.html</guid>
-			</item>
-		
-			<item>
-				<title>Machine Learning Notes (2)</title>
-				<description>&lt;p&gt;Having studied the univariable linear regression, we are going to extend the dimension from 1 to n. n is the number of the features that result in an output.&lt;/p&gt;
-
-&lt;h2 id=&quot;multiple-variables&quot;&gt;Multiple variables&lt;/h2&gt;
-&lt;p&gt;For a multivatiate linear regression, we take&lt;/p&gt;
-
-&lt;p&gt;\[x =  \begin{vmatrix}
-x_0 \\
-x_1 \\
-x_2 \\
-. \\
-. \\
-. \\
-x_n
-\end{vmatrix} \quad \text{where } x_0=1 \]&lt;/p&gt;
-
-&lt;p&gt;\[\theta^T =  \begin{vmatrix}
-\theta_0 &amp;amp;  \theta_1 &amp;amp; \theta_2 &amp;amp; … &amp;amp; \theta_n
-\end{vmatrix} \]&lt;/p&gt;
-
-&lt;p&gt;The hypothesis function is&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;h_{\theta}(x)=\theta^Tx&lt;/script&gt;
-
-&lt;p&gt;Given the cost function&lt;/p&gt;
-
-&lt;p&gt;\[ J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)}))^2 \]&lt;/p&gt;
-
-&lt;p&gt;we could deduce the gradient descent&lt;/p&gt;
-
-&lt;p&gt;\[
- \theta_j:=\theta_j-\alpha\frac{\partial J}{\partial \theta_j} = \theta_j-\alpha \frac{1}{m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})x_j^{(i)}) 
-\]&lt;/p&gt;
-
-&lt;h2 id=&quot;feature-scaling&quot;&gt;Feature scaling&lt;/h2&gt;
-&lt;p&gt;The goal of feature scaling is to make sure the features are on a similar scale. It could accelerate the convergence&lt;br /&gt;
-&lt;strong&gt;Mean normalization&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;\[
-  x_j:=\frac{x_j-\mu_j}{(max - min)}\quad \text{so} -0.5 \leq x_j \leq 0.5
-  \]&lt;/p&gt;
-
-&lt;h2 id=&quot;tricks-for-the-debugging&quot;&gt;Tricks for the debugging&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;To make sure the gradient descent working correctly, with an increasing number of iteration, the J should decrease&lt;/li&gt;
-  &lt;li&gt;Choose the learning rate 0.001 -&amp;gt; 0.003 -&amp;gt; 0.01 -&amp;gt; 0.03 -&amp;gt; 0.1 -&amp;gt; 0.3 -&amp;gt; 1&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Polynomial regression
-&lt;script type=&quot;math/tex&quot;&gt;h_{\theta}(x)=\theta_0+\theta_1x+\theta_2x^2=\theta_0+\theta_1x_1+\theta_2x_2&lt;/script&gt;
-In this case, the feature scale becomes more important.
-However, the square function will finally decrease with a great x. To avoid that, we could choose another model&lt;/p&gt;
-
-    &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_{\theta}(x)=\theta_0+\theta_1x+\theta_2\sqrt{x}&lt;/script&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-</description>
-				<pubDate>Tue, 14 Jul 2015 00:00:00 +0200</pubDate>
-				<link>/data%20science/2015/07/14/ML-Notes-2.html</link>
-				<guid isPermaLink="true">/data%20science/2015/07/14/ML-Notes-2.html</guid>
-			</item>
-		
-			<item>
-				<title>Machine Learning Notes (1)</title>
-				<description>&lt;p&gt;This is my personal note while watching the machine learning course on &lt;a href=&quot;https://www.coursera.org&quot; title=&quot;Coursera&quot;&gt;Coursera&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;introduction-of-machine-learning&quot;&gt;Introduction of Machine Learning&lt;/h2&gt;
-&lt;p&gt;The machine learning could be divided into 2 parts&lt;/p&gt;
-
-&lt;h3 id=&quot;supervised-learning&quot;&gt;Supervised Learning&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;Regression&lt;/li&gt;
-  &lt;li&gt;Classification (labeled)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;unsupervised-learning&quot;&gt;Unsupervised Learning&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;Clustering the data&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;univariable-linear-regression&quot;&gt;Univariable linear regression&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;Hypothesis function&lt;/p&gt;
-
-    &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_{\theta}(x)=\theta_0 + \theta_1 x&lt;/script&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Cost function&lt;br /&gt;
-The cost function for univariable linear regression is a &lt;a href=&quot;https://en.wikipedia.org/wiki/Convex_function&quot;&gt;convex function&lt;/a&gt; (or called bowl-shaped function). Therefore, it only has one global minimum point&lt;/p&gt;
-
-    &lt;p&gt;\[ J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)}))^2 \]&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Gradient descend&lt;br /&gt;
-&lt;script type=&quot;math/tex&quot;&gt;\alpha&lt;/script&gt; is the learning rate that can’t be too big or too small. A big rate could lead to a divergence instead of a convergence we expect. And a tiny rate would make the process too slow.&lt;/p&gt;
-
-    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\theta_j:=\theta_j-\alpha\frac{\partial J}{\partial \theta_j}&lt;/script&gt;
-
-    &lt;p&gt;Therefore we can conclude that&lt;/p&gt;
-
-    &lt;script type=&quot;math/tex; mode=display&quot;&gt;J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(\theta_0 + \theta_1 x^{(i)} -y^{(i)}))^2&lt;/script&gt;
-
-    &lt;p&gt;Deriving the function, we got&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;\[\begin{aligned}
-   \theta_0:=\theta_0-\alpha \frac{1}{m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})) \\
- \theta_1:=\theta_1-\alpha \frac{1}{m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})x^{(i)}) 
- \end{aligned} \]&lt;/p&gt;
-
-&lt;p&gt;m - the size of the training examples&lt;br /&gt;
-  x - input&lt;br /&gt;
-  y - output&lt;br /&gt;
-  This method is called &lt;strong&gt;Batch Gradient Descent&lt;/strong&gt; when we use all the training examples&lt;/p&gt;
-</description>
-				<pubDate>Sun, 12 Jul 2015 00:00:00 +0200</pubDate>
-				<link>/data%20science/2015/07/12/ML-Notes-1.html</link>
-				<guid isPermaLink="true">/data%20science/2015/07/12/ML-Notes-1.html</guid>
 			</item>
 		
 	</channel>

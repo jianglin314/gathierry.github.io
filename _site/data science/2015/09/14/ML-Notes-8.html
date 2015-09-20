@@ -2,9 +2,9 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Machine Learning Notes (6)</title>
+	<title>Machine Learning Notes (8)</title>
 	
-	<meta name="description" content="BP neural network">
+	<meta name="description" content="unsupervised learning / clustering / K-Means algorithm">
 	
 	<meta name="author" content="Shiyu">
 
@@ -152,7 +152,7 @@
 
 	<div class="col-sm-9 col-sm-offset-3">
 		<div class="page-header">
-  <h1>Machine Learning Notes (6) </h1>
+  <h1>Machine Learning Notes (8) </h1>
 </div>
 	
 <article>
@@ -160,113 +160,46 @@
 	<div class="col-sm-10">
 	 <span class="post-date">
 	   
-	   August 
-	   16th,
+	   September 
+	   14th,
 	   
 	   2015
 	 </span>
 	  <div class="article_body">
-	  <p>To solve a classification problem with neural network, we usually do these following steps:</p>
+	  <h2 id="k-means-algorithm">K-Means algorithm</h2>
 
-<h2 id="pick-a-network-architecture">1. Pick a network architecture</h2>
-<ul>
-  <li>Number of input units = dimension of features</li>
-  <li>Number of output units = number of classes</li>
-  <li>the number of hidden layer and hidden units depends</li>
-</ul>
-
-<h2 id="randomly-initialize-weights">2. Randomly initialize weights</h2>
-<p>Considering the bias unit, we add layer_in with 1. And we declare <script type="math/tex">\epsilon</script> so that all elements in W are in <script type="math/tex">[-\epsilon, \epsilon]</script></p>
-
-<pre><code>W = rand(layer_out, 1 + layer_in) * 2 * epsilon - epsilon;
-</code></pre>
-
-<h2 id="forward-propagation-to-compute-al">3. Forward propagation to compute <script type="math/tex">a^{(L)}</script></h2>
-
-<p>In a neural network model, 
-\[
-a^{(L)} = g((\theta^{(L-1)})^Ta^{(L-1)})
-\]
-where g is the <a href="https://en.wikipedia.org/wiki/Sigmoid_function">sigmoid function</a> and <script type="math/tex">a^{(L-1)}</script> contains a bias unit.</p>
-
-<h2 id="compute-the-cost-function-jtheta">4. Compute the cost function J(<script type="math/tex">\theta</script>)</h2>
-<p>The cost function of the neural network is :</p>
-
-<script type="math/tex; mode=display">J(\theta)=-\frac{1}{m}\sum^m_{i=1}\sum^K_{k=1}[y_k^{(i)}log(h_{\theta}(x^{(i)}))_k+(1-y_k^{(i)})log(1-(h_{\theta}(x^{(i)}))_k)] + \frac{\lambda}{2m}\sum_{l=1}^{L-1}\sum_{i=1}^{s_l}\sum_{j=1}^{s_{l+1}}(\theta_{ji}^{(l)})^2</script>
+<p>Inputs :</p>
 
 <ul>
-  <li>m is the number of training set</li>
-  <li>K is the number of units in the output layer</li>
-  <li><script type="math/tex">s_l</script> is the number of unit in layer <script type="math/tex">l</script></li>
-  <li>L is the total number of layers</li>
+  <li>K (number of clusters)</li>
+  <li>Training set <script type="math/tex">{x^{(1)}, ... , x^{(m)}}</script></li>
 </ul>
 
-<p>When <script type="math/tex">\lambda \neq 0</script>, the function is regularized. We take no account of the bias units for the regularization.</p>
+<p>Cost function :</p>
 
-<pre><code>hidden = sigmoid([ones(m, 1) X] * Theta1');
-h_theta = sigmoid([ones(m, 1) hidden] * Theta2');
-term1 = (-y_code)' * log(h_theta);
-term2 = (1-y_code)' * log(1-h_theta);
-J = 1/m * (sum(term1(:)) - sum(term2(:)));
+<p>\[J = \frac{1}{m}\sum_{i=1}^{m}|x^{(i)}-\mu_{c^{(i)}}|^2
+\]</p>
 
-reg_theta1 = Theta1(:, 2:end);
-reg_theta2 = Theta2(:, 2:end);
-reg_term = lambda / (2*m) * (reg_theta1(:)' * reg_theta1(:)...
-                       + reg_theta2(:)' * reg_theta2(:));
-J = J + reg_term;
-</code></pre>
+<p>We could repeat the following process for 50 - 1000 times and pick the clustering that gives the lowest cost.</p>
 
-<h2 id="back-propagation-to-compute-fracpartial-jthetapartial-thetaijl-">5. Back propagation to compute <script type="math/tex">\frac{\partial J(\theta)}{\partial \theta_{ij}^{(l)}}</script></h2>
-
-<h3 id="for-i--1-to-m">for i = 1 to m</h3>
-
-<ul>
+<ol>
   <li>
-    <p>First, get the values for all units</p>
-
-    <pre><code>  % code for m training set
-  a1 = [ones(m, 1), X];
-  z2 = a1 * Theta1';
-  a2 = [ones(m, 1), sigmoid(z2)];
-  z3 = a2 * Theta2';
-  a3 = sigmoid(z3);
-</code></pre>
+    <p>Ramdomly initialize K cluster centroids <script type="math/tex">\mu_1, ... ,\mu_k</script><br />
+Randomly pick K training examples<br />
+Set <script type="math/tex">\mu_1, ... ,\mu_k</script> equal to these examples</p>
   </li>
   <li>
-    <p>Second, define <script type="math/tex">\delta_j^{(l)}</script> error of node j in layer l.<br />
-For the output unit, <script type="math/tex">\delta^{(L)}=a^{(L)}-y</script><br />
-For l = (L-1), …, 2, <script type="math/tex">\delta^{(l)}=((\theta^{(l)})^T)\delta^{(l+1)}.*\underbrace{g'(z^{(l)})}_{a^{(l)}.*(1-a^{(l)})}</script></p>
-
-    <pre><code>  % code for m training set
-  delta3 = a3 - y_code;
-  delta2 = delta3 * Theta2(:, 2:end) .* sigmoidGradient(z2);
-</code></pre>
+    <p>Repeat</p>
+    <ul>
+      <li>Cluster assignment step<br />
+ for i=1:m<br />
+  <script type="math/tex">c_i</script> = index of cluster centroid (1~K) closest to <script type="math/tex">x_i</script></li>
+      <li>Move centroid<br />
+ for k=1:K<br />
+ <script type="math/tex">\mu_k</script> = mean of points assigned to cluster k</li>
+    </ul>
   </li>
-  <li>
-    <p>Third, suppose <script type="math/tex">\Delta^{(l)} = \Delta^{(l)}+\delta^{(l+1)}a^{(l)T}</script></p>
-
-    <pre><code>  % code for m training set
-  Delta1 = delta2' * a1;
-  Delta2 = delta3' * a2;
-</code></pre>
-  </li>
-  <li>
-    <p>Finally,</p>
-  </li>
-</ul>
-
-<script type="math/tex; mode=display">\frac{\partial J(\theta)}{\partial \theta_{ij}^{(l)}}=D_{ij}^{(l)}=\frac{1}{m}\Delta^{(l)}_{ij}+\lambda \theta_{ij}^{(l)} \quad j\neq0</script>
-
-<script type="math/tex; mode=display">\frac{\partial J(\theta)}{\partial \theta_{ij}^{(l)}}=D_{ij}^{(l)}=\frac{1}{m}\Delta^{(l)}_{ij} \quad j=0</script>
-
-<h2 id="gradient-checking">6. Gradient checking</h2>
-<p>To make sure that the back propagation didn’t go wrong, the method gradient checking is used.
-Suppose e=[0 0 … <script type="math/tex">\epsilon</script> … 0 0] that <script type="math/tex">\epsilon</script> is the <script type="math/tex">l^{th}</script> element.<br />
-If 
-<script type="math/tex">D^{(l)}\approx\frac{1}{2\epsilon}(J(\theta+e)-J(\theta-e))</script>, the propagation will work.</p>
-
-<h2 id="minimize-j">7. Minimize J</h2>
-<p>Since we have both the cost function and its partial derivatives, we can minimize J with gradient descent or other advanced optimization.</p>
+</ol>
 
 	  </div>
 
@@ -315,7 +248,7 @@ If
 		<div>
       <section class="share col-sm-6">
         <h4 class="section-title">Share Post</h4>
-        <a class="btn btn-default btn-sm twitter" href="http://twitter.com/share?text=Machine Learning Notes (6)"
+        <a class="btn btn-default btn-sm twitter" href="http://twitter.com/share?text=Machine Learning Notes (8)"
            onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
           <i class="fa fa-twitter fa-lg"></i>
           Twitter
@@ -342,10 +275,10 @@ If
     <div class="clearfix"></div>   
 		<ul class="pager">
 		  
-		  <li class="previous"><a href="/data%20science/2015/07/28/NumPy-Basic-2.html" title="NumPy Tutorial (2)">&larr; Previous</a></li>
+		  <li class="previous"><a href="/data%20science/2015/09/12/ML-Notes-7.html" title="Machine Learning Notes (7)">&larr; Previous</a></li>
 		  
 		  
-		  <li class="next"><a href="/data%20science/2015/09/12/ML-Notes-7.html" title="Machine Learning Notes (7)">Next &rarr;</a></li>
+		  <li class="next"><a href="/data%20science/2015/09/20/ML-Notes-9.html" title="Machine Learning Notes (9)">Next &rarr;</a></li>
 		  
 		</ul>
 

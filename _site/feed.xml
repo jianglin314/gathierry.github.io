@@ -7,6 +7,36 @@
 		<atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>Machine Learning Notes (10)</title>
+				<description>&lt;p&gt;To solve an anomaly detection problem with a training set &lt;script type=&quot;math/tex&quot;&gt;\{x^{(1)}, ..., x^{(m)}\in \mathbb{R}^n \}&lt;/script&gt;, we assume that&lt;/p&gt;
+
+&lt;p&gt;\[
+x_1 \sim N(\mu_1, \sigma_1^2) \\
+… \\
+x_n \sim N(\mu_n, \sigma_n^2)
+\]&lt;/p&gt;
+
+&lt;p&gt;in which&lt;/p&gt;
+
+&lt;p&gt;\[
+\mu_j = \frac{1}{m}\sum_{i=1}^{m}x_j^{(i)} \\
+\sigma_j^2 = \frac{1}{m}\sum_{i=1}^{m}(x_j^{(i)}-\mu_j)^2
+\]&lt;/p&gt;
+
+&lt;p&gt;To predict a new data x, compute&lt;/p&gt;
+
+&lt;p&gt;\[p(x) = \prod_{j=1}^n \frac{1}{\sqrt{2\pi}\sigma_j}exp(-\frac{(x_j-\mu_j)^2}{2\sigma_j^2})
+\]&lt;/p&gt;
+
+&lt;p&gt;if &lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+p(x) &lt; \epsilon %]]&gt;&lt;/script&gt;, the data is anomaly.&lt;/p&gt;
+</description>
+				<pubDate>Mon, 21 Sep 2015 00:00:00 +0200</pubDate>
+				<link>/data%20science/2015/09/21/ML-Notes-10.html</link>
+				<guid isPermaLink="true">/data%20science/2015/09/21/ML-Notes-10.html</guid>
+			</item>
+		
+			<item>
 				<title>Machine Learning Notes (9)</title>
 				<description>&lt;p&gt;&lt;strong&gt;Dimensionality reduction&lt;/strong&gt; is used to economise the memory / disk space, speed up learning algorithms and visualize high-dimensional data. However, it is not used to avoid overfitting.&lt;/p&gt;
 
@@ -43,7 +73,7 @@
       &lt;li&gt;
         &lt;p&gt;Compute “eigenvector” of &lt;script type=&quot;math/tex&quot;&gt;\Sigma&lt;/script&gt;&lt;/p&gt;
 
-        &lt;pre&gt;&lt;code&gt;      [U, S, V] = svd(Sigma);
+        &lt;pre&gt;&lt;code&gt;    [U, S, V] = svd(Sigma);
 &lt;/code&gt;&lt;/pre&gt;
 
         &lt;p&gt;\[
@@ -718,83 +748,6 @@ array([[1, 7],
 				<pubDate>Wed, 15 Jul 2015 00:00:00 +0200</pubDate>
 				<link>/web%20development/2015/07/15/Tomcat+Intellj+OpenShift.html</link>
 				<guid isPermaLink="true">/web%20development/2015/07/15/Tomcat+Intellj+OpenShift.html</guid>
-			</item>
-		
-			<item>
-				<title>Machine Learning Notes (3)</title>
-				<description>&lt;h2 id=&quot;normal-equation&quot;&gt;Normal equation&lt;/h2&gt;
-&lt;p&gt;Apart from the gradient descent, normal equation is another method to find the minimum J analytically. From the last part, we know the cost function and the input x for one example of n features&lt;/p&gt;
-
-&lt;p&gt;\[ J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)}))^2 \]&lt;/p&gt;
-
-&lt;p&gt;\[x^{(i)} =  \begin{vmatrix}
-x^{(i)}_0 \\
-x^{(i)}_1 \\
-x^{(i)}_2 \\
-. \\
-. \\
-. \\
-x^{(i)}_n
-\end{vmatrix} \quad \text{where } x_0=1 \]&lt;/p&gt;
-
-&lt;p&gt;Then we got a &lt;strong&gt;design matrix&lt;/strong&gt; that is an m by (n+1) dimensional matrix&lt;/p&gt;
-
-&lt;p&gt;\[X =  \begin{vmatrix}
-… &amp;amp; ^tx^{(1)} &amp;amp; … \\
-… &amp;amp; ^tx^{(2)} &amp;amp; … \\
-… &amp;amp; ^tx^{(3)} &amp;amp; … \\
-&amp;amp;. \\
-&amp;amp;. \\
-&amp;amp;. \\
-… &amp;amp; ^tx^{(m)} &amp;amp; … 
-\end{vmatrix} \]&lt;/p&gt;
-
-&lt;p&gt;Whereas y is a vector of dimension m&lt;/p&gt;
-
-&lt;p&gt;\[y =  \begin{vmatrix}
-y^{(1)} \\
-y^{(2)} \\
-y^{(3)} \\
-. \\
-. \\
-. \\
-y^{(m)}
-\end{vmatrix} \]&lt;/p&gt;
-
-&lt;p&gt;To minimize the cost function, we calculate the &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt; from&lt;/p&gt;
-
-&lt;p&gt;\[
-\boxed{\theta=(X^TX)^{-1}X^Ty}
-\]&lt;/p&gt;
-
-&lt;h3 id=&quot;characteristics&quot;&gt;Characteristics&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;Advantages
-    &lt;ul&gt;
-      &lt;li&gt;no need to do the feature scaling&lt;/li&gt;
-      &lt;li&gt;no need to choose the learning rate&lt;/li&gt;
-      &lt;li&gt;no need to iterate&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Disadvantage
-    &lt;ul&gt;
-      &lt;li&gt;The calculation of the &lt;script type=&quot;math/tex&quot;&gt;(X^TX)^{-1}&lt;/script&gt; could be very slow if n is large (&amp;gt;10000) since the complexity for a matrix n by n is &lt;script type=&quot;math/tex&quot;&gt;O(n^3)&lt;/script&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;If &lt;script type=&quot;math/tex&quot;&gt;(X^TX)&lt;/script&gt; is non-invertible (singular / degenerate), it could be caused by 2 reasons:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Redundant feature, which leads to linear dependences&lt;/li&gt;
-  &lt;li&gt;Too many features (&lt;script type=&quot;math/tex&quot;&gt;m \leq n&lt;/script&gt;)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;In the second case, we can delete some features or use the &lt;strong&gt;regularization&lt;/strong&gt; that we’ll talk about later.&lt;/p&gt;
-</description>
-				<pubDate>Tue, 14 Jul 2015 00:00:00 +0200</pubDate>
-				<link>/data%20science/2015/07/14/ML-Notes-3.html</link>
-				<guid isPermaLink="true">/data%20science/2015/07/14/ML-Notes-3.html</guid>
 			</item>
 		
 	</channel>

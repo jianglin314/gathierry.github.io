@@ -39,7 +39,7 @@ This appoach need to sort the integer array at first so that the time complexity
             return curr
 
 ### Second approach
-To make the algorithm run in O(n) time and uses constant space, we got a second approach
+To make the algorithm run in O(n) time and uses constant space, we got a second approach. We put the interger $$i$$ at the $$i^{th}$$ position of the array and then find the first value in the array that doesn't equal to its index.
 
     class Solution:
         # @param A, a list of integers

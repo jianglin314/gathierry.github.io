@@ -22,21 +22,21 @@ For questions with integer arrays, we have to consider 2 special cases:
 ### First approach
 This appoach need to sort the integer array at first so that the time complexity is $$O(nlogn)$$
 
-	class Solution:
-		# @param A, a list of integers
-		# @return an integer
-		def firstMissingPositive(self, A):
-			A.sort()
-			curr = 1
-		for ele in A:
-			if ele >= 0:
-				if ele == curr:
-					curr = curr + 1
-				elif ele < curr:
-					continue
-				else:
-					return curr
-		return curr
+    class Solution:
+        # @param A, a list of integers
+        # @return an integer
+        def firstMissingPositive(self, A):
+            A.sort()
+            curr = 1
+            for ele in A:
+                if ele >= 0:
+                    if ele == curr:
+                        curr = curr + 1
+                    elif ele < curr:
+                        continue
+                    else:
+                        return curr
+            return curr
 
 ### Second approach
 To make the algorithm run in O(n) time and uses constant space, we got a second approach
@@ -45,19 +45,19 @@ To make the algorithm run in O(n) time and uses constant space, we got a second 
         # @param A, a list of integers
         # @return an integer
         def firstMissingPositive(self, A):
-        idx = 0
-        while idx != len(A):
-            ele = A[idx]
-            if ele > 0 and ele < len(A):
-                # ignore repeated element 
-                if ele != A[ele - 1]:
-                    A[idx] = A[ele - 1]
-                    A[ele - 1] = ele
-                    # the element swapped back should still be considered
-                    if idx != ele - 1:
-                        idx = idx - 1
-            idx = idx + 1
-        for idx in range(0, len(A)):
-            if idx != A[idx] - 1:
-                return idx+1
-        return len(A)+1
+            idx = 0
+            while idx != len(A):
+                ele = A[idx]
+                if ele > 0 and ele < len(A):
+                    # ignore repeated element 
+                    if ele != A[ele - 1]:
+                        A[idx] = A[ele - 1]
+                        A[ele - 1] = ele
+                        # the element swapped back should still be considered
+                        if idx != ele - 1:
+                            idx = idx - 1
+                idx = idx + 1
+            for idx in range(0, len(A)):
+                if idx != A[idx] - 1:
+                    return idx+1
+            return len(A)+1

@@ -2,7 +2,7 @@
 layout: post
 title: First Missing Positive
 categories: [Algorithm]
-tags: [lintcode]
+tags: [lintcode, array]
 description: Given an unsorted integer array, find the first missing positive integer.
 ---
 

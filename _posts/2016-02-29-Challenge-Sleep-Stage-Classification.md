@@ -3,9 +3,10 @@ layout: post
 title: Challenge - Sleep Stage Classification
 categories: [Data science]
 tags: [machine learning, signal processing]
-description: How to predict the sleep stage using electro-encephalogram (EEG) and accelerometer ?
+description: How to predict the sleep stage using electro-encephalogram (EEG) and accelerometer?
 ---
 (challenge site : https://challengedata.ens.fr/en/challenge/1/sleep\_stages\_classification.html)
+
 ## Challenge context
 According to the American Agency of Sleep Medicine, there exists 5 sleep stages, called Wake, N1, N2, N3 and REM.
 
@@ -18,6 +19,7 @@ Brain in general and sleep in particular involve complex processes.
 The goal of this challenge is to be able to predict accurately sleep stages according to 15 seconds of EEG and accelerometer signals.
 
 ## Data description
+
 ### Input
 The training dataset is composed of 31129 windows of 15 seconds of nights. The first row will give you the headers, and the first column corresponds to IDs of the windows. Each points is in dimension 4203, distributed this way :
 
@@ -39,6 +41,7 @@ The training labels correspond to the 5 acknowledged sleep stages (all integers)
 - 4 : REM, for "Rapid eye movement", also said "paradoxical sleep". This is the stage when dreams occure
 
 ## Our approach
+
 ### Pre-processing
 Given signal time series as input, we should first of all pre-process the signal and extract features. 
 

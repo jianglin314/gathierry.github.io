@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Challenge - Sleep Stage Classification
-categories: [Data science]
+categories: [data science]
 tags: [machine learning, signal processing]
 description: How to predict the sleep stage using electro-encephalogram (EEG) and accelerometer?
 ---

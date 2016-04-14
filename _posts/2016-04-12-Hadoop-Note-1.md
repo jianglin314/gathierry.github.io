@@ -122,7 +122,7 @@ Hadoop是一个Java的开源项目，所以需要计算机上有Java环境。通
 
     $hdfs dfs -cat output/part-r-00000
     
-文件系统可以通过```http://localhost:50070/explorer.html#/```查看。
+文件系统可以通过[http://localhost:50070/explorer.html#/](http://localhost:50070/explorer.html#/)查看。
 
 删除刚才生成的文件:
 

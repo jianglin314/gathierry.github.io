@@ -76,7 +76,7 @@ description: 继上一篇文章，这一次我们在本地Hadoop上实现一个�
 
 然后通过streaming，在Hadoop上执行python脚本：
 
-    $jar /usr/local/Cellar/hadoop/2.7.2/libexec/share/hadoop/tools/lib/hadoop-streaming-2.7.2.jar -input mrmean-i -output mrmean-o -file mrMeanMapper.py mrMeanReducer.py -mapper "python mrMeanMapper.py" -reducer "python mrMeanReducer.py"
+    $hadoop jar /usr/local/Cellar/hadoop/2.7.2/libexec/share/hadoop/tools/lib/hadoop-streaming-2.7.2.jar -input mrmean-i -output mrmean-o -file mrMeanMapper.py mrMeanReducer.py -mapper "python mrMeanMapper.py" -reducer "python mrMeanReducer.py"
     
 这里要注意选项file不能少，输出文件在自动生成的文件夹*mrmean-o*中。通过以下命令可以查看和下载：
 

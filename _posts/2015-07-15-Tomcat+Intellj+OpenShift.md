@@ -5,11 +5,14 @@ categories: [web development]
 tags: [web, Java, cloud]
 description: 本文简单介绍了不借助Eclipse或IntelliJ专业版的情况下,以Tomcat为框架进行网络开发的配置方法，以及在Openshift平台的一种部署方法。
 ---
-###开发环境：
+
+### 开发环境：
+
 - IntelliJ IDEA CE 14
 - Apache Tomcat 8.0.18
 
-###项目目录
+### 项目目录
+
 		Spage(Projet)
 		├─src
 		│ └─java
@@ -26,7 +29,8 @@ description: 本文简单介绍了不借助Eclipse或IntelliJ专业版的情况�
 		  ├─view
 		  └─image
    
-###开发流程
+### 开发流程
+
 - 设置Java class文件输出目录。右键Module，Open module Settings，paths，将output path设为WEB-INF下的classes文件夹 **注意，实在Module的Path选项卡里修改output path**
 - 将jsp-api-2.1.jar, servlet-api-2.5.jar拷贝到webRoot下。打包时需要的jar包放到lib目录。
 - 右键Module，Open module Settings，Dependencies，+号引入刚刚拷贝进来的jar文件（和lib目录）
@@ -73,7 +77,8 @@ description: 本文简单介绍了不借助Eclipse或IntelliJ专业版的情况�
 - 浏览器localhost:8080/hello中可以看到index.html的内容  
   浏览器localhost:8080/hello/test中可以触发test.java的内容  
   
-###Openshift部署
+### Openshift部署
+
 1. 添加应用
 2. checkout到本地
 3. 配置pom.xml文件

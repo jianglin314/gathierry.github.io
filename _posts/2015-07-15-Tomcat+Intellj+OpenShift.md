@@ -10,21 +10,21 @@ description: 本文简单介绍了不借助Eclipse或IntelliJ专业版的情况�
 - Apache Tomcat 8.0.18
 
 ###项目目录
-	Spage(Projet)
-	├─src
-	│ └─java
-	├─lib
-	├─doc
-	└─webRoot 
-	  ├─WEB-INF
-	  │ ├─classes
-	  │ ├─lib
-	  │ └─web.xml
-	  ├─dist （jar、war的存放路径）
-	  ├─css
-	  ├─js
-	  ├─view
-	  └─image
+		Spage(Projet)
+		├─src
+		│ └─java
+		├─lib
+		├─doc
+		└─webRoot 
+		  ├─WEB-INF
+		  │ ├─classes
+		  │ ├─lib
+		  │ └─web.xml
+		  ├─dist （jar、war的存放路径）
+		  ├─css
+		  ├─js
+		  ├─view
+		  └─image
    
 ###开发流程
 - 设置Java class文件输出目录。右键Module，Open module Settings，paths，将output path设为WEB-INF下的classes文件夹 **注意，实在Module的Path选项卡里修改output path**

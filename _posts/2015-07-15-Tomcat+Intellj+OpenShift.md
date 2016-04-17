@@ -13,21 +13,21 @@ description: 本文简单介绍了不借助Eclipse或IntelliJ专业版的情况�
 
 ### 项目目录
 
-		Spage(Projet)
-		├─src
-		│ └─java
-		├─lib
-		├─doc
-		└─webRoot 
-		  ├─WEB-INF
-		  │ ├─classes
-		  │ ├─lib
-		  │ └─web.xml
-		  ├─dist （jar、war的存放路径）
-		  ├─css
-		  ├─js
-		  ├─view
-		  └─image
+	Spage(Projet)
+	├─src
+	│ └─java
+	├─lib
+	├─doc
+	└─webRoot 
+	  ├─WEB-INF
+	  │ ├─classes
+	  │ ├─lib
+	  │ └─web.xml
+	  ├─dist （jar、war的存放路径）
+	  ├─css
+	  ├─js
+	  ├─view
+	  └─image
    
 ### 开发流程
 

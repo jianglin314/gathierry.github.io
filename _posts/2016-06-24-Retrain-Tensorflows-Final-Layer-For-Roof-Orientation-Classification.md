@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Retrain Tensorflow's final layer 用于卫星图的屋顶朝向识别
+title: Retrain Tensorflow's final layer 用于建筑物卫星图的屋顶朝向识别
 categories: [data science]
 tags: [machine learning, deep learning, tensorflow, DSG2016, computer vision]
 description: 题目出自于Data Science Game 2016 初赛，本文简要记录了使用Tensorflow Inception V3的过程。
@@ -14,12 +14,12 @@ description: 题目出自于Data Science Game 2016 初赛，本文简要记录�
 首先要clone github上的[tensorflow项目](https://github.com/tensorflow/tensorflow)。同时安装[bazel](http://www.bazel.io)。
 
 ## 训练Inception V3
-这里我们事实上只训练了Inception网络的最后一层。Inception原本是用于识别图片中物体种类ImageNet，有1000个输出分别代表1000个种类。而这里我们只需要4个输出，所以要对最后一层进行那个改动。
+这里我们事实上只训练了Inception网络的最后一层。Inception原本是用于识别图片中物体种类ImageNet，有1000个输出分别代表1000个种类。而这里我们只需要4个输出，所以要对最后一层进行改动。
 
 以下操作都在tensorflow的根目录下执行。
 
 如果是第一次使用，需要先```./configure```一下。
-之后build retrain工具。目前大多数CPU都支持AVX指令集，通过如下命令编译速度更快
+之后build retrain工具。目前大多数CPU都支持AVX指令集，通过如下命令构建速度更快
 	
 	bazel build -c opt --copt=-mavx tensorflow/examples/image_retraining:retrain
 	
@@ -42,6 +42,8 @@ description: 题目出自于Data Science Game 2016 初赛，本文简要记录�
 	- class4
 		- img41
 		- img42
+
+不同种类的图片保存在不同文件夹下。
 	
 ## 预测分类
 	

@@ -12,6 +12,7 @@ MapReduce是一个分布式计算的软件框架。它将单个作业分成小�
 Hadoop是MapReduce框架的一个开源实现。除了分布式计算之外，Hadoop也自带分布式文件系统——[HDFS](https://hadoop.apache.org/docs/r1.2.1/hdfs_design.html)，由一个Namenode和多个Datanode组成。
 
 ## 在OSX El Capitan上的安装与配置Hadoop 2.7.2
+
 ### 使用homebrew安装Hadoop
 在终端中输入```brew insall hadoop```命令   
 Hadoop会被自动安装在```/usr/local/Cellar/hadoop/2.7.2```目录下

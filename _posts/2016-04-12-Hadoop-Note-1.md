@@ -14,7 +14,7 @@ Hadoop是MapReduce框架的一个开源实现。除了分布式计算之外，Ha
 ## 在OSX El Capitan上的安装与配置Hadoop 2.7.2
 
 ### 使用homebrew安装Hadoop
-在终端中输入```brew insall hadoop```命令   
+在终端中输入```brew install hadoop```命令   
 Hadoop会被自动安装在```/usr/local/Cellar/hadoop/2.7.2```目录下
 
 ### 配置Java

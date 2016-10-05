@@ -135,7 +135,8 @@ Hadoop是一个Java的开源项目，所以需要计算机上有Java环境。通
 至此我们完成了Hadoop的安装和配置，并且运行了一个小例子。后面的文章中会记录一些在本地Hadoop上进行的数据挖掘方面的实验。
 
 
-*参考：  
-http://hustlijian.github.io/tutorial/2015/06/19/Hadoop入门使用.html  
-http://zhongyaonan.com/hadoop-tutorial/setting-up-hadoop-2-6-on-mac-osx-yosemite.html  
-机器学习实战 by Peter Harrington*
+*参考资料：*  
+
+- http://hustlijian.github.io/tutorial/2015/06/19/Hadoop入门使用.html  
+- http://zhongyaonan.com/hadoop-tutorial/setting-up-hadoop-2-6-on-mac-osx-yosemite.html  
+- 机器学习实战 by Peter Harrington

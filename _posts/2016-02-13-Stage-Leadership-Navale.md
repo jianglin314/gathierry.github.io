@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 布雷斯特海军学院领导力训练
-categories: [Experience]
+categories: [Miscellaneous]
 tags: [leadership]
 description: 2016年2月9日至12日，作为Supelec三年级课程的一部分，我们来到法国海军学院，参加为期4天的领导力培训。
 ---

@@ -215,13 +215,16 @@ END FUNCTION 函数名
 ## 6.2.5 过程接口
 
 - INTERFACE
+
 ```
 INTERFACE [类属说明]
     [接口体]…(只包括说明部分)
     [模块过程语句]…（MODULE PROCEDURE 过程名表）
 END INTERFACE [类属说明]
 ```
+
 Eg.
+
 ```
 INTERFACE
     SUBROUTINE EXT1(X,Y,Z)
@@ -242,9 +245,11 @@ END INTERFACE
 ```
 
 # 6.3 模块
+
 ## 6.3.2 模块的用法
 
 - 定义模块
+
 ```
 MODULE 模块名
     类型说明部分
@@ -254,6 +259,7 @@ MODULE 模块名
         [内部过程]]
 END MODULE [模块名]
 ```
+
 **其中只有说明部分，没有执行部分**
 
 - 引用模块
@@ -267,6 +273,7 @@ ONLY只取模块中的一部分变量与本程序共享
 - 过程共享
 把一些过程放在一个模块中统一说明，通过USE MODULE PROCEDURE 调用
 Eg.
+
 ```
 PROGRAM CHANGE_KIND
     USE Module1
@@ -276,6 +283,7 @@ PROGRAM CHANGE_KIND
 ...
 END PROGRAM
 ```
+
 ```
 MODULE Module1
     CONTAINS
@@ -289,6 +297,7 @@ MODULE Module1
         END FUNCTION
 END MODULE
 ```
+
 - 公共派生类型
 可用来封装一些派生类型，供其它程序单元公用
 

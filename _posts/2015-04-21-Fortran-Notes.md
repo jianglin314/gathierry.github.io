@@ -143,11 +143,13 @@ STUDENT_TYPE(n, class1, "Ming", "ming@me.com", scores1)
 student1%class
 
 # 5.1 数组类型与定义
+
 ## 5.1.1 定义数组
 REAL a(x, y, z)  rank=3，size=xyz，shape=(x, y, z)
 下界缺省值为1
 
 # 5.2 数组赋值与运算
+
 ## 5.2.2 运算
 - 基本：+,-,*./,**
 - 函数：
@@ -158,6 +160,7 @@ REAL a(x, y, z)  rank=3，size=xyz，shape=(x, y, z)
     - TRANSPOSE
 
 # 6.1 程序单元结构
+
 ## 6.1.2 主程序
 ```
 PROGRAM 程序名

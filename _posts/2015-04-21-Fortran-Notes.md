@@ -3,7 +3,7 @@ layout: post
 title: Fortran Notes
 categories: [Miscellaneous]
 tags: [fortran]
-description: 
+description: Fotran学习笔记，参考自http://micro.ustc.edu.cn/Fortran/ZJDing/
 ---
 # 1.3 Fortran程序的基本组成
 

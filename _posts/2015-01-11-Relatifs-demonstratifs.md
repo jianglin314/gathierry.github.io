@@ -2,7 +2,7 @@
 layout: post
 title: Relatifs et démonstratifs
 categories: [French]
-tags: [mathematics]
+tags: []
 description: 
 ---
 

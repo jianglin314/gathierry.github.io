@@ -6,8 +6,11 @@ tags: [fortran]
 description: 
 ---
 # 1.3 Fortran程序的基本组成
+
 ## 1.3.3 程序组成
+
 ### 程序单位
+
 - PROGRAM
 - SUBROUTINE/FUNCTION/BLOCK DATA/MODULE
 MODULE通过USE与主程序相联系
@@ -15,6 +18,7 @@ BLOCK DATA不推荐使用，功能被MODULE，USE取代
 - CONTAINS
 
 ### 程序体和语句顺序
+
 1. 单位起始语句：PROGRAM(整个程序唯一), FUNCTION, SUBROUTINE, MODULE
 2. USE
 3. 说明部分：PARAMETER & DATA - 定义：派生类型，接口快，变量类型，语句函数
@@ -24,7 +28,9 @@ BLOCK DATA不推荐使用，功能被MODULE，USE取代
 7. END
 
 # 2.3 选择结构
+
 ## 2.3.1 IF构造
+
 ```
 IF (...) THEN
     ...
@@ -34,7 +40,9 @@ ELSE
     ...
 END IF
 ```
+
 ## 2.3.2 CASE构造
+
 ```
 SELECT CASE (...)
     CASE (...)
@@ -45,48 +53,63 @@ SELECT CASE (...)
         ...
 END SELECT
 ```
+
 - 整型：CASE (值1，值2) / (下界 :)  / ( : 上界) / (下界 : 上界)
 - 字符型：CASE (字符)
 - 逻辑型：CASE (.TRUE.) / (.FALSE.)
 
 # 3.1 单纯循环
+
 ## 3.1.2 有变量DO构造
+
 ```
 DO 循环变量=初值，终值（, 步长）
 END DO
 ```
+
 - 隐DO循环
 I=m1,m2,m3形式。它不是独立语句，只是用作为读写语句的输入输出表中一个组成部分，用来控制重复读写的次数
 
 # 3.2 条件循环
+
 ## 3.2.1 无变量DO构造
+
 - EXIT [DO构造名] = break
 - CYCLE [DO构造名] = continue
 
 ## 3.2.2 DO WHILE构造
+
 ```
 DO WHILE (...)
 END DO
 ```
 
 # 4.1 数据类型和属性
+
 *类型 (种别)( ,属性说明表) :: 变量名表(=初值)* 
+
 Eg: 
 ```REAL(KIND=2), DIMENSION(1:10):: X,Y```
+
 ## 4.1.1 类型，赋值
 *DATA 变量名表/初值表/*
 
 ## 4.1.2 种别
+
 种别值确定了数据的大小范围和精度 
+
 - 种别值：KIND=k
 - 种别函数：KIND(X), SELECTED_REAL_KIND(n, m) ...
 
 ## 4.1.3 属性
+
 - PARAMETER = final
 - DIMENSION （详见数组部分）
 
 # 4.2 非数值型数据
+
 ## 4.2.2 字符型数据
+
 - CHARACTER(LEN = 整型字符长度表达式, KIND = 种别值)(, 属性说明) :: 变量名表(=初始值)
 - Substring : A(start:end)
 - 拼接字符：str1//str2
@@ -104,6 +127,7 @@ TYPE[,访问属性说明(PUBLIC/PRIVATE)::] 派生类型名
 成员n类型说明
 END TYPE [派生类型名]
 Eg：
+
 ```
 TYPE STUDENT_TYPE
     INTEGER(4) :: number
@@ -112,6 +136,7 @@ TYPE STUDENT_TYPE
     TYPE(SCORES_TYPE) :: scores
 END TYPE STUDENT_TYPE
 ```
+
 - 初始化
 STUDENT_TYPE(n, class1, "Ming", "ming@me.com", scores1)
 - 访问属性 %
@@ -144,6 +169,7 @@ END PROGRAM 程序名
 ```
 
 ## 6.1.3 过程
+
 - 外部过程
     - FUNCTION
     ```
@@ -167,7 +193,9 @@ END PROGRAM 程序名
 同上但不再含有CONTAINS部分
 
 # 6.2 过程
+
 ##6.2.2 外部过程
+
 - 子程序 SUBROUTINE
     ```
     SUBROUTINE 子程序名(PARA1, PARA2, ...)
@@ -185,6 +213,7 @@ END FUNCTION 函数名
 ```函数名(PARA1, PARA2, ...)```调用
 
 ## 6.2.5 过程接口
+
 - INTERFACE
 ```
 INTERFACE [类属说明]
@@ -214,6 +243,7 @@ END INTERFACE
 
 # 6.3 模块
 ## 6.3.2 模块的用法
+
 - 定义模块
 ```
 MODULE 模块名

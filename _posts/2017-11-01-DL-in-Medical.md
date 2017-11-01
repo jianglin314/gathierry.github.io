@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Summary of deep Learning in Medical Imaging Application
+title: Summary of Deep Learning in Medical Imaging Application
 categories: [data science]
 tags: [computer vision, deep learning, medical image]
 description: 

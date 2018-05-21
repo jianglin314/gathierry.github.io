@@ -61,4 +61,4 @@ D_{KL}(P||Q)=\mathbb{E}_{x \sim P}[\log{P(x)} - \log{Q(x)}]
 \\[
 H(P,Q)=H(P)+D_{KL}(P||Q)=\mathbb{E}_{x \sim P}[\log{P(x)}] + D_{KL}(P||Q) = -\mathbb{E}_{x \sim P}[\log{Q(x)}]
 \\]
-深度学习里的 Cross entropy loss 中 Q 表示预测值，P 表示真实值，Cross entropy 与 KL 散度相差一个常数。
+- 深度学习里的 Cross entropy loss 中 Q 表示预测值，P 表示真实值，Cross entropy 与 KL 散度相差一个常数。

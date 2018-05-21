@@ -3,7 +3,7 @@ layout: post
 title: Deep Learning读书笔记 -- 第二章 线性代数
 categories: [data science]
 tags: [deep learning]
-description: 
+description: 范数、特征分解和奇异值分解
 ---
 
 ## 范数
@@ -20,6 +20,13 @@ description:
 - $$L^\infty$$范数，也叫**最大范数**，表示向量中具有最大幅值元素的绝对值  
 - Frobenius范数，用来衡量矩阵大小
 \\[||\boldsymbol{A_F}||=\sqrt{\sum_{i,j}A^2_{i,j}}\\]
+
+## 特征分解
+每个实对称矩阵都可以分解成实特征向量和实特征值:
+
+$$ A=Q\Lambda Q^T $$
+
+Q是正交矩阵
 
 ## 奇异值分解（SVD）
 $$ A=UDV^T $$

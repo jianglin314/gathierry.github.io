@@ -58,7 +58,7 @@ D_{KL}(P||Q)=\mathbb{E}_{x \sim P}[\log{P(x)} - \log{Q(x)}]
 - KL 散度有很多有用的性质，最重要的是它是非负的。KL 散度为 0 当且仅当 P 和 Q 在离散型变量的情况下是相同的分布，或者在连续型变量的情况下是“几乎处处”相同的。  
 它并不是真的距离因为它不是对称的。$$D_{KL}(P||Q)\neq D_{KL}(Q||P)$$  
 - 一个和 KL 散度密切联系的量是交叉熵
-$$
+\\[
 H(P,Q)=H(P)+D_{KL}(P||Q)=\mathbb{E}_{x \sim P}[\log{P(x)}] + D_{KL}(P||Q) = -\mathbb{E}_{x \sim P}[\log{Q(x)}]
-$$
+\\]
 深度学习里的 Cross entropy loss 中 Q 表示预测值，P 表示真实值，Cross entropy 与 KL 散度相差一个常数。

@@ -41,7 +41,7 @@ $$||\boldsymbol{x}||_p=(\sum_i|x_i|^p)^{\frac{1}{p}}$$ 其中 $$p\in\mathbb{R}$$
 \\[
 \zeta(x)=\log(1+\exp(x))
 \\]
-<img src="/images/2018-05-21-Anwsers-for-DL-Interview/softplus.png" width="400px"/>
+<img src="/images/2018-05-21-Anwsers-for-DL-Interview-1/softplus.png" width="400px"/>
 
 #### Q5. Jacobian，Hessian 矩阵及其在深度学习中的重要性
 仅使用梯度信息的优化算法被称为一阶优化算法，如梯度下降。使用 Hessian 矩阵的优化算法被称为二阶最优化算法，如牛顿法。

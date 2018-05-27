@@ -60,13 +60,13 @@ w = (H+\alpha I)^{-1}Hw^*
 $$
 当 $$\alpha$$ 趋于 0 时，$$w$$ 会趋向 $$w^*$$。
 将 $$H$$ 分解成对角矩阵 $$\Lambda$$ 和一组特征向量的标准正交基 $$Q$$，上式化为
-\\[
+$$
 \begin{align}
 w & = (Q\Lambda Q^\top + \alpha I)^{-1}Q \Lambda Q^\top w^* \\
   & = (Q(\Lambda+\alpha I)Q^\top)^{-1}Q\Lambda Q^\top w^* \\
   & = Q(\Lambda+\alpha I))^{-1}\Lambda Q^\top w^*
 \end{align}
-\\]
+$$
 随着 $$\alpha$$ 增加，我们会根据 $$\frac{\lambda_i}{\lambda_i+\alpha}$$ 因子缩放与 H 第 i 个特征向量对齐的 $$w^*$$ 的分量。沿着特征值较大的方向（$$\lambda_i >> \alpha$$）正则化的影响较小。而 $$\lambda_i << \alpha$$ 的分量将会收缩到几乎为零。
 <img src="/images/2018-05-27-Anwsers-for-DL-Interview-3/wdecay.png" width="400px"/>
 

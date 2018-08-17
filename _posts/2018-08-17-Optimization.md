@@ -3,7 +3,7 @@ layout: post
 title: 最优化理论笔记
 categories: [data science]
 tags: [data analysis, machine learning]
-description: 这部分内容包括了最优化的形式，KTT条件，拉格朗日蒜子算子及其对偶形式
+description: 这部分内容包括了最优化的形式，KTT条件，拉格朗日算子及其对偶形式
 ---
 
 最优化问题都可以表达成以下形式：
@@ -17,10 +17,12 @@ h_k(x) & =0 \quad (k=1,2,...,l)
 当 $$f(x), g_j(x)$$ 是凸函数，$$h_k(x)$$ 是仿射函数时，优化问题是**凸优化问题**。
 
 - 等式约束优化  
-  可以构建拉格朗日方程  
+  可以构建拉格朗日方程
+  
   $$L(x, \lambda)=f(x)+\sum_{k=1}^l \lambda_k h_k(x)$$
   
-  通过计算  
+  通过计算
+  
   $$\begin{cases}
   \frac{\partial L}{\partial x_i} = 0 \\
   \frac{\partial L}{\partial \lambda_k} = 0
@@ -30,10 +32,12 @@ h_k(x) & =0 \quad (k=1,2,...,l)
 
 - 不等式约束优化  
   对于不等式 $$ g_j(x) \leq 0 $$，加入松弛项，使得 $$g_j(x)+r_j^2=0$$
-  此时可以构建拉格朗日函数  
+  此时可以构建拉格朗日函数
+  
   $$L(x, \mu, r)=f(x)+\sum_{j=1}^m \mu_j (g_j(x)+r_j^2)$$
   
-  通过计算  
+  通过计算
+  
   $$\begin{cases}
   \frac{\partial L}{\partial x_i} = 0 \\
   \frac{\partial L}{\partial \mu_j} = g_j(x)+r_j^2 = 0 \\
@@ -53,7 +57,8 @@ h_k(x) & =0 \quad (k=1,2,...,l)
   \end{cases}$$
   
 - All in one  
-  当同时存在等式约束和不等式约束时，有广义拉格朗日函数  
+  当同时存在等式约束和不等式约束时，有广义拉格朗日函数
+  
   $$L=f(x)+\sum_{j=1}^m \mu_j g_j(x) + \sum_{k=1}^l \lambda_k h_k(x)$$
   
   存在极值点的必要条件是

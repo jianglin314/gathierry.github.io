@@ -213,5 +213,5 @@ description: 二叉树遍历，包括前序、中序、后序遍历，递归与�
     def postorderTraversal(root):
         res = []
         if root:
-            inorderTraversalRecur(root, res)
+            postorderTraversalRecur(root, res)
         return res

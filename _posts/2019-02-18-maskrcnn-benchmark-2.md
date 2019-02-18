@@ -39,4 +39,6 @@ PyTorch 中提供了[```torch.utils.data.BatchSampler```](https://pytorch.org/do
 
 ```GroupedBatchSampler```通过参数```group_id```的指导，将```group_id```相同的数据放入同一个 batch。maskrcnn 中这个```group_id```是由图片长宽比大于/小于 1 来区分的。这样做的结果就是避免横版图片和竖版图片放进同一个 batch，从而导致 ```collate_fn```时为了补齐尺寸差异而大量填零。
 
+<img src="/images/2019-02-18-maskrcnn-benchmark-2/dataloader.png" width="600px"/>
+
 **经过以上步骤，数据就以```ImageList```和```BoxList```的形式传入了模型。然而它们的本质仍然是```tensor```类型，这也是为什么经过包装的数据可以被运算框架接受并且进行高效运算。**

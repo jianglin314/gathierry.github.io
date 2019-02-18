@@ -3,7 +3,7 @@ layout: post
 title: 拆解 MaskRCNN-Benchmark（一）
 categories: [data science]
 tags: [object detection, instance segmentation, deep learning, computer vision]
-description: 这篇文章简单介绍 FAIR 项目 maskrcnn-benchmark 安装配置和整个数据流的结构。
+description: 这篇文章简单介绍 FAIR 项目 maskrcnn-benchmark 安装配置和整个模型的结构。
 ---
 [maskrcnn-benchmark](https://github.com/facebookresearch/maskrcnn-benchmark) 是继 Detectron 之后 FAIR 用 Pytorch1.0 最新的实现，在效率上超越了 Detectron。通过阅读、实验代码，可以对 Mask RCNN 这一多任务模型的诸多细节有更深刻的认识。
 

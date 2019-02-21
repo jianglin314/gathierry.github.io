@@ -12,6 +12,6 @@ description: 这篇文章简单介绍 FAIR 项目 maskrcnn-benchmark 安装配�
 程序的训练/测试入口是```tools/train_net.py```和```tools/test_net.py```。运行的变量包括要使用的```config```文件，这里我们用```configs/e2e_mask_rcnn_R_50_FPN_1x.yaml```为例。
 
 整个流程大概可以用这个框图表示，红色部分表示训练过程，蓝色部分表示测试过程，黑色表示共用部分。
-<img src="/images/2019-02-17-maskrcnn-benchmark-1/maskrcnn-benchmark.png" width="600px"/>
+<img src="/images/2019-02-17-maskrcnn-benchmark-1/maskrcnn-benchmark.png" width="1000px"/>
 
 在后序文章中将会结合代码，依次分析其中的细节。

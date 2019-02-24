@@ -73,9 +73,9 @@ Decode 则是相反的过程。
 RPN 的 loss 分为两部分，分类的交叉熵 loss 和回归的 smoothL1 loss。然而并不是所有的预测结果都被计入 loss 当中。首先要区分出预测结果中哪些是正确的，哪些是错误的，哪些是忽略不计的。之后在正确分类和误分类中按固定比例采样，计算 loss，而不是一股脑全部算进去。计算 loss 除了需要 RPN 的两个输出，还需要 anchors 和 targets。
 
 ### Matcher
-在```maskrcnn_benchmark/modeling/matcher.py```里实现的```Matcher```，就是通过对预测结果和真实结果进行两两对比，划分正确样本、错误样本和忽略的样本。```Matcher```在初始化时需要定两个阈值，```FG_IOU_THRESHOLD```和```BG_IOU_THRESHOLD```。
+在```maskrcnn_benchmark/modeling/matcher.py```里实现的```Matcher```，就是通过对预测结果和真实结果进行两两对比，划分正确样本、错误样本和忽略的样本。```Matcher```在初始化时需要定两个阈值，```RPN.FG_IOU_THRESHOLD```和```RPN.BG_IOU_THRESHOLD```。
 
-使用时，```Matcher```的输入是一个尺寸为```(target#, prediction#)```的矩阵。矩阵里的值是两两配对的IoU。通过求最大值找到对于每一个 prediction 最靠谱的 target，得到两个```(prediction#, )```的向量——最大值和相应的 target index。如果最大值小于```BG_IOU_THRESHOLD```，index 设成 -1，如果最大值在```BG_IOU_THRESHOLD```和```FG_IOU_THRESHOLD```之间，index 设成 -2，其余保持不变，仍然是原来的 target index，将这个结果记为```matches```。
+使用时，```Matcher```的输入是一个尺寸为```(target#, prediction#)```的矩阵。矩阵里的值是两两配对的IoU。通过求最大值找到对于每一个 prediction 最靠谱的 target，得到两个```(prediction#, )```的向量——最大值和相应的 target index。如果最大值小于```RPN.BG_IOU_THRESHOLD```，index 设成 -1，如果最大值在```RPN.BG_IOU_THRESHOLD```和```RPN.FG_IOU_THRESHOLD```之间，index 设成 -2，其余保持不变，仍然是原来的 target index，将这个结果记为```matches```。
 
 代码中还设定了```allow_low_quality_matches=True```。就是将与每个 target IoU 最大（一个或多个，可能并列）的 prediction 也设为正样本。先求出每个 target 对应的最大的 overlap，一个长度为```(target#, )```的向量，之后在原始的输入的```(target#, prediction#)```矩阵中在每一行找到等于最大 overlap 的 prediction 的 index，在```matches```中将响应的 prediction 对应的 target index 恢复成 -1，-2 以外有效的 target。
 

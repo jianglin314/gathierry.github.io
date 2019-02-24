@@ -3,7 +3,7 @@ layout: post
 title: 拆解 MaskRCNN-Benchmark（二）
 categories: [data science]
 tags: [object detection, instance segmentation, deep learning, computer vision]
-description: 这篇文章简单介绍 FAIR 项目 maskrcnn-benchmark 模型的输入，也就是数据准备与预处理。
+description: 这篇文章介绍 FAIR 项目 maskrcnn-benchmark 模型的输入，也就是数据准备与预处理。
 ---
 既然是监督学习，网络模型首先就要定义输入。对于目标检测和实例分割任务而言，输入的除了图像，还需要每幅图中检测框的坐标，以及物体分割的 mask。这样的输入数据格式显然比单纯的分类问题要复杂很多，同时还需要考虑到输入图片的分辨率、长宽比不一致。在实现时，因为深度学习框架的输入必须是张量的形式，这就要求开发者对数据进行足够的预处理，才能放入网络。
 

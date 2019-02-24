@@ -3,7 +3,7 @@ layout: post
 title: 拆解 MaskRCNN-Benchmark（四）
 categories: [data science]
 tags: [object detection, instance segmentation, deep learning, computer vision]
-description: 这篇文章简单介绍 FAIR 项目 maskrcnn-benchmark 模型中的 RPN 部分。
+description: 这篇文章介绍 FAIR 项目 maskrcnn-benchmark 模型中的 RPN 部分。
 ---
 在 Mask RCNN 中，预设 anchor 数量从 Faster RCNN 的 9 个， 提升到了 15 个。这里```ratio=[0.5,1,2]```，而```scale```在每一层 feature map 上（```stride=4,8,16,32,64```）的尺度都是 8，映射到原图尺度上就是```scale=[32,64,128,256,512]```。
 

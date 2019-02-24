@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 拆解 MaskRCNN-Benchmark（一）
+title: 拆解 MaskRCNN-Benchmark（一）—— Overview
 categories: [data science]
 tags: [object detection, instance segmentation, deep learning, computer vision]
 description: 这篇文章介绍 FAIR 项目 maskrcnn-benchmark 安装配置和整个模型的结构。

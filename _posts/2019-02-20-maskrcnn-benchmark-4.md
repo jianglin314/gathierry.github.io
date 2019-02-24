@@ -87,5 +87,5 @@ RPN 的 loss 分为两部分，分类的交叉熵 loss 和回归的 smoothL1 los
 
 代码在```maskrcnn_benchmark/layers/smooth_l1_loss.py```重新实现并扩展了 smoothL1 loss，加入了参数```beta```来控制 smoothL1 中二阶曲线的范围。
 
-## En fin
+## Enfin...
 至此，RPN 就完成了。RPN 的最终输出是一个 BoxList 类型的 proposals，以及两个 loss。

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 拆解 MaskRCNN-Benchmark（四）—— RPN
+title: 拆解 MaskRCNN-Benchmark 之三 —— RPN
 categories: [data science]
 tags: [object detection, instance segmentation, deep learning, computer vision]
 description: 这篇文章介绍 FAIR 项目 maskrcnn-benchmark 模型中的 RPN 部分。
@@ -10,7 +10,7 @@ description: 这篇文章介绍 FAIR 项目 maskrcnn-benchmark 模型中的 RPN 
 假设图像尺寸为 $$(H, W)$$，特征图 $$stride=\{S1, S2, S3, S4, S5\}$$，则特征图尺寸为 $$(H/S_i, W/S_i)$$。在每层特征上，$$scale=s$$, $$ratio=\{r1, r2, r3\}$$。Batch size 记为 $$B$$，anchor 数量记为 $$A$$。
 
 ## RPN Head
-RPN 由一个简单的 head 紧接 FPN 每一个 level 的特征之后，它们共享 head 的权重。设 FPN 输出的特征图为 P2, P3, P4, P5, P6, 每个特征图都经过同一个 3x3 卷积，然后两个 1x1 卷积分支得到两个输出，$$(B, A, H/S_i, W/S_i)$$ 和 $$(B, 4\times A, H/S_i, W/S_i)$$，表示前景的 score 和四个坐标的 regression 结果。
+RPN 由一个简单的 head 紧接 FPN 每一个 level 的特征之后，它们**共享** head 的权重。设 FPN 输出的特征图为 P2, P3, P4, P5, P6, 每个特征图都经过同一个 3x3 卷积，然后两个 1x1 卷积分支得到两个输出，$$(B, A, H/S_i, W/S_i)$$ 和 $$(B, 4\times A, H/S_i, W/S_i)$$，表示前景的 score 和四个坐标的 regression 结果。
 
 这里的卷积层初始化使用的并不是 xavier 或者 kaiming，而是
 	
@@ -20,7 +20,11 @@ RPN 由一个简单的 head 紧接 FPN 每一个 level 的特征之后，它们�
 详细代码在```maskrcnn_benchmark/modeling/rpn/rpn.py```
 
 ## Anchor Generator
-RPN head 可以输出 box score 和 box regression，然而如果要想转化成原图尺度下的 bounding box，还需要根据预设的 anchor 进行转化。对于一个 $$(H/S_i, W/S_i)$$ 的特征图，需要生成 $$A \times H/S_i \times W/S_i$$ 个 anchor，这些 anchor 可以储存成```BoxList```对象。
+RPN head 可以输出 box score 和 box regression，然而如果要想转化成原图尺度下的 bounding box，还需要根据相应的 anchor 进行转化。即
+
+$$BoundingBoxes = BoxCoder(regression, anchor)$$
+
+对于一个 $$(H/S_i, W/S_i)$$ 的特征图，需要生成 $$A \times H/S_i \times W/S_i$$ 个 anchor，这些 anchor 可以储存成```BoxList```对象。
 
 ### 1. 生成 anchor cells
 每个 anchor cell 都是一个组合 $$(\Delta x_1, \Delta y_1, \Delta x_2, \Delta y_2)$$。feature map 上的一个像素，对应原图上 $$S_i \times S_i$$ 个像素。以 $$(0, 0, S_i-1, S_i-1)$$ 为基础进行放缩，可以生成 $$A$$ 个 anchor cells。每个特征图对应各自的 anchor cells。
@@ -41,7 +45,7 @@ RPN head 可以输出 box score 和 box regression，然而如果要想转化成
 最终输出的 anchor 形式为 $$(B, 5, A \times H/S_i \times W/S_i, 4)$$。前两个维度以嵌套```list```形式储存，后两个维度以```BoxList```形式储存。
 
 ## RPN 后处理
-RPN 生成了大量的 box，显然不能全部输出到后面的网络中去，这就需要一些的后处理步骤选取最有意义的 proposals。这一步涉及到三个常数，```PRE_NMS_TOP_N```，```POST_NMS_TOP_N```，```FPN_POST_NMS_TOP_N```。后面会挨个涉及到。
+RPN 生成了大量的 box，每个 anchor 都对应一个 box，显然不能全部输出到后面的网络中去，这就需要一些的后处理步骤选取最有意义的 proposals。这一步涉及到三个常数，```PRE_NMS_TOP_N```，```POST_NMS_TOP_N```，```FPN_POST_NMS_TOP_N```。后面会挨个涉及到。
 
 ### Box Coder
 有了 anchor，我们已经可以复原出 RPN head 的输出所对应的 box 坐标了。这个转换的公式通过```maskrcnn_benchmark/modeling/box_coder.py```的```BoxCoder```实现。
@@ -62,7 +66,12 @@ Decode 则是相反的过程。
 
 与论文中稍有不同的是加入了一项权重项。代码中 $$W=(1,1,1,1)$$，另外通过 ```bbox_xform_clip=math.log(1000. / 16)``` 限制了 decode 时 ```exp``` 指数的上限，避免出现过大的值。
 
+**对回归值的编码，是为了计算 loss 能有效收敛。而其他对框的操作，如计算 IoU 则要解码后进行。**
+
 ### 过滤冗余的输出
+
+<img src="/images/2019-02-17-maskrcnn-benchmark-3/proposal.png" width="1000px"/>
+
 对于每一个 feature map 的输出，根据 score 排序，保留至多前```PRE_NMS_TOP_N```个 box。需要注意的是这里是对整个 batch 内部进行排序，而不是单张图片内部进行排序。之后通过```clip_to_image```去除超出图片边界的框，通过```remove_small_boxes```去掉过小的框（这里阈值为 0，即不会删框）。然后进行 NMS，保留至多```POST_NMS_TOP_N```个框。
 
 因为有五个特征输出，所以经过上一步会得到至多```5*POST_NMS_TOP_N```个 proposals。通过 score 统一排序，保留前```FPN_POST_NMS_TOP_N```个。这一步训练和测试稍有区别，训练时是整个 batch 排序，而测试时是每张图片分别排序。不过从源代码的注释上来看，这两个阶段应该会统一成后一种。

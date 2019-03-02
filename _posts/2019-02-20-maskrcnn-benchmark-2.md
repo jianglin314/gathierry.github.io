@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 拆解 MaskRCNN-Benchmark（三）—— backbone 和 FPN
+title: 拆解 MaskRCNN-Benchmark 之二 —— backbone 和 FPN
 categories: [data science]
 tags: [object detection, instance segmentation, deep learning, computer vision]
 description: 这篇文章介绍 FAIR 项目 maskrcnn-benchmark 模型的 backbone 部分。

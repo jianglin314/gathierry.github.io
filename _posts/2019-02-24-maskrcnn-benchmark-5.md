@@ -1,28 +1,24 @@
 ---
 layout: post
-title: 拆解 MaskRCNN-Benchmark（五）—— RCNN
+title: 拆解 MaskRCNN-Benchmark 之五 —— Mask
 categories: [data science]
 tags: [object detection, instance segmentation, deep learning, computer vision]
-description: 这篇文章介绍 FAIR 项目 maskrcnn-benchmark 模型中的 RCNN head 部分。
+description: 这篇文章介绍 FAIR 项目 maskrcnn-benchmark 模型中的 mask head 部分。
 ---
-通过 FPN 和 RPN head，我们已经得到了从原图中提取的五组 feature 以及 proposals。通过RoI align 参考 proposal 从 feature map 中提取 RoI 的特征。
+RCNN 的检测结果，会作为 proposals 输入到 mask head 中。
 
-项目中实现了三种 feature extractor，这里以```FPN2MLPFeatureExtractor```为例。RoI align 的输出结果经过 FC 转化成```ROI_BOX_HEAD.MLP_HEAD_DIM=1024```维，之后再经过一个 FC 保持维度不变。这个输出连接出两个全连接分支，一个输出```num_class```个神经元，一个输出```4*num_class```个神经元，分别作为分类和回归的结果。
+## Mask head
+如果是训练过程，输出的检测结果同时包含了正/负样本，需要先滤去负样本，只保留正样本。
 
-如果是推断过程，还需要进行后处理。后处理包含三个任务，一是将 score 小于固定阈值```ROI_HEADS.SCORE_THRESH=0.05```的框删掉。二是对每一类进行 NMS，阈值取```ROI_HEADS.NMS=0.5```。三是将输出框的数量限制在```ROI_HEADS.DETECTIONS_PER_IMG=100```以内，这一步是将所有类合在一起通过 score 排序得到的。可以看出这里的后处理和 RPN 的后处理相比，只有 
+对于 mask 分支，可以选择是否与 rcnn 共享 feature extractor。如果共享，就是直接使用 rcnn feature extractor 的输出，也就是 RoI align 后两次全连接的特征。不过在官方实现中，是不 share 的，mask 分支经过 RoI align 后再通过 4 个```kernel=256```的```conv3x3 + Relu```。提取的特征经过一个转置卷积上采样到原来边长的两倍，再经过```conv1x1```输出```num_class```个 map 作为 mask。
 
-而如果是训练过程，就不需要后处理，但是需要另外两个步骤。
+## 计算 Loss
 
-1. 是在 RoI align 之前，先对 proposal 进行采样。这里的采样过程和 RPN 求 loss 时的采样过程有些不同。这里同样用到了```Matcher```和```BalancedPositiveNegativeSampler```，但是参数上有很大不同。
+训练阶段，要将 target 中的 mask 转化成与输出一样的形式比对求交叉熵 loss。
 
-     | RPN  | RCNN
------------------- | ---- | ----
-FG\_IOU\_THRESHOLD | 0.7  | 0.5
-BG\_IOU\_THRESHOLD | 0.3  | 0.5
-allow\_low\_quality\_matches | T | F
-BATCH\_SIZE\_PER\_IMAGE | 256 | 512
-POSITIVE\_FRACTION | 0.5 | 0.25
+annotation 中给出的 mask 是多边形的形式```[x0,y0,x1,y1,x2,y2,...]```，以图片左上角为参考系原点。先将多边形的坐标转换成以 box 左上角为参照系原点的坐标，之后```resize```到 mask 输出的大小（代码中是```28x28```），最后通过 coco 提供的解码工具把多边形转换成```28x28```的```tensor```。
 
-	proposals 经过```Matcher```匹配和```Sampler```采样，输出新的 proposals 进行 RoI align。
-	
-2. 求 loss。和 RPN 一样仍然是交叉熵 loss 和 target 类的 smoothL1 loss。这里的 ```beta=1```，与 RPN 中不同。
+## Mask 后处理
+
+在推断阶段，mask 要同样要进行后处理。
+与求 loss 时相反，这一次是要将输出的 mask 恢复到原图里。先将 mask bilinear resize 到 box 长宽的比例，再根据 box 左上角的点还原出 mask 在原图中的位置，最后通过阈值将 mask prob 中低于阈值的部分过滤掉。

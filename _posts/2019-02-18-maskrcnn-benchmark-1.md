@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 拆解 MaskRCNN-Benchmark（二）—— Dataset 和 DataLoader
+title: 拆解 MaskRCNN-Benchmark 之一 —— 数据的整理与加载
 categories: [data science]
 tags: [object detection, instance segmentation, deep learning, computer vision]
 description: 这篇文章介绍 FAIR 项目 maskrcnn-benchmark 模型的输入，也就是数据准备与预处理。
@@ -11,6 +11,17 @@ description: 这篇文章介绍 FAIR 项目 maskrcnn-benchmark 模型的输入�
 一张图中可能会存在多个检测框以及分割实例，而且这个数量是随不同图像变化的。
 
 maskrcnn-benchmark 中，在```maskrcnn_benchmark/structures/bounding_box.py```中定义了一个```BoxList```类。每一个```BoxList```对象即是一幅图像的标签。这个类内部包含了```Tensor```类型的成员变量```bbox```用来存储一张图中检测框的信息，同时还有一个字典类型的成员变量```extra_fields```用来存储分割以及其他可能会用到的数据。
+
+如果我们看一下整套代码，就会发现```extra_fields```所存过的变量，包括
+
+- 分割标签```mask```
+- 物体类别```labels```
+- 匹配检测框与 ground truth 框的```matched_idx```
+- RPN 预测的置信度```objectness```
+- RCNN 预测的置信度```score```
+- anchor 是否超出图片边界```visibility```
+
+除了```mask```以外，其他变量都比较简单，对于每个框都都可以用一个标量表示。
 
 分割标签的数据更加不规则，每个数据表示一个多边形，是由长度不等的 list 表示的。每张图片会有多个 mask，而每个 mask 也可能分成多个 polygons（比如物体被遮挡分成两部分）。代码中通过```maskrcnn_benchmark/structures/segmentation_mask.py```整理分割的标签数据，并且作为一个```extra_field```存在一个```BoxList```对象中。
 
@@ -39,6 +50,6 @@ PyTorch 中提供了[```torch.utils.data.BatchSampler```](https://pytorch.org/do
 
 ```GroupedBatchSampler```通过参数```group_id```的指导，将```group_id```相同的数据放入同一个 batch。maskrcnn 中这个```group_id```是由图片长宽比大于/小于 1 来区分的。这样做的结果就是避免横版图片和竖版图片放进同一个 batch，从而导致 ```collate_fn```时为了补齐尺寸差异而大量填零。
 
-<img src="/images/2019-02-18-maskrcnn-benchmark-2/dataloader.png" width="600px"/>
+<img src="/images/2019-02-18-maskrcnn-benchmark-1/dataloader.png" width="600px"/>
 
 **经过以上步骤，数据就以```ImageList```和```BoxList```的形式传入了模型。然而它们的本质仍然是```tensor```类型，这也是为什么经过包装的数据可以被运算框架接受并且进行高效运算。**

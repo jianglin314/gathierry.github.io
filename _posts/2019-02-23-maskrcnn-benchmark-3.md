@@ -70,7 +70,7 @@ Decode 则是相反的过程。
 
 ### 过滤冗余的输出
 
-<img src="/images/2019-02-17-maskrcnn-benchmark-3/proposal.png" width="1000px"/>
+<img src="/images/2019-02-23-maskrcnn-benchmark-3/proposal.png" width="1000px"/>
 
 对于每一个 feature map 的输出，根据 score 排序，保留至多前```PRE_NMS_TOP_N```个 box。需要注意的是这里是对整个 batch 内部进行排序，而不是单张图片内部进行排序。之后通过```clip_to_image```去除超出图片边界的框，通过```remove_small_boxes```去掉过小的框（这里阈值为 0，即不会删框）。然后进行 NMS，保留至多```POST_NMS_TOP_N```个框。
 
@@ -95,6 +95,3 @@ RPN 的 loss 分为两部分，分类的交叉熵 loss 和回归的 smoothL1 los
 最后就可以整理采样的样本计算 loss 了。这里 target 需要先通过```BoxCoder``` encode 转化成网络输出的形式，再计算 loss。
 
 代码在```maskrcnn_benchmark/layers/smooth_l1_loss.py```重新实现并扩展了 smoothL1 loss，加入了参数```beta```来控制 smoothL1 中二阶曲线的范围。
-
-## Enfin...
-至此，RPN 就完成了。RPN 的最终输出是一个 BoxList 类型的 proposals，以及两个 loss。

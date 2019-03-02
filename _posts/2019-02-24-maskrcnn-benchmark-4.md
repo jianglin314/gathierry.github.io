@@ -30,7 +30,7 @@ $$BoundingBoxes = BoxCoder(regression, proposal)$$
 ### 1. 采样
 在 RoI align 之前，先对 proposal 进行采样。这里的采样过程和 RPN 求 loss 时的采样过程有些不同。这里同样用到了```Matcher```和```BalancedPositiveNegativeSampler```，但是参数上有很大不同。
 
-     | RPN  | RCNN
+ | RPN  | RCNN
 ------------------ | ---- | ----
 FG\_IOU\_THRESHOLD | 0.7  | 0.5
 BG\_IOU\_THRESHOLD | 0.3  | 0.5
